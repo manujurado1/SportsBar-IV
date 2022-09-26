@@ -5,4 +5,5 @@ El objetivo de esta plataforma es facilitar, en este caso, a los amantes del dep
 Se busca un beneficio mútuo entre el bar (el cuál adquiere las costosas licencias de reproducción de estos deportes) y el cliente el cuál desea consumir ese tipo de contenido.
 
 ## Configuración del respositorio
-La información del repositorio se encuentra disponible
+La información del repositorio se encuentra disponible [aquí][config]
+[config]: https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-0/docs/Configuracion_Repositorio.md
