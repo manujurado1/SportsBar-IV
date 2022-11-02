@@ -1,7 +1,7 @@
 # Milestones
 
-- [M0 - Creación del modelo de datos](https://github.com/manujurado1/SportsBar-IV/milestone/1)
-En este milestone se abordará la creación del modelo de Grupo de juego cómo el de jugador. Estos modelos representarán toda la información necesaria a nivel de jugador como de grupo de juego.
+- [M0 -Implementación del modelo de datos](https://github.com/manujurado1/SportsBar-IV/milestone/1)
+En este milestone se abordará la creación de un fichero ejecutable que genere los modelos de base de datos de "Grupo de juego" y "Jugador", con sus respectivos atributos, dependencias y limitaciones.
 
 
 - [M1 - Implementación de la lógica de negocio](https://github.com/manujurado1/SportsBar-IV/milestone/2)
