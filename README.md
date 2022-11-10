@@ -10,5 +10,11 @@ A continuación, cada vez que se dispongan a jugar, pues deben indicar a la plat
 A su vez, siempre que se acabe un partido, se debe mandar el resultado a la plataforma, la cuál actualizará internamente la puntuación de todos los jugadores implicados en la sesión en función del resultado.
 En todo momento se pueden incluir nuevos jugadores con el nivel que se desee. De esta forma se conseguirá, sobre todo con el paso del tiempo y el enriquecimiento de los datos, que sea cuál sea la combinación de jugadores que se presenten ese día a jugar, salgan partidos igualados y entretenidos, a la misma vez que se dispone de un historial de todos los partidos jugados por ese grupo de juego.
 
+## Documentación
+
+- [Personas](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-1/docs/Personas.md)
+- [User stories](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-1/docs/User_stories.md)
+- [Milestones](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-1/docs/Milestones.md)
+
 ## Configuración del respositorio
 La información del repositorio se encuentra disponible [aquí](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-0/docs/Configuracion_Repositorio.md)
