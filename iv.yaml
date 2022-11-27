@@ -1,1 +1,2 @@
 language: go
+entidad: pkg/grupo.go
