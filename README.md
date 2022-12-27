@@ -16,6 +16,7 @@ En todo momento se pueden incluir nuevos jugadores con el nivel que se desee. De
 - [User stories](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-1/docs/User_stories.md)
 - [Milestones](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-1/docs/Milestones.md)
 - [Gestor de dependencias](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-3/docs/Gestor_Dependencias.md)
+- [Gestor de tareas](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-3/docs/Gestor_Tareas.md)
 
 ## Configuración del respositorio
 La información del repositorio se encuentra disponible [aquí](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-0/docs/Configuracion_Repositorio.md)
