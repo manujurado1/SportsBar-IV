@@ -1,0 +1,8 @@
+version: '3'
+
+tasks:
+  check:
+    cmds:
+      - echo "Comprobando sintaxis..."
+      - gofmt -l ./pkg
+      
