@@ -17,6 +17,7 @@ En todo momento se pueden incluir nuevos jugadores con el nivel que se desee. De
 - [Gestor de dependencias](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-3/docs/Gestor_Dependencias.md)
 - [Gestor de tareas](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-3/docs/Gestor_Tareas.md)
 - [Bilioteca asersiones y test runner](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-4/docs/Biblioteca_Asersiones_Y_Test_Runner.md)
+- [Creación de tests](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-4/docs/Creacion_Test.md)
 
 ### Tareas disponibles
 - task check : Comprueba la sintaxis y lista los archivos que difieran con la sintaxis de gofmt.
