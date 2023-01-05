@@ -28,3 +28,22 @@ func TestCambiarDisponibilidadJugador(t *testing.T) {
 	assert.Equal(t, 0, len(grupo.JugadoresDisponibles))
 
 }
+
+func TestValidarListaJugadoresDisponibles(t *testing.T) {
+	grupo := Grupo{}
+	ListaValida, err := grupo.validarListaJugadoresDisponiblesParaPartido(grupo.JugadoresDisponibles)
+	assert.Equal(t, ListaValida, false)
+	assert.Errorf(t, err, "La lista de jugadores disponibles está vacía")
+	grupo.JugadoresDisponibles = []string{"1", "2", "3", "4", "5", "6", "7", "8", "9"}
+	ListaValida, err = grupo.validarListaJugadoresDisponiblesParaPartido(grupo.JugadoresDisponibles)
+	assert.Equal(t, ListaValida, false)
+	assert.Nil(t, err)
+	grupo.JugadoresDisponibles = append(grupo.JugadoresDisponibles, "10", "11")
+	ListaValida, err = grupo.validarListaJugadoresDisponiblesParaPartido(grupo.JugadoresDisponibles)
+	assert.Equal(t, ListaValida, false)
+	assert.Nil(t, err)
+	grupo.JugadoresDisponibles = append(grupo.JugadoresDisponibles, "12")
+	ListaValida, err = grupo.validarListaJugadoresDisponiblesParaPartido(grupo.JugadoresDisponibles)
+	assert.Equal(t, ListaValida, true)
+	assert.Nil(t, err)
+}

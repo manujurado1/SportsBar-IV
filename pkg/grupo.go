@@ -47,6 +47,20 @@ func (this *Grupo) cambiarDisponibilidadJugador(NombreJugador string) error {
 
 }
 
+// Función que comprueba que la lista de jugadores disponibles cumple las condiciones para jugar un partido
+func (this *Grupo) validarListaJugadoresDisponiblesParaPartido(JugadoresDisponibles []string) (bool, error) {
+	if JugadoresDisponibles != nil && len(JugadoresDisponibles) > 0 {
+		if len(this.JugadoresDisponibles) >= 10 && len(this.JugadoresDisponibles)%2 == 0 {
+			return true, nil
+		} else {
+			return false, nil
+		}
+	} else {
+		return false, fmt.Errorf("La lista de jugadores disponibles está vacía")
+	}
+
+}
+
 func existeEnArreglo(Arreglo []string, Busqueda string) bool {
 	for _, Nombre := range Arreglo {
 		if Nombre == Busqueda {
