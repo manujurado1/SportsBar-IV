@@ -47,3 +47,41 @@ func TestValidarListaJugadoresDisponibles(t *testing.T) {
 	assert.Equal(t, ListaValida, true)
 	assert.Nil(t, err)
 }
+
+func TestRepartirJugadoresEnEquipoPorNivel(t *testing.T) {
+	Entrada := map[string]int{"Manuel": 3, "Jorge": 5, "Edu": 1, "Clara": 9, "Migue": 10}
+	JugadoresDisponibles := []string{"Manuel", "Jorge", "Edu", "Migue"}
+	Equipo1Esperado := []string{"Migue", "Edu"}
+	Equipo2Esperado := []string{"Jorge", "Manuel"}
+	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibles: JugadoresDisponibles, JugadoresNiveles: Entrada}
+
+	Equipo1, Equipo2, err := grupo.repartirJugadoresEnEquiposPorNivel(grupo.JugadoresNiveles, grupo.JugadoresDisponibles)
+
+	assert.Equal(t, Equipo1, Equipo1Esperado)
+	assert.Equal(t, Equipo2, Equipo2Esperado)
+	assert.Nil(t, err)
+
+}
+
+func TestOrdenarJugadoresDisponiblesPorNivel(t *testing.T) {
+	Entrada := map[string]int{"Manuel": 3, "Jorge": 5, "Edu": 1, "Clara": 9, "Migue": 10}
+	JugadoresDisponibles := []string{"Manuel", "Jorge", "Edu", "Migue"}
+	SalidaEsperada := []string{"Migue", "Jorge", "Manuel", "Edu"}
+	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibles: JugadoresDisponibles, JugadoresNiveles: Entrada}
+	solucion, err := grupo.ordenarJugadoresDisponilesPorNivel(grupo.JugadoresNiveles, grupo.JugadoresDisponibles)
+
+	assert.Equal(t, SalidaEsperada, solucion)
+	assert.Nil(t, err)
+}
+
+func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
+	Entrada := map[string]int{"Manuel": 3, "Jorge": 5, "Edu": 1, "Clara": 9, "Migue": 10, "Alberto": 7, "Javi": 2, "Lorena": 8, "Maria": 6, "Sergio": 4}
+	JugadoresDisponibles := []string{"Manuel", "Jorge", "Edu", "Migue", "Clara", "Alberto", "Javi", "Lorena", "Maria", "Sergio"}
+	SalidaEsperada := "Equipo 1 = Migue,Alberto,Jorge,Sergio,Edu Equipo 2 = Clara,Lorena,Maria,Manuel,Javi"
+	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibles: JugadoresDisponibles, JugadoresNiveles: Entrada}
+	solucion, err := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresNiveles, grupo.JugadoresDisponibles)
+
+	assert.Equal(t, SalidaEsperada, solucion)
+	assert.Nil(t, err)
+
+}
