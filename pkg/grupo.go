@@ -30,3 +30,39 @@ func (this *Grupo) crearJugador(NombreJugador string, Nivel int, Disponibilidad 
 	return nil
 
 }
+
+func (this *Grupo) cambiarDisponibilidadJugador(NombreJugador string) error {
+	_, existe := this.JugadoresNiveles[NombreJugador]
+	if existe == true {
+		if existeEnArreglo(this.JugadoresDisponibles, NombreJugador) == true {
+			this.JugadoresDisponibles = eliminarElementoArreglo(this.JugadoresDisponibles, NombreJugador)
+		} else {
+			this.JugadoresDisponibles = append(this.JugadoresDisponibles, NombreJugador)
+		}
+	} else {
+		return fmt.Errorf("No existe un jugador con ese nombre")
+	}
+
+	return nil
+
+}
+
+func existeEnArreglo(Arreglo []string, Busqueda string) bool {
+	for _, Nombre := range Arreglo {
+		if Nombre == Busqueda {
+			return true
+		}
+	}
+	return false
+}
+
+func eliminarElementoArreglo(Arreglo []string, ElementoAEliminar string) []string {
+	var ArregloAux []string
+	for _, Elemento := range Arreglo {
+		if Elemento != ElementoAEliminar {
+			ArregloAux = append(ArregloAux, Elemento)
+		}
+	}
+
+	return ArregloAux
+}
