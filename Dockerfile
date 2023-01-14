@@ -1,4 +1,4 @@
-FROM golang:1.20rc2-alpine3.17
+FROM golang:1.19.5-alpine
 
 LABEL maintainer="manujurado1@correo.ugr.es" \
       version="v0.0.5"

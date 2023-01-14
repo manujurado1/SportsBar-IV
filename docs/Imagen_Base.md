@@ -28,6 +28,4 @@ Pasando a las no oficiales, encontramos las siguientes opciones (descartando las
 
 ## Elección
 
-Debido al tamaño y al que las mejores prácticas sugieren usar esta imagen base se ha elegido la versión oficial de Golang sobre Alpine. Una vez tomada esta decisión, se plantea la duda de que versión usar, teniendo como opciones las versiones 3.16 y 3.17, ambas con el mismo peso y consideradas estables.
-
-Siguiendo las mejores prácticas, usaremos la [versión de alpine más actual](https://github.com/docker-library/golang/blob/af7579626a74bc783a4f511a4951955390ef8c95/1.20-rc/alpine3.17/Dockerfile), para así asegurarnos tener una versión que tendrá soporte el mayor tiempo posible. En este caso, hasta 22/11/2024, lo que són más de 5 meses de diferencia si nos decantáramos por alpine3.16 (23/05/2024)
+Debido al tamaño y al que las mejores prácticas sugieren usar esta imagen base se ha elegido la versión oficial de Golang sobre Alpine.
