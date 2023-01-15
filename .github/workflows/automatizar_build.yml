@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'Dockerfile'
+      - 'go.mod'
 
 jobs:
   build-and-push:
