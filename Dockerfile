@@ -3,6 +3,8 @@ FROM golang:1.19.5-alpine
 LABEL maintainer="manujurado1@correo.ugr.es" \
       version="v0.0.5"
 
+RUN apk add build-base
+
 WORKDIR /app/test
 
 COPY go.mod ./
