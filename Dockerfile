@@ -3,7 +3,7 @@ FROM golang:1.19.5-alpine
 LABEL maintainer="manujurado1@correo.ugr.es" \
       version="v0.0.5"
 
-RUN apk add build-base
+RUN apk add build-base && adduser -D -u 1001 test
 
 WORKDIR /app/test
 
