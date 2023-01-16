@@ -22,6 +22,7 @@ En todo momento se pueden incluir nuevos jugadores con el nivel que se desee. De
 
 ### Tareas disponibles
 - task check : Comprueba la sintaxis y lista los archivos que difieran con la sintaxis de gofmt.
+- task test : Lanza todos los tests que encuentre en el directorio /pkg y devuelve la información sobre cada uno de los tests indicando si estos han pasado satisfactoriamente o no.
 
 ## Configuración del respositorio
 La información del repositorio se encuentra disponible [aquí](https://github.com/manujurado1/SportsBar-IV/blob/Objetivo-0/docs/Configuracion_Repositorio.md)
