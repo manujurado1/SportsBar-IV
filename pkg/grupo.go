@@ -45,3 +45,18 @@ func (this *Grupo) crearJugador(NombreJugador string, Nivel int, Disponibilidad 
 	return success, nil
 
 }
+
+// Función que indica si la lista de strings pasada como primer parámetro contiene el string pasado como segundo parámetro
+func existeEnArreglo(Arreglo []string, Busqueda string) (bool, error) {
+	if len(Arreglo) > 0 {
+		for _, Nombre := range Arreglo {
+			if Nombre == Busqueda {
+				return true, nil
+			}
+		}
+		return false, nil
+	} else {
+		return false, fmt.Errorf("El arreglo está vacío")
+	}
+
+}

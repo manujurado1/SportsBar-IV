@@ -43,3 +43,20 @@ func TestCrearJugador(t *testing.T) {
 	assert.Errorf(t, error, "Ya existe un jugador con ese nombre")
 
 }
+
+func TestExisteEnArreglo(t *testing.T) {
+	ArregloVacio := []string{}
+	Arreglo := []string{"prueba1", "prueba2", "prueba3"}
+
+	Existe, error := existeEnArreglo(ArregloVacio, "prueba1")
+	assert.False(t, Existe)
+	assert.Errorf(t, error, "El arreglo está vacío")
+
+	Existe, error = existeEnArreglo(Arreglo, "prueba1")
+	assert.True(t, Existe)
+	assert.Nil(t, error)
+
+	Existe, error = existeEnArreglo(Arreglo, "prueba4")
+	assert.False(t, Existe)
+	assert.Nil(t, error)
+}
