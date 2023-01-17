@@ -2,7 +2,7 @@
 
 ## Criterios
 
-- Mejores prácticas para GO (Bibliotecas referenciadas por la página oficial de Golang).
+- Mejores prácticas para Go (Bibliotecas referenciadas por la página oficial de Go).
 - Biblioteca amplia con múltiples opciones.
 - Biblioteca que aporte legibilidad a los tests.
 

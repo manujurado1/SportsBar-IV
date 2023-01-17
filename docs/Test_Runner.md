@@ -2,7 +2,7 @@
 
 ## Criterios
 
-- Mejores prácticas para GO
+- Mejores prácticas para Go
 - Facilidad para lanzar y gestionar los tests
 
 ## Elección
