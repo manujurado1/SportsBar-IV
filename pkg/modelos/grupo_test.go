@@ -47,3 +47,20 @@ func TestCrearJugador(t *testing.T) {
 	assert.Errorf(t, error, "Ya existe un jugador con ese nombre")
 
 }
+
+func TestCambiarDisponibilidadJugador(t *testing.T) {
+
+	JugadoresNiveles := map[string]int{"Manuel": 20}
+	JugadoresDisponibilidad := map[string]bool{"Manuel": true}
+	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: JugadoresNiveles}
+
+	success, error := grupo.cambiarDisponibilidadJugador("Manuel", false)
+	assert.True(t, success)
+	assert.Nil(t, error)
+	assert.False(t, grupo.JugadoresDisponibilidad["Manuel"])
+
+	success, error = grupo.cambiarDisponibilidadJugador("Jorge", false)
+	assert.False(t, success)
+	assert.Errorf(t, error, "No existe un jugador con ese nombre")
+
+}

@@ -44,3 +44,17 @@ func (this *Grupo) crearJugador(NombreJugador string, Nivel int, Disponibilidad 
 	return success, nil
 
 }
+
+func (this *Grupo) cambiarDisponibilidadJugador(NombreJugador string, Disponibilidad bool) (bool, error) {
+	var success bool = false
+	_, existe := this.JugadoresNiveles[NombreJugador]
+	if existe == true {
+		this.JugadoresDisponibilidad[NombreJugador] = Disponibilidad
+		success = true
+	} else {
+		return success, fmt.Errorf("No existe un jugador con ese nombre")
+	}
+
+	return success, nil
+
+}
