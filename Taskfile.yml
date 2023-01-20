@@ -5,4 +5,9 @@ tasks:
     cmds:
       - echo "Comprobando sintaxis..."
       - gofmt -l ./pkg
+
+  test:
+    cmds:
+      - echo "Lanzando tests..."
+      - go test -v ./pkg/modelos
       
