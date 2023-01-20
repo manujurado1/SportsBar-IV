@@ -58,3 +58,22 @@ func (this *Grupo) cambiarDisponibilidadJugador(NombreJugador string, Disponibil
 	return success, nil
 
 }
+
+func (this *Grupo) conseguirListaJugadoresDisponibles(JugadoresDisponibilidad map[string]bool) ([]string, error) {
+
+	var ListaJugadoresDisponibles []string
+
+	if len(JugadoresDisponibilidad) > 0 {
+
+		for key, value := range JugadoresDisponibilidad {
+			if value == true {
+				ListaJugadoresDisponibles = append(ListaJugadoresDisponibles, key)
+			}
+		}
+		return ListaJugadoresDisponibles, nil
+
+	} else {
+		return nil, fmt.Errorf("El map de JugadoresDisponibilidad no puede estar vacío")
+	}
+
+}

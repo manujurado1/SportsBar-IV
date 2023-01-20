@@ -64,3 +64,22 @@ func TestCambiarDisponibilidadJugador(t *testing.T) {
 	assert.Errorf(t, error, "No existe un jugador con ese nombre")
 
 }
+
+func TestConseguirListaJugadoresDisponibles(t *testing.T) {
+	ListaEsperada := []string{"Javier"}
+
+	JugadoresNiveles := map[string]int{"Manuel": 20, "Javier": 50, "Jorge": 80}
+	JugadoresDisponibilidad := map[string]bool{"Manuel": false, "Javier": true, "Jorge": false}
+	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: JugadoresNiveles}
+
+	lista, error := grupo.conseguirListaJugadoresDisponibles(grupo.JugadoresDisponibilidad)
+	assert.Nil(t, error)
+	assert.Equal(t, ListaEsperada, lista)
+
+	grupo.JugadoresDisponibilidad = make(map[string]bool)
+	grupo.JugadoresNiveles = make(map[string]int)
+	lista, error = grupo.conseguirListaJugadoresDisponibles(grupo.JugadoresDisponibilidad)
+	assert.Nil(t, lista)
+	assert.Errorf(t, error, "El map de JugadoresDisponibilidad no puede estar vacío")
+
+}
