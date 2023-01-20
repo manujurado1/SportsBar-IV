@@ -1,7 +1,7 @@
 package modelos
 
 type Grupo struct {
-	Nombre               string
-	JugadoresDisponibles []string
-	JugadoresNiveles     map[string]int
+	Nombre                  string
+	JugadoresDisponibilidad map[string]bool
+	JugadoresNiveles        map[string]int
 }
