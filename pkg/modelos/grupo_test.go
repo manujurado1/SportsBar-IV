@@ -83,3 +83,30 @@ func TestConseguirListaJugadoresDisponibles(t *testing.T) {
 	assert.Errorf(t, error, "El map de JugadoresDisponibilidad no puede estar vacío")
 
 }
+
+func TestValidarListaJugadoresDisponiblesParaPartido(t *testing.T) {
+	ListaMala1 := []string{}
+	ListaMala2 := []string{"Jugador1", "Jugador2"}
+	ListaMala3 := []string{"Jugador1", "Jugador2", "Jugador3", "Jugador4", "Jugador5", "Jugador6", "Jugador7",
+		"Jugador8", "Jugador9", "Jugador10", "Jugador11"}
+	ListaBuena := []string{"Jugador1", "Jugador2", "Jugador3", "Jugador4", "Jugador5", "Jugador6", "Jugador7",
+		"Jugador8", "Jugador9", "Jugador10", "Jugador11", "Jugador12"}
+
+	grupo := Grupo{Nombre: "GrupoTest"}
+
+	success, error := grupo.validarListaJugadoresDisponiblesParaPartido(ListaMala1)
+	assert.False(t, success)
+	assert.Errorf(t, error, "La lista de jugadores disponibles no puede estar vacía")
+
+	success, error = grupo.validarListaJugadoresDisponiblesParaPartido(ListaMala2)
+	assert.False(t, success)
+	assert.Errorf(t, error, "Debe haber almenos 10 jugadores disponibles para jugar un partido")
+
+	success, error = grupo.validarListaJugadoresDisponiblesParaPartido(ListaMala3)
+	assert.False(t, success)
+	assert.Errorf(t, error, "El número de jugadores debe ser un número par")
+
+	success, error = grupo.validarListaJugadoresDisponiblesParaPartido(ListaBuena)
+	assert.True(t, success)
+	assert.Nil(t, error)
+}

@@ -77,3 +77,25 @@ func (this *Grupo) conseguirListaJugadoresDisponibles(JugadoresDisponibilidad ma
 	}
 
 }
+
+func (this *Grupo) validarListaJugadoresDisponiblesParaPartido(ListaJugadoresDisponibles []string) (bool, error) {
+	success := false
+
+	if len(ListaJugadoresDisponibles) > 0 {
+		if len(ListaJugadoresDisponibles) >= 10 {
+			if len(ListaJugadoresDisponibles)%2 == 0 {
+				success = true
+
+			} else {
+				return success, fmt.Errorf("El número de jugadores debe ser un número par")
+			}
+		} else {
+			return success, fmt.Errorf("Debe haber almenos 10 jugadores disponibles para jugar un partido")
+		}
+
+	} else {
+		return success, fmt.Errorf("La lista de jugadores disponibles no puede estar vacía")
+	}
+
+	return success, nil
+}
