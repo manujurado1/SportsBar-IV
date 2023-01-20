@@ -1,4 +1,4 @@
-package pkg
+package modelos
 
 type Grupo struct {
 	Nombre               string
