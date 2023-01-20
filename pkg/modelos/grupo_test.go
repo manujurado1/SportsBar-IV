@@ -146,3 +146,17 @@ func TestRepartirJugadoresDisponiblesEnEquiposIgualados(t *testing.T) {
 	assert.Errorf(t, error, "La lista de jugadores disponibles no puede estar vacía")
 
 }
+
+func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
+	Entrada := map[string]int{"Manuel": 30, "Jorge": 50, "Edu": 10, "Clara": 90, "Migue": 100, "Alberto": 70,
+		"Javi": 20, "Lorena": 80, "Maria": 60, "Sergio": 40}
+	JugadoresDisponibilidad := map[string]bool{"Manuel": true, "Jorge": true, "Edu": true, "Migue": true, "Clara": true, "Alberto": true,
+		"Javi": true, "Lorena": true, "Maria": true, "Sergio": true}
+	SalidaEsperada := "Equipo 1 = Migue,Alberto,Jorge,Sergio,Edu Equipo 2 = Clara,Lorena,Maria,Manuel,Javi"
+	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: Entrada}
+
+	solucion, err := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
+
+	assert.Equal(t, SalidaEsperada, solucion)
+	assert.Nil(t, err)
+}

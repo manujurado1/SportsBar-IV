@@ -3,6 +3,7 @@ package modelos
 import (
 	"fmt"
 	"sort"
+	"strings"
 )
 
 type Grupo struct {
@@ -158,4 +159,35 @@ func (this *Grupo) repartirJugadoresDisponiblesEnEquiposIgualados(ListaJugadores
 	} else {
 		return nil, nil, fmt.Errorf("La lista de jugadores disponibles no puede estar vacía")
 	}
+}
+
+func (this *Grupo) crearEquiposIgualadosParaPartido(JugadoresDisponibilidad map[string]bool) (string, error) {
+
+	ListaJugadoresDisponibles, error := this.conseguirListaJugadoresDisponibles(JugadoresDisponibilidad)
+
+	if error != nil {
+		return "", fmt.Errorf(error.Error())
+	}
+
+	success, error := this.validarListaJugadoresDisponiblesParaPartido(ListaJugadoresDisponibles)
+
+	if success == false && error != nil {
+		return "", fmt.Errorf(error.Error())
+	}
+
+	ListaJugadoresDisponiblesOrdenados, error := this.ordenarListaJugadoresDisponiblesPorNivelDescendiente(ListaJugadoresDisponibles)
+
+	if error != nil {
+		return "", fmt.Errorf(error.Error())
+	}
+
+	Equipo1, Equipo2, error := this.repartirJugadoresDisponiblesEnEquiposIgualados(ListaJugadoresDisponiblesOrdenados)
+
+	if error != nil {
+		return "", fmt.Errorf(error.Error())
+	}
+
+	Equipos := fmt.Sprintf("Equipo 1 = %v Equipo 2 = %v", strings.Join(Equipo1, ","), strings.Join(Equipo2, ","))
+
+	return Equipos, nil
 }
