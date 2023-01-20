@@ -125,3 +125,24 @@ func TestOrdenarListaJugadoresDisponiblesPorNivelDescenciente(t *testing.T) {
 	assert.Errorf(t, error, "La lista de jugadores disponibles no puede estar vacía")
 
 }
+
+func TestRepartirJugadoresDisponiblesEnEquiposIgualados(t *testing.T) {
+	Entrada := map[string]int{"Manuel": 3, "Jorge": 5, "Edu": 1, "Clara": 9, "Migue": 10}
+	JugadoresDisponibilidad := map[string]bool{"Manuel": true, "Jorge": true, "Edu": true, "Clara": false, "Migue": true}
+	Equipo1Esperado := []string{"Migue", "Edu"}
+	Equipo2Esperado := []string{"Jorge", "Manuel"}
+	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: Entrada}
+
+	Equipo1, Equipo2, error := grupo.repartirJugadoresDisponiblesEnEquiposIgualados([]string{"Migue", "Jorge", "Manuel", "Edu"})
+
+	assert.Equal(t, Equipo1Esperado, Equipo1)
+	assert.Equal(t, Equipo2Esperado, Equipo2)
+	assert.Nil(t, error)
+
+	Equipo1, Equipo2, error = grupo.repartirJugadoresDisponiblesEnEquiposIgualados([]string{})
+
+	assert.Nil(t, Equipo1)
+	assert.Nil(t, Equipo1)
+	assert.Errorf(t, error, "La lista de jugadores disponibles no puede estar vacía")
+
+}

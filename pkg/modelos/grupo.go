@@ -117,3 +117,45 @@ func (this *Grupo) ordenarListaJugadoresDisponiblesPorNivelDescendiente(ListaJug
 		return ListaJugadoresDisponibles, fmt.Errorf("La lista de jugadores disponibles no puede estar vacía")
 	}
 }
+
+// Función que reparte los 2 jugadores en 2 equipos con nivel similar siguiendo las siguientes reglas partiendo de
+// una lista con los jugadores ordenados de mayor a menor nivel:
+// 1. Colocar a los 2 mejores jugadores uno en cada equipo
+// Para el resto de jugadores:
+// 2. Ir añadiendo el siguiente jugador al equipo que sume menos nivel entre todos sus componentes si es que este no está lleno
+// 2.1 Si está lleno, añadirlo al otro equipo
+func (this *Grupo) repartirJugadoresDisponiblesEnEquiposIgualados(ListaJugadoresDisponiblesOrdenados []string) ([]string, []string, error) {
+
+	var EquipoA []string
+	var EquipoB []string
+	var NivelTotalEquipoA int
+	var NivelTotalEquipoB int
+
+	if len(ListaJugadoresDisponiblesOrdenados) > 0 {
+
+		for _, Jugador := range ListaJugadoresDisponiblesOrdenados {
+
+			if len(EquipoA) == 0 && len(EquipoB) == 0 {
+				EquipoA = append(EquipoA, Jugador)
+				NivelTotalEquipoA += this.JugadoresNiveles[Jugador]
+			} else if len(EquipoB) == 0 {
+				EquipoB = append(EquipoB, Jugador)
+				NivelTotalEquipoB += this.JugadoresNiveles[Jugador]
+			} else if (NivelTotalEquipoA < NivelTotalEquipoB) && (len(EquipoA) < (len(ListaJugadoresDisponiblesOrdenados) / 2)) {
+				EquipoA = append(EquipoA, Jugador)
+				NivelTotalEquipoA += this.JugadoresNiveles[Jugador]
+			} else if len(EquipoB) < (len(ListaJugadoresDisponiblesOrdenados) / 2) {
+				EquipoB = append(EquipoB, Jugador)
+				NivelTotalEquipoB += this.JugadoresNiveles[Jugador]
+			} else {
+				EquipoA = append(EquipoA, Jugador)
+				NivelTotalEquipoA += this.JugadoresNiveles[Jugador]
+			}
+		}
+
+		return EquipoA, EquipoB, nil
+
+	} else {
+		return nil, nil, fmt.Errorf("La lista de jugadores disponibles no puede estar vacía")
+	}
+}
