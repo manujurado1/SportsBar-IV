@@ -110,3 +110,18 @@ func TestValidarListaJugadoresDisponiblesParaPartido(t *testing.T) {
 	assert.True(t, success)
 	assert.Nil(t, error)
 }
+
+func TestOrdenarListaJugadoresDisponiblesPorNivelDescenciente(t *testing.T) {
+
+	JugadoresNiveles := map[string]int{"Manuel": 20, "Javier": 50, "Jorge": 80}
+	JugadoresDisponibilidad := map[string]bool{"Manuel": true, "Javier": true, "Jorge": true}
+	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: JugadoresNiveles}
+
+	lista, error := grupo.ordenarListaJugadoresDisponiblesPorNivelDescendiente([]string{"Manuel", "Javier", "Jorge"})
+	assert.Nil(t, error)
+	assert.Equal(t, []string{"Jorge", "Javier", "Manuel"}, lista)
+
+	lista, error = grupo.ordenarListaJugadoresDisponiblesPorNivelDescendiente([]string{})
+	assert.Errorf(t, error, "La lista de jugadores disponibles no puede estar vacía")
+
+}

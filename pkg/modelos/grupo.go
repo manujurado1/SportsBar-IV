@@ -1,6 +1,9 @@
 package modelos
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 type Grupo struct {
 	Nombre                  string
@@ -98,4 +101,19 @@ func (this *Grupo) validarListaJugadoresDisponiblesParaPartido(ListaJugadoresDis
 	}
 
 	return success, nil
+}
+
+func (this *Grupo) ordenarListaJugadoresDisponiblesPorNivelDescendiente(ListaJugadoresDisponibles []string) ([]string, error) {
+
+	if len(ListaJugadoresDisponibles) > 0 {
+
+		sort.SliceStable(ListaJugadoresDisponibles, func(i, j int) bool {
+			return this.JugadoresNiveles[ListaJugadoresDisponibles[i]] > this.JugadoresNiveles[ListaJugadoresDisponibles[j]]
+		})
+
+		return ListaJugadoresDisponibles, nil
+
+	} else {
+		return ListaJugadoresDisponibles, fmt.Errorf("La lista de jugadores disponibles no puede estar vacía")
+	}
 }
