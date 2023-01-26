@@ -8,9 +8,8 @@ import (
 
 func TestCrearJugador(t *testing.T) {
 
-	JugadoresNiveles := map[string]int{}
-	JugadoresDisponibilidad := map[string]bool{}
-	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: JugadoresNiveles}
+	grupo, error := CrearGrupo("GrupoTest")
+	assert.Nil(t, error)
 
 	success, error := grupo.crearJugador("Manuel", 120, false)
 	assert.Equal(t, false, success)
