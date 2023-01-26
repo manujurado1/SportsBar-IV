@@ -9,19 +9,41 @@
 
 ## Opciones
 
-Tras hacer una búsqueda de las diferentes opciones de bibliotecas de aserciones para Go, nos quedamos con estas 5 opciones:
+### Biblioteca estándar de testing para Go
 
-- [Biblioteca estandar de testing para Go](https://pkg.go.dev/testing). La primera opción que tenemos es realizar las aserciones de la manera estandar que Go propone. De esta manera estaríamos cumpliendo sin duda las mejores prácticas y nos asegurariamos la frescura de la biblioteca al ser la propia de Go. El problema que se encuentra es que no dispone de funciones de asercion propias. En este caso habría que hacer las aserciones manualmente y lanzar un error en el caso de que la aserción no fuera la esperada. En mi opinión es una herramienta muy válida, pero considero que fusionar el testing nativo de Go con una biblioteca de aserciones externa que nos facilite y nos de la posibilidad de hacer varios tipos de aserciones, aparte de gestionar los errores cuando un test falla, es la mejor opción para este proyecto.
+- [Aquí](https://pkg.go.dev/testing) podemos ver la documentación acerca de la forma de testear nativa de Go, la cuál no incluye funciones de aserción y se deben comparar los resultados manualmente.
+- Al hacer las aserciones mediante comparaciones, si permite el testeo de errores.
+- Al ser el paquete de testing oficial del lenguaje, cumple el requisito de freshness.
+- De la misma manera, al ser un paquete propio de Go, no tiene reporte en Go Report Card.
 
-- [BE](https://github.com/carlmjohnson/be): Herramienta con [su propia página](https://pkg.go.dev/github.com/carlmjohnson/be) en la lista de paquetes disponibles para Go. Tiene una puntuación de [A+](https://goreportcard.com/report/github.com/carlmjohnson/be) en Go Report Card. Debido a ser un paquete muy simplificado considero que no tiene las funciones suficientes para poder testear correctamente los errores que se puedan producir. En cuanto a frescura, al ser una biblioteca creada en 2022, no se pueden sacar conclusiones del ritmo de las actualizaciones, siendo la última hace 4 meses. Pero al ser una biblioteca recientemente nueva, se considera apta en el criterio de frescura.
+### BE
 
-- [Testify](https://github.com/stretchr/testify): Esta herramienta también tiene [su propia página](https://pkg.go.dev/github.com/stretchr/testify) en la lista de paquetes disponibles, cosa obvia ya que es la biblioteca de aserciones más utilizada en el testing con Go debido a su amplia cantidad de funciones. Tiene una puntuación de [A+](https://goreportcard.com/report/github.com/stretchr/testify) en Go Report Card, aunque no obtiene la máxima puntuación en cuanto a complejidad, pero su puntuación es un 89/100 en ese apartado, lo que sigue siendo válido. En este caso, su amplio abanico de funciones nos aporta las herramientas necesarias para poder testear los errores correctamente. Es la herramienta que más frescura aporta, siendo su última actualización hace 2 semanas y se esta actualizando continuamente.
+- [Aquí](https://pkg.go.dev/github.com/carlmjohnson/be) se puede ver la documentación sobre BE en la página de Go.
+- Al ser un paquete muy minimalista, no es una biblioteca apta para el testeo de errores.
+- Cumple el criterio de frescura ya que es una biblioteca nueva, estable y en continua actualización.
+- Tiene una puntuación de [A+](https://goreportcard.com/report/github.com/carlmjohnson/be) en Go Report Card.
 
-- [Assert](https://github.com/go-playground/assert): Paquete básico de aserciones que tambien está [referenciado por Go](https://pkg.go.dev/gopkg.in/go-playground/assert.v1) y tiene una puntuación de [A+](https://goreportcard.com/report/github.com/go-playground/assert) en Go Report Card. El hecho de ser un paquete básico tiene el problema de no tener un amplio abanico de funciones y esto repercute en la limitación de poder testear los errores. En cuanto a frescura no me termina de convencer, ya que la última actividad en su GitHub fue hace 4 meses y lo actualizan cada bastante tiempo, aunque entiendo que esto se puede deber a que al ser un paquete tan simplificado, necesita menos actualizaciones.
+### Testify
 
-- [Test helper de GopherCloud](https://github.com/gophercloud/gophercloud/tree/master/testhelper): Es un paquete que contiene funciones que ayudan a la hora de escribir test. Como el resto de opciones, esta [referenciado por Go](https://pkg.go.dev/github.com/gophercloud/gophercloud/testhelper). El repositorio completo de github tiene una puntuación de [A+](https://goreportcard.com/report/github.com/gophercloud/gophercloud) en Go Report Card. Se puede comprobar que los paquetes se siguen actualizando en el repositorio, pero justamente este paquete lleva +1 año sin actualizarse. Las funciones de asercion que incluye las considero escasas pero suficientes, ya que incluyen algunas destinadas al testeo de errores.
+- [Aquí](https://pkg.go.dev/github.com/stretchr/testify) se puede ver la documentación sobre Testify en la página de Go.
+- Debido a su alto abanico de funciones tiene una gran parte de estas dedicada al testeo de errores.
+- Es una herramienta activa y en continua actualización.
+- Tiene una puntuación de [A+](https://goreportcard.com/report/github.com/stretchr/testify) en Go Report Card.
 
+### Assert
+
+- [Aquí](https://pkg.go.dev/gopkg.in/go-playground/assert.v1) se puede ver la documentación sobre Assert en la página de Go.
+- El hecho de ser un paquete básico tiene el problema de no tener un amplio abanico de funciones y esto repercute en la limitación de poder testear los errores.
+- Es una herramienta activa y estable.
+- Tiene una puntuación de [A+](https://goreportcard.com/report/github.com/go-playground/assert) en Go Report Card.
+
+### Gomega
+
+- [Aquí](https://pkg.go.dev/github.com/onsi/gomega) se puede ver la documentación sobre Gomega en la página de Go. Aquí podemos ver que este framework está orientado a BDD, y no a TDD como el resto de opciones que se han contemplado.
+- Al tener otro enfoque de testeo, y en este caso se busca testear el comportamiento de un usuario promedio y no entrar en implementación, no está enfocado para testear errores.
+- Es una biblioteca actualizada y activa.
+- Tiene una puntuación de [A+](https://goreportcard.com/report/github.com/onsi/gomega) en Go Report Card.
 
 ## Elección
 
-Debido a que es la opción más completa y tiene una buena cantidad de funciones enfocada al testeo de errores, se optará por usar Testify como bibioteca de aserciones. Se puede acceder a la guía de instalación [en el siguiente enlace](https://pkg.go.dev/github.com/stretchr/testify#section-readme)
+Debido a que es la opción más completa, tiene una buena cantidad de funciones enfocada al testeo de errores y está enfocada en TDD, se optará por usar Testify como bibioteca de aserciones. Se puede acceder a la guía de instalación [en el siguiente enlace](https://pkg.go.dev/github.com/stretchr/testify#section-readme).
