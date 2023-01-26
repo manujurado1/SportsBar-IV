@@ -148,15 +148,27 @@ func TestRepartirJugadoresDisponiblesEnEquiposIgualados(t *testing.T) {
 }
 
 func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
+
 	Entrada := map[string]int{"Manuel": 30, "Jorge": 50, "Edu": 10, "Clara": 90, "Migue": 100, "Alberto": 70,
 		"Javi": 20, "Lorena": 80, "Maria": 60, "Sergio": 40}
 	JugadoresDisponibilidad := map[string]bool{"Manuel": true, "Jorge": true, "Edu": true, "Migue": true, "Clara": true, "Alberto": true,
 		"Javi": true, "Lorena": true, "Maria": true, "Sergio": true}
+
+	// Siguiendo las indicaciones del issue #54, los equipos son equilibrados si los dos mejores jugadores están en equipos diferentes y siempre se añade el siguiente jugador
+	// de más nivel al equipo que menos nivel sume, siempre que este equipo no esté completo (Se considera completo si su longitud es de la mitad de la lista de jugadores disponibles)
+	//Por lo cuál, la salida correcta para este caso sería, paso por paso:
+	// 1. Miguel al equipo 1 (100 puntos totales) y Clara al equipo 2 (90 puntos totales)
+	// 2. Lorena iría al equipo 2 ya que suma menos nivel y este quedaría así : Clara,Lorena (170 puntos totales)
+	// 3. El siguiente jugador sería Alberto que íria al equipo 1 junto a Miguel (170 puntos totales)
+	// 4. La siguiente jugadora sería María, y ante el caso de que los equipos están igualados se prioriza el equipo 2 (230 puntos) (Esto se hace así para "contrarestar" la ventaja que tiene el equipo A teniendo al mejor jugador)
+	// 5. El siguiente sería jorge que iría al equipo 1 (220 puntos)
+	// 6. Sergio iría al equipo 1 de nuevo (260 puntos)
+	// 7. Y por último Javi iría al equipo 2 (250 puntos) y Edu al equipo 1 (270 puntos) obteniendo 2 equipos con nivel total muy similares
 	SalidaEsperada := "Equipo 1 = Migue,Alberto,Jorge,Sergio,Edu Equipo 2 = Clara,Lorena,Maria,Manuel,Javi"
 	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: Entrada}
 
-	solucion, err := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
+	solucion, error := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
 
 	assert.Equal(t, SalidaEsperada, solucion)
-	assert.Nil(t, err)
+	assert.Nil(t, error)
 }
