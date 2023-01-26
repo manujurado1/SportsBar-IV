@@ -127,13 +127,13 @@ func TestOrdenarListaJugadoresDisponiblesPorNivelDescenciente(t *testing.T) {
 }
 
 func TestRepartirJugadoresDisponiblesEnEquiposIgualados(t *testing.T) {
-	Entrada := map[string]int{"Manuel": 3, "Jorge": 5, "Edu": 1, "Clara": 9, "Migue": 10}
-	JugadoresDisponibilidad := map[string]bool{"Manuel": true, "Jorge": true, "Edu": true, "Clara": false, "Migue": true}
-	Equipo1Esperado := []string{"Migue", "Edu"}
-	Equipo2Esperado := []string{"Jorge", "Manuel"}
+	Entrada := map[string]int{"Manuel": 40, "Jorge": 50, "Edu": 10, "Clara": 9, "Migue": 100, "Lorena": 60, "Maria": 20}
+	JugadoresDisponibilidad := map[string]bool{"Manuel": true, "Jorge": true, "Edu": true, "Clara": false, "Migue": true, "Lorena": true, "Maria": true}
+	Equipo1Esperado := []string{"Migue", "Manuel", "Edu"}
+	Equipo2Esperado := []string{"Lorena", "Jorge", "Maria"}
 	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: Entrada}
 
-	Equipo1, Equipo2, error := grupo.repartirJugadoresDisponiblesEnEquiposIgualados([]string{"Migue", "Jorge", "Manuel", "Edu"})
+	Equipo1, Equipo2, error := grupo.repartirJugadoresDisponiblesEnEquiposIgualados([]string{"Migue", "Lorena", "Jorge", "Manuel", "Maria", "Edu"})
 
 	assert.Equal(t, Equipo1Esperado, Equipo1)
 	assert.Equal(t, Equipo2Esperado, Equipo2)
