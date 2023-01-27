@@ -181,10 +181,17 @@ func (this *Grupo) crearEquiposIgualadosParaPartido(JugadoresDisponibilidad map[
 		return "", fmt.Errorf(error.Error())
 	}
 
-	Equipo1, Equipo2, error := this.repartirJugadoresDisponiblesEnEquiposIgualados(ListaJugadoresDisponiblesOrdenados)
+	Equipo1, NivelTotalEquipo1, Equipo2, NivelTotalEquipo2, error := this.repartirJugadoresDisponiblesEn2Equipos(ListaJugadoresDisponiblesOrdenados)
 
 	if error != nil {
 		return "", fmt.Errorf(error.Error())
+	}
+
+	MargenNivelEquipo1 := float32(NivelTotalEquipo1) * 1.3
+	MargenNivelEquipo2 := float32(NivelTotalEquipo2) * 1.3
+
+	if MargenNivelEquipo1 < float32(NivelTotalEquipo2) || MargenNivelEquipo2 < float32(NivelTotalEquipo1) {
+		return "", fmt.Errorf("No se han podido crear 2 equipos igualados (La diferencia entre ambos equipos es > al 30 por ciento)")
 	}
 
 	Equipos := fmt.Sprintf("Equipo 1 = %v Equipo 2 = %v", strings.Join(Equipo1, ","), strings.Join(Equipo2, ","))
