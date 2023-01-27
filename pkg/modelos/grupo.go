@@ -125,7 +125,7 @@ func (this *Grupo) ordenarListaJugadoresDisponiblesPorNivelDescendiente(ListaJug
 // Para el resto de jugadores:
 // 2. Ir añadiendo el siguiente jugador al equipo que sume menos nivel entre todos sus componentes si es que este no está lleno
 // 2.1 Si está lleno, añadirlo al otro equipo
-func (this *Grupo) repartirJugadoresDisponiblesEnEquiposIgualados(ListaJugadoresDisponiblesOrdenados []string) ([]string, []string, error) {
+func (this *Grupo) repartirJugadoresDisponiblesEn2Equipos(ListaJugadoresDisponiblesOrdenados []string) ([]string, int, []string, int, error) {
 
 	var EquipoA []string
 	var EquipoB []string
@@ -154,10 +154,10 @@ func (this *Grupo) repartirJugadoresDisponiblesEnEquiposIgualados(ListaJugadores
 			}
 		}
 
-		return EquipoA, EquipoB, nil
+		return EquipoA, NivelTotalEquipoA, EquipoB, NivelTotalEquipoB, nil
 
 	} else {
-		return nil, nil, fmt.Errorf("La lista de jugadores disponibles no puede estar vacía")
+		return nil, 0, nil, 0, fmt.Errorf("La lista de jugadores disponibles no puede estar vacía")
 	}
 }
 

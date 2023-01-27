@@ -113,23 +113,29 @@ func TestOrdenarListaJugadoresDisponiblesPorNivelDescenciente(t *testing.T) {
 
 }
 
-func TestRepartirJugadoresDisponiblesEnEquiposIgualados(t *testing.T) {
+func TestRepartirJugadoresDisponiblesEn2Equipos(t *testing.T) {
 	Entrada := map[string]int{"Manuel": 40, "Jorge": 50, "Edu": 10, "Clara": 9, "Migue": 100, "Lorena": 60, "Maria": 20}
 	JugadoresDisponibilidad := map[string]bool{"Manuel": true, "Jorge": true, "Edu": true, "Clara": false, "Migue": true, "Lorena": true, "Maria": true}
 	Equipo1Esperado := []string{"Migue", "Manuel", "Edu"}
+	NivelTotalEquipo1Esperado := 150
 	Equipo2Esperado := []string{"Lorena", "Jorge", "Maria"}
+	NivelTotalEquipo2Esperado := 130
 	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: Entrada}
 
-	Equipo1, Equipo2, error := grupo.repartirJugadoresDisponiblesEnEquiposIgualados([]string{"Migue", "Lorena", "Jorge", "Manuel", "Maria", "Edu"})
+	Equipo1, NivelTotalEquipo1, Equipo2, NivelTotalEquipo2, error := grupo.repartirJugadoresDisponiblesEn2Equipos([]string{"Migue", "Lorena", "Jorge", "Manuel", "Maria", "Edu"})
 
 	assert.Equal(t, Equipo1Esperado, Equipo1)
+	assert.Equal(t, NivelTotalEquipo1Esperado, NivelTotalEquipo1)
 	assert.Equal(t, Equipo2Esperado, Equipo2)
+	assert.Equal(t, NivelTotalEquipo2Esperado, NivelTotalEquipo2)
 	assert.Nil(t, error)
 
-	Equipo1, Equipo2, error = grupo.repartirJugadoresDisponiblesEnEquiposIgualados([]string{})
+	Equipo1, NivelTotalEquipo1, Equipo2, NivelTotalEquipo2, error = grupo.repartirJugadoresDisponiblesEn2Equipos([]string{})
 
 	assert.Nil(t, Equipo1)
+	assert.Zero(t, NivelTotalEquipo1)
 	assert.Nil(t, Equipo1)
+	assert.Zero(t, NivelTotalEquipo2)
 	assert.Errorf(t, error, "La lista de jugadores disponibles no puede estar vacía")
 
 }
