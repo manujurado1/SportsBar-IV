@@ -190,8 +190,40 @@ func (this *Grupo) crearEquiposIgualadosParaPartido(JugadoresDisponibilidad map[
 	MargenNivelEquipo2 := float32(NivelTotalEquipo2) * 1.3
 
 	if MargenNivelEquipo1 < float32(NivelTotalEquipo2) || MargenNivelEquipo2 < float32(NivelTotalEquipo1) {
-		return nil, nil, fmt.Errorf("No se han podido crear 2 equipos igualados (La diferencia entre ambos equipos es > al 30 por ciento)")
+		return Equipo1, Equipo2, fmt.Errorf("No se han podido crear 2 equipos igualados (La diferencia entre ambos equipos es > al 30 por ciento)")
 	}
 
 	return Equipo1, Equipo2, nil
+}
+
+func (this *Grupo) estanIgualados(Equipo1 []string, Equipo2 []string) (bool, error) {
+
+	Igualados := false
+	NivelTotalEquipo1 := 0
+	NivelTotalEquipo2 := 0
+
+	if len(Equipo1) == 0 || len(Equipo2) == 0 {
+		return Igualados, fmt.Errorf("Los equipos no pueden estar vacíos")
+	}
+
+	if len(Equipo1) == len(Equipo2) && len(Equipo1) >= 5 {
+
+		for _, jugador := range Equipo1 {
+			NivelTotalEquipo1 += this.JugadoresNiveles[jugador]
+		}
+
+		for _, jugador := range Equipo2 {
+			NivelTotalEquipo2 += this.JugadoresNiveles[jugador]
+		}
+
+		MargenNivelEquipo1 := float32(NivelTotalEquipo1) * 1.3
+		MargenNivelEquipo2 := float32(NivelTotalEquipo2) * 1.3
+
+		if MargenNivelEquipo1 >= float32(NivelTotalEquipo2) && MargenNivelEquipo2 >= float32(NivelTotalEquipo1) {
+			Igualados = true
+		}
+	}
+
+	return Igualados, nil
+
 }

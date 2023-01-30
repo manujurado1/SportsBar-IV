@@ -54,27 +54,46 @@ func TestCambiarDisponibilidadJugador(t *testing.T) {
 
 func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
 
-	// Caso posible en el que se crean 2 equipos igualados
-
-	Entrada := map[string]int{"Manuel": 30, "Jorge": 50, "Edu": 10, "Clara": 90, "Migue": 100, "Alberto": 70,
+	// Comprobamos que si no hay los suficientes jugadores disponibles no se pueden crear equipos igualados
+	JugadoresNiveles := map[string]int{"Manuel": 30, "Jorge": 50, "Edu": 10, "Clara": 90, "Migue": 100, "Alberto": 70,
 		"Javi": 20, "Lorena": 80, "Maria": 60, "Sergio": 40}
-	JugadoresDisponibilidad := map[string]bool{"Manuel": true, "Jorge": true, "Edu": true, "Migue": true, "Clara": true, "Alberto": true,
+	JugadoresDisponibilidad := map[string]bool{"Manuel": false, "Jorge": false, "Edu": false, "Migue": true, "Clara": true, "Alberto": true,
+		"Javi": true, "Lorena": true, "Maria": true, "Sergio": false}
+
+	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: JugadoresNiveles}
+
+	Equipo1, Equipo2, error := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
+	assert.Errorf(t, error, "Debe haber almenos 10 jugadores disponibles para jugar un partido")
+
+	// Comprobamos la posibilidad de que aunque todo haya ido bien, sea imposible conseguir 2 equipos igualados
+
+	JugadoresDisponibilidad = map[string]bool{"Manuel": true, "Jorge": true, "Edu": true, "Migue": true, "Clara": true, "Alberto": true,
 		"Javi": true, "Lorena": true, "Maria": true, "Sergio": true}
-
-	SalidaEsperada := "Equipo 1 = Migue,Alberto,Jorge,Sergio,Edu Equipo 2 = Clara,Lorena,Maria,Manuel,Javi"
-	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: Entrada}
-
-	solucion, error := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
-	assert.Equal(t, SalidaEsperada, solucion)
-	assert.Nil(t, error)
-
-	// Caso imposible de crear 2 equpos igualados
-	EntradaImposible := map[string]int{"Manuel": 3, "Jorge": 5, "Edu": 1, "Clara": 9, "Migue": 100, "Alberto": 7,
+	JugadoresNivelesImposible := map[string]int{"Manuel": 3, "Jorge": 5, "Edu": 1, "Clara": 9, "Migue": 100, "Alberto": 7,
 		"Javi": 2, "Lorena": 8, "Maria": 6, "Sergio": 4}
-	grupo.JugadoresNiveles = EntradaImposible
+	grupo.JugadoresDisponibilidad = JugadoresDisponibilidad
+	grupo.JugadoresNiveles = JugadoresNivelesImposible
 
-	solucion, error = grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
-	assert.Equal(t, "", solucion)
+	Equipo1, Equipo2, error = grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
 	assert.Errorf(t, error, "No se han podido crear 2 equipos igualados (La diferencia entre ambos equipos es > al 30 por ciento)")
+	igualados, error := grupo.estanIgualados(Equipo1, Equipo2)
+	assert.False(t, igualados)
+
+	// Comprobamos caso correcto
+
+	JugadoresNiveles = map[string]int{"Manuel": 30, "Jorge": 50, "Edu": 10, "Clara": 90, "Migue": 100, "Alberto": 70,
+		"Javi": 20, "Lorena": 80, "Maria": 60, "Sergio": 40}
+
+	grupo.JugadoresNiveles = JugadoresNiveles
+
+	Equipo1Esperado := []string{"Migue", "Alberto", "Jorge", "Sergio", "Edu"}
+	Equipo2Esperado := []string{"Clara", "Lorena", "Maria", "Manuel", "Javi"}
+
+	Equipo1, Equipo2, error = grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
+	assert.Equal(t, Equipo1Esperado, Equipo1)
+	assert.Equal(t, Equipo2Esperado, Equipo2)
+	assert.Nil(t, error)
+	igualados, error = grupo.estanIgualados(Equipo1, Equipo2)
+	assert.True(t, igualados)
 
 }
