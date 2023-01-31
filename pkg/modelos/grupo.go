@@ -176,10 +176,8 @@ func (this *Grupo) crearEquiposIgualadosParaPartido(JugadoresDisponibilidad map[
 		return nil, nil, fmt.Errorf(error.Error())
 	}
 
-	MargenNivelEquipo1 := float32(NivelTotalEquipo1) * 1.3
-	MargenNivelEquipo2 := float32(NivelTotalEquipo2) * 1.3
-
-	if MargenNivelEquipo1 < float32(NivelTotalEquipo2) || MargenNivelEquipo2 < float32(NivelTotalEquipo1) {
+	Igualados, error := this.estanIgualados(Equipo1, Equipo2)
+	if !Igualados {
 		return Equipo1, Equipo2, fmt.Errorf("No se han podido crear 2 equipos igualados (La diferencia entre ambos equipos es > al 30 por ciento)")
 	}
 
