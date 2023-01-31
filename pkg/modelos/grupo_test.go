@@ -8,8 +8,7 @@ import (
 
 func TestCrearJugador(t *testing.T) {
 
-	grupo, error := CrearGrupo("GrupoTest")
-	assert.Nil(t, error)
+	grupo := CrearGrupo("GrupoTest")
 
 	success, error := grupo.crearJugador("Manuel", 120, false)
 	assert.Equal(t, false, success)
