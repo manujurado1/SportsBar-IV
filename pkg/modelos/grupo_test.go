@@ -63,7 +63,7 @@ func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
 	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: JugadoresNiveles}
 
 	Equipo1, Equipo2, error := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
-	assert.Errorf(t, error, "Debe haber almenos 10 jugadores disponibles para jugar un partido")
+	assert.Errorf(t, error, "La lista de jugadores disponibles debe ser de almenos 10 personas y ser un número par")
 
 	// Comprobamos la posibilidad de que aunque todo haya ido bien, sea imposible conseguir 2 equipos igualados
 
