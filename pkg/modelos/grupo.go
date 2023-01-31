@@ -178,7 +178,7 @@ func (this *Grupo) crearEquiposIgualadosParaPartido(JugadoresDisponibilidad map[
 
 	Igualados, error := this.estanIgualados(Equipo1, Equipo2)
 	if !Igualados {
-		return Equipo1, Equipo2, fmt.Errorf("No se han podido crear 2 equipos igualados (La diferencia entre ambos equipos es > al 30 por ciento)")
+		return Equipo1, Equipo2, fmt.Errorf("No se ha conseguido crear 2 equipos igualados")
 	}
 
 	return Equipo1, Equipo2, nil
@@ -206,6 +206,10 @@ func (this *Grupo) estanIgualados(Equipo1 []string, Equipo2 []string) (bool, err
 
 		NivelEquipo1 := NivelTotalEquipo1 / uint(len(Equipo1))
 		NivelEquipo2 := NivelTotalEquipo2 / uint(len(Equipo2))
+
+		if (NivelEquipo1+10 > NivelEquipo2) && (NivelEquipo2+10 > NivelEquipo1) {
+			Igualados = true
+		}
 
 	}
 

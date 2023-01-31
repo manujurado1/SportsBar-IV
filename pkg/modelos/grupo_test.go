@@ -74,7 +74,7 @@ func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
 	grupo.JugadoresNiveles = JugadoresNivelesImposible
 
 	Equipo1, Equipo2, error = grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
-	assert.Errorf(t, error, "No se han podido crear 2 equipos igualados (La diferencia entre ambos equipos es > al 30 por ciento)")
+	assert.Errorf(t, error, "No se ha conseguido crear 2 equipos igualados")
 	igualados, error := grupo.estanIgualados(Equipo1, Equipo2)
 	assert.False(t, igualados)
 
