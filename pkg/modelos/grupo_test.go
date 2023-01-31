@@ -1,6 +1,7 @@
 package modelos
 
 import (
+	"math"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -94,5 +95,34 @@ func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
 	assert.Nil(t, error)
 	igualados, error = grupo.estanIgualados(Equipo1, Equipo2)
 	assert.True(t, igualados)
+
+	// Comprobamos caso aleatorio para comprobar si el algoritmo es mejor que la aleatoriedad (issue)
+	var NivelEquipo1 uint = 0
+	var NivelEquipo2 uint = 0
+	var NivelTotalEquipo1 uint = 0
+	var NivelTotalEquipo2 uint = 0
+
+	JugadoresNiveles = map[string]uint{"Manuel": 73, "Jorge": 70, "Edu": 42, "Clara": 66, "Migue": 28, "Alberto": 16,
+		"Javi": 29, "Lorena": 50, "Maria": 10, "Sergio": 18}
+
+	grupo.JugadoresNiveles = JugadoresNiveles
+	Equipo1, Equipo2, error = grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
+	igualados, error = grupo.estanIgualados(Equipo1, Equipo2)
+	assert.True(t, igualados)
+
+	for _, jugador := range Equipo1 {
+		NivelTotalEquipo1 += grupo.JugadoresNiveles[jugador]
+	}
+
+	for _, jugador := range Equipo2 {
+		NivelTotalEquipo2 += grupo.JugadoresNiveles[jugador]
+	}
+
+	NivelEquipo1 = NivelTotalEquipo1 / uint(len(Equipo1))
+	NivelEquipo2 = NivelTotalEquipo2 / uint(len(Equipo2))
+
+	DiferenciaNiveles := math.Abs(float64(NivelEquipo1) - float64(NivelEquipo2))
+
+	assert.True(t, DiferenciaNiveles < 15)
 
 }
