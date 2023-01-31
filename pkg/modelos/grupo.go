@@ -204,12 +204,9 @@ func (this *Grupo) estanIgualados(Equipo1 []string, Equipo2 []string) (bool, err
 			NivelTotalEquipo2 += this.JugadoresNiveles[jugador]
 		}
 
-		MargenNivelEquipo1 := float32(NivelTotalEquipo1) * 1.3
-		MargenNivelEquipo2 := float32(NivelTotalEquipo2) * 1.3
+		NivelEquipo1 := NivelTotalEquipo1 / uint(len(Equipo1))
+		NivelEquipo2 := NivelTotalEquipo2 / uint(len(Equipo2))
 
-		if MargenNivelEquipo1 >= float32(NivelTotalEquipo2) && MargenNivelEquipo2 >= float32(NivelTotalEquipo1) {
-			Igualados = true
-		}
 	}
 
 	return Igualados, nil
