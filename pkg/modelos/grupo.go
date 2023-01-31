@@ -12,17 +12,16 @@ type Grupo struct {
 }
 
 // Constructor que crea un nuevo Grupo con el nombre pasado por parámetro, inicializando  el map de JugadoresNiveles y el de Jugadores Disponibilidad vacíos.
-func CrearGrupo(Nombre string) (*Grupo, error) {
+func CrearGrupo(Nombre string) *Grupo {
 
 	JugadoresDisponibilidad := make(map[string]bool)
 	JugadoresNiveles := make(map[string]int)
-
-	if Nombre == "" {
-		return nil, fmt.Errorf("El nombre del grupo no puede ser un string vacío")
+	NombreGrupo := Nombre
+	if NombreGrupo == "" {
+		NombreGrupo = "Grupo"
 	}
-
-	grupo := Grupo{Nombre, JugadoresDisponibilidad, JugadoresNiveles}
-	return &grupo, nil
+	grupo := Grupo{NombreGrupo, JugadoresDisponibilidad, JugadoresNiveles}
+	return &grupo
 }
 
 // Función que añade un jugador en el map de JugadoresNiveles si ese nombre no tiene una entrada existente y el nivel es correcto
