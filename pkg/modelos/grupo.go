@@ -8,14 +8,14 @@ import (
 type Grupo struct {
 	Nombre                  string
 	JugadoresDisponibilidad map[string]bool
-	JugadoresNiveles        map[string]int
+	JugadoresNiveles        map[string]uint
 }
 
 // Constructor que crea un nuevo Grupo con el nombre pasado por parámetro, inicializando  el map de JugadoresNiveles y el de Jugadores Disponibilidad vacíos.
 func CrearGrupo(Nombre string) *Grupo {
 
 	JugadoresDisponibilidad := make(map[string]bool)
-	JugadoresNiveles := make(map[string]int)
+	JugadoresNiveles := make(map[string]uint)
 	NombreGrupo := Nombre
 	if NombreGrupo == "" {
 		NombreGrupo = "Grupo"
@@ -26,18 +26,18 @@ func CrearGrupo(Nombre string) *Grupo {
 
 // Función que añade un jugador en el map de JugadoresNiveles si ese nombre no tiene una entrada existente y el nivel es correcto
 // y lo inserta en la lista de disponibles en caso de que así se indique
-func (this *Grupo) crearJugador(NombreJugador string, Nivel int, Disponibilidad bool) (bool, error) {
+func (this *Grupo) crearJugador(NombreJugador string, Nivel uint, Disponibilidad bool) (bool, error) {
 	var success bool = false
 	_, existe := this.JugadoresNiveles[NombreJugador]
 	if existe == false {
-		if Nivel >= 0 && Nivel <= 100 {
+		if Nivel >= 1 && Nivel <= 100 {
 
 			this.JugadoresNiveles[NombreJugador] = Nivel
 			this.JugadoresDisponibilidad[NombreJugador] = Disponibilidad
 			success = true
 
 		} else {
-			return success, fmt.Errorf("El nivel del jugador debe estar entre 0 y 100")
+			return success, fmt.Errorf("El nivel del jugador debe estar entre 1 y 100")
 		}
 	} else {
 		return success, fmt.Errorf("Ya existe un jugador con ese nombre")
@@ -118,8 +118,8 @@ func (this *Grupo) repartirJugadoresDisponiblesEn2Equipos(ListaJugadoresDisponib
 
 	var EquipoA []string
 	var EquipoB []string
-	var NivelTotalEquipoA int
-	var NivelTotalEquipoB int
+	var NivelTotalEquipoA uint
+	var NivelTotalEquipoB uint
 
 	if len(ListaJugadoresDisponiblesOrdenados) > 0 {
 
@@ -187,8 +187,8 @@ func (this *Grupo) crearEquiposIgualadosParaPartido(JugadoresDisponibilidad map[
 func (this *Grupo) estanIgualados(Equipo1 []string, Equipo2 []string) (bool, error) {
 
 	Igualados := false
-	NivelTotalEquipo1 := 0
-	NivelTotalEquipo2 := 0
+	var NivelTotalEquipo1 uint = 0
+	var NivelTotalEquipo2 uint = 0
 
 	if len(Equipo1) == 0 || len(Equipo2) == 0 {
 		return Igualados, fmt.Errorf("Los equipos no pueden estar vacíos")
