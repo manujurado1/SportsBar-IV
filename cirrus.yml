@@ -1,0 +1,5 @@
+container:
+  image: manujurado1/sportsbar-iv:latest
+
+test_task:
+  test_script: go test -v ./...
