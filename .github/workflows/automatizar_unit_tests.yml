@@ -19,4 +19,4 @@ jobs:
       - name: Display Go version
         run: go version
       - name: Test
-        run: task test
+        run: go test -v ./pkg/modelos
