@@ -18,5 +18,7 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Display Go version
         run: go version
+      - name: Install Task
+        run: go install github.com/go-task/task/v3/cmd/task@latest
       - name: Test
-        run: go test -v ./pkg/modelos
+        run: task test
