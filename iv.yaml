@@ -7,3 +7,7 @@ automatizar:
   orden: task
 
 test: pkg/modelos/grupo_test.go
+
+CI:
+  - .cirrus.yml
+  - .github/workflows/automatizar_unit_tests.yml
