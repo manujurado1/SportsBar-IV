@@ -18,8 +18,4 @@ En este milestone se pretende implementar la lógica de negocio necesaria para p
 - [M3 - Creación de API REST](https://github.com/manujurado1/SportsBar-IV/milestone/5)
 En este milestone se plantea la creación de una API REST para trabajar con la lógica de negocio.
 
-- [M4 - Creación de interfaz de usuario](https://github.com/manujurado1/SportsBar-IV/milestone/6)
-En este milestone se abordará la creación de una interfaz de usuario funcional que permita a los distintos usuarios comunicarse con la API REST de una manera sencilla y acogerdora.
-
-- [M5 - Despliegue](https://github.com/manujurado1/SportsBar-IV/milestone/7)
 
