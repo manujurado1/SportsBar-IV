@@ -9,6 +9,3 @@ Carmen y sus compañeras de peña, las cuales juegan a fútbol por diversión y 
 
 - [HU3 - Miguel quiere demostrar a sus amigos futboleros que él sigue sigue siendo el mejor.](https://github.com/manujurado1/SportsBar-IV/issues/4) 
 Miguel y sus amigos futboleros, con los que juega partidos a menudo, están en continua competición de demostrar quién es el mejor jugador de fútbol de la pandilla, después de ninguno de ellos haber conseguido triunfar en este deporte. Quieren buscar alguna manera de tener un historial de todos sus enfrentamientos, tener partidos igualados y encontrar alguna forma de poder medir lo buenos que son respecto a sus amigos para demostrar quien manda.
-
-- [HU4 - Soy tribunal de TFG y necesito entender el proyecto](https://github.com/manujurado1/SportsBar-IV/issues/80)
-Como tribunal del TFG necesito entender de que trata el proyecto, que problema plantea solucionar, y los diferentes pasos/retos que el estudiante ha ido superando hasta resolver dicho problema. Necesito toda esta información en un documento por escrito que cumpla el formato correcto de TFG y una presentación que explique y resuma los contenidos más importantes de este documento así como del TFG.

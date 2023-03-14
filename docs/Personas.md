@@ -9,5 +9,3 @@
 ## Miguel Zamora
 23 años, camarero. Su grupo de amigos está formado por hombres que de pequeños compartían vestuario en un equipo de alto nivel, pero la vida los terminó llevando por otros caminos. Juegan a fútbol con un alto grado de competitividad, siempre pensando que son la estrella del equipo, y normalmente incluso apuestan económicamente en favor a ese dato.
 
-## Tribunal
-Persona encargada de evaluar un TFG.
