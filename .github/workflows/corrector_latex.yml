@@ -13,7 +13,7 @@ jobs:
                 allowedwords: ./.github/workflows/allowed-words.txt
               with:
                   root_file: ./docs/proyecto.tex
-                  args: --check es 
+                  args: --check es --dict $allowedwords
 
             - name: Upload TeXtidote report
               uses: actions/upload-artifact@v2
