@@ -7,5 +7,5 @@ jobs:
             - uses: actions/checkout@v2
             - uses: ChiefGokhlayeh/textidote-action@v5
               with:
-                  root_file: proyecto.tex
+                  root_file: ./../../docs/proyecto.tex
                   args: --check es 
