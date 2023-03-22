@@ -9,6 +9,8 @@ jobs:
 
             - name: Lint LaTeX document
               uses: ChiefGokhlayeh/textidote-action@v5
+              env:
+                allowedwords: ./.github/workflows/allowed-words.txt
               with:
                   root_file: ./docs/proyecto.tex
                   args: --check es 
@@ -22,4 +24,3 @@ jobs:
             - name: Throw error if linter warnings exist
               if: ${{ steps.lint.outputs.num_warnings != 0 }}
               run: 'echo "::error file=main.tex::num_warnings: ${{ steps.lint.outputs.num_warnings }}"; exit 1;'
-              
