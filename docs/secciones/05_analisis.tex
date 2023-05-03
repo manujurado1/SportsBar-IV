@@ -1,2 +1,54 @@
 \chapter{Análisis del problema}
  
+En esta sección se mostrarán las pruebas que se han realizado para dar por solucionado los distintos problemas que plantea resolver 
+el proyecto, junto a un análisis de los resultados obtenidos.
+
+\section{Creación de equipos igualados}
+
+El primer problema que plantea resolver el proyecto es la creación de 2 equipos igualados en función del nivel de los jugadores disponibles.
+Para comprender los resultados de los análisis, se deben conocer los siguientes conceptos:
+
+\begin{itemize}
+    \item El nivel de cada jugador es un entero que puede oscilar entre el 1 y el 100.
+    \item El nivel de un equipo viene dado por la media de nivel de los jugadores que lo componen.
+    \item Dos equipos se consideran igualados si la diferencia de nivel entre ambos equipos no es superior a 10 niveles.
+\end{itemize}
+
+\newpage
+
+El primer análisis efectuado pretende comprobar si el algoritmo establecido para la creación de equipos mejora la aleatoriedad.\\
+
+Se ha creado aleatoriamente una lista de 10 elementos comprendidos entre el 1 y el 100 que hace referencia al nivel de los 10 jugadores
+que se simulan en esta prueba y se han realizado 5 combinaciones aleatorias. La lista ha sido la siguiente :  73, 70, 42, 66, 28, 16, 29, 50, 10, 18.\\
+
+
+\begin{tabular}{| l | l | c |}
+    \hline
+    \textbf{Equipo1} & \textbf{Equipo2} & \textbf{Diferencia de nivel}\\
+    \hline
+    18, 29, 70, 73, 16 & 50, 10, 42, 66, 28 & 2\\
+    \hline
+    10, 50, 18, 16, 29 & 70, 66, 28, 73, 42 & 31\\
+    \hline
+    16, 73, 70, 28, 66 & 10, 42, 18, 50, 29 & 21\\
+    \hline
+    73, 29, 10, 16, 28 & 66, 18, 70, 50, 42 & 18\\
+    \hline
+    66, 18, 16, 70, 42 & 73, 29, 10, 50, 28 & 4\\
+    \hline
+\end{tabular}\\
+
+
+Podemos ver que la aleatoriedad nos da un resultado de diferencia de nivel medio de 15,2.\\
+
+Sin embargo, si con estos mismos datos de entrada aplicamos el algoritmo diseñado para nuestro proyecto, obtenemos los siguientes resultados:\\
+
+\begin{tabular}{| l | l | c |}
+    \hline
+    \textbf{Equipo1} & \textbf{Equipo2} & \textbf{Diferencia de nivel}\\
+    \hline
+    73, 50, 42, 18, 16 & 70, 66, 29, 28, 10 & 1\\
+    \hline
+\end{tabular}\\
+
+Podemos observar que el algoritmo implementado supera con creces la aleatoriedad.
