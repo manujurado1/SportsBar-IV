@@ -1,6 +1,6 @@
 \chapter{Implementación}
 
-La implementación del software se ha dividido en hitos. Estos, han sido definidos en Github
+La implementación del software se ha dividido en hitos. Estos han sido definidos en Github
 y cada uno de ellos contiene un grupo de \textit{issues} que se corresponden con las distintas
 mejoras que se han ido incorporando al software a lo largo de su desarrollo.\\
 
@@ -62,7 +62,7 @@ repositorio.\\
 En este punto del proyecto, llegó el momento de elegir qué lenguaje iba a usar. Para este proyecto, tenía intención de usar un
 lenguaje que no hubiera usado anteriormente, para aprovechar la oportunidad de conocer un nuevo lenguaje.\\
 
-Finalmente, decidí optar por Go, ya que a parte de ser uno de los lenguajes que tenía intención de aprender en un futuro, tiene ciertas
+Finalmente, decidí optar por Go, ya que aparte de ser uno de los lenguajes que tenía intención de aprender en un futuro, tiene ciertas
 características que me terminaron por convencer. Entre ellas destacan las siguientes:
 
 \begin{itemize}
@@ -164,7 +164,7 @@ de los criterios de elección para llegar a la conclusión de cuál de las
   e intuitivo.
 \item
   En cuanto a freshness, al ser una herramienta menos amplia que make,
-  necesita menos actualizaciones ya que lo único que han hecho ha sido
+  necesita menos actualizaciones, ya que lo único que han hecho ha sido
   ir sacando pequeñas mejoras. Sin embargo, podemos ver en su
   \href{https://github.com/go-task/task}{página de GitHub} que siguen
   habiendo aportaciones recientes. Esto nos hace ver que la herramienta
@@ -192,7 +192,7 @@ de los criterios de elección para llegar a la conclusión de cuál de las
 
 \textbf{Instalación de Task}
 
-La misma pagina oficial te da un abanico de posibilidades para
+La misma página oficial te da un abanico de posibilidades para
 \href{https://taskfile.dev/installation/}{instalar Task}
 
 \newpage
@@ -218,7 +218,6 @@ Para conseguir completar este hito, se han tenido que tomar una serie de decisio
   Freshness.
 \item
   Valoración en \href{https://goreportcard.com/}{Go Report Card}.
-  manujurado1 marked this conversation as resolved.
 \end{itemize}
 
 \subsubsection{Opciones}
@@ -229,7 +228,7 @@ Go}
 \begin{itemize}
 \item
   \href{https://pkg.go.dev/testing}{Aquí} podemos ver la documentación
-  acerca de la forma de testear nativa de Go, la cuál no incluye
+  acerca de la forma de testear nativa de Go, la cual no incluye
   funciones de aserción y se deben comparar los resultados manualmente.
 \item
   Al hacer las aserciones mediante comparaciones, si permite el testeo
@@ -252,7 +251,7 @@ Go}
   Al ser un paquete muy minimalista, no es una biblioteca apta para el
   testeo de errores.
 \item
-  Cumple el criterio de frescura ya que es una biblioteca nueva, estable
+  Cumple el criterio de frescura, ya que es una biblioteca nueva, estable
   y en continua actualización.
 \item
   Tiene una puntuación de
@@ -319,7 +318,7 @@ Go}
 
 Debido a que es la opción más completa, tiene una buena cantidad de
 funciones enfocada al testeo de errores y está enfocada en TDD, se
-optará por usar Testify como bibioteca de aserciones. Se puede acceder a
+optará por usar Testify como biblioteca de aserciones. Se puede acceder a
 la guía de instalación
 \href{https://pkg.go.dev/github.com/stretchr/testify\#section-readme}{en
 el siguiente enlace}.
@@ -337,10 +336,10 @@ el siguiente enlace}.
 
 \subsubsection{Elección}
 
-La elección del test runner en este caso es sencilla ya que el propio Go
-tiene un test runner propio, el cuál hace que sea muy sencillo lanzar y
+La elección del test runner en este caso es sencilla, ya que el propio Go
+tiene un test runner propio, el cual hace que sea muy sencillo lanzar y
 gestionar los tests. Además, no se ha encontrado ninguna alternativa
-real que ofrezca algún motivo por el que usarla en vez del test runner
+real que ofrezca algún motivo por el que utilizarla en vez del test runner
 nativo de Go.
 
 \subsection{Elección de la imagen base del contenedor que se usará para lanzar los tests}
@@ -353,7 +352,7 @@ que consiste en:
 \begin{itemize}
 \item
   Priorizar la imagen de menor peso posible que satisfaga nuestras
-  necesidades. (Evitar imagenes que incluyan paquetes o funcionalidades
+  necesidades. (Evitar imágenes que incluyan paquetes o funcionalidades
   que no se vayan a usar para el testing)
 \item
   Freshness
@@ -361,22 +360,22 @@ que consiste en:
 
 \subsubsection{Opciones}
 
-Tras ver las \href{https://hub.docker.com/_/golang}{imagenes oficiales}
+Tras ver las \href{https://hub.docker.com/_/golang}{imágenes oficiales}
 que nos proporciona DockerHub con la versión de Go 1.20 y tras descartar
 ciertas como WindowsServer y NanoServer debido a que están basadas en
 windows tenemos las siguientes opciones, las cuales cumplen el criterio
-de frescura ya que son imágenes oficiales y siempre están en continua
+de frescura, ya que son imágenes oficiales y siempre están en continua
 actualización:
 
 \begin{itemize}
 \item
-  Alpine : Tamaño comprimido = 100 MB , Tamaño de la imagen una vez
+  Alpine: Tamaño comprimido = 100 MB , Tamaño de la imagen una vez
   pulleada = 253 MB.
 \item
-  Buster : Tamaño comprimido = 282 MB , Tamaño de la imagen una vez
+  Buster: Tamaño comprimido = 282 MB , Tamaño de la imagen una vez
   pulleada = 720 MB.
 \item
-  Bullseye : Tamaño comprimido = 300 MB , Tamaño de la imagen una vez
+  Bullseye: Tamaño comprimido = 300 MB , Tamaño de la imagen una vez
   pulleada = 777 MB.
 \end{itemize}
 
@@ -386,17 +385,17 @@ ser actualizadas):
 
 \begin{itemize}
 \item
-  \href{https://hub.docker.com/r/circleci/golang}{CircleCi} : Su tamaño
+  \href{https://hub.docker.com/r/circleci/golang}{CircleCi}: Su tamaño
   comprimido es 1GB, por lo que ni se acerca a las imágenes oficiales.
-  Su última versión es para Go 1.17, lo que lo hace tambien estar peor
+  Su última versión es para Go 1.17, lo que lo hace también estar peor
   posicionado que las oficiales elegidas ya que no cumple con el
   criterio de frescura al llevar más de un año sin actualizarse.
 \item
-  \href{https://hub.docker.com/r/okteto/golang}{Okteto} : Su tamaño
+  \href{https://hub.docker.com/r/okteto/golang}{Okteto}: Su tamaño
   comprimido es de 400MB, que aunque mejora al de CircleCi, está aún por
   encima de las imágenes oficiales. Su última versión es para Go 1.18,
-  lo que lo hace tambien estar peor posicionado que las oficiales
-  elegidas. Su ultima actualización fue hace 15 días, por lo que cumple
+  lo que lo hace también estar peor posicionado que las oficiales
+  elegidas. Su última actualización fue hace 15 días, por lo que cumple
   con el criterio de frescura.
 \item
   \href{https://hub.docker.com/r/bitnami/golang}{Bitnami (by VMware)}:
@@ -414,18 +413,18 @@ ser actualizadas):
   \href{https://hub.docker.com/r/corpusops/golang}{CorpusOps}:
   Encontramos una imagen basada en Alpine la cual mejora a algunas de
   las imágenes oficiales en cuanto a peso (171MB), pero es más pesada
-  que la imagen de alpine oficial, la cuál, pese a ambas estar en
+  que la imagen de alpine oficial, la cual, pese a ambas estar en
   continua actualización a día de hoy, está por delante en cuanto a
   versión de Go.
 \item
   \href{https://hub.docker.com/r/clearlinux/golang}{ClearLinux}: Tamaño
-  comprimido de +1GB. Cumple con el criterio de frescura ya que se
+  comprimido de +1GB. Cumple con el criterio de frescura, ya que se
   actualizó hace 1 semana.
 \item
   \href{https://hub.docker.com/r/alpinelinux/golang}{AlpineLinux}:
   Opción interesante debido a su poco peso (193 MB),pero es más pesada
   que la imagen oficial de Go sobre Alpine. Cumple con el criterio de
-  frescura ya que su ultima actualización fue hace 3 días.
+  frescura, ya que su última actualización fue hace 3 días.
 \end{itemize}
 
 \subsubsection{Elección}
@@ -454,7 +453,7 @@ sobre Alpine lanzada.
 
 \subsubsection{Opciones}
 
-Se ha descartado Jenkins ya que aunque es una de las opciones más
+Se ha descartado Jenkins, ya que aunque es una de las opciones más
 populares, no tiene una versión gratuita.
 
 \textbf{GitHub Actions}
@@ -529,7 +528,7 @@ sistemas de CI.
 \subsection{Versiones de Go testeadas}
 
 Se han consultado \href{https://endoflife.date/go}{las versiones de Go
-que siguen teniendo soporte} y en base a esta información se han
+que siguen teniendo soporte} y basándonos en esta información se han
 testeado las siguientes versiones:
 
 \begin{itemize}
@@ -541,7 +540,7 @@ testeado las siguientes versiones:
   1.19: Versión que aún tiene soporte y se testea mediante GitHub
   actions.
 \item
-  1.18: Versión que ha dejado de tener soporte el 1 de Febrero pero se
+  1.18: Versión que ha dejado de tener soporte el 1 de Febrero, pero se
   ha testeado también por la brevedad de tiempo que lleva sin ser tener
   soporte. También se testea mediante GitHub actions.
 \end{itemize}
