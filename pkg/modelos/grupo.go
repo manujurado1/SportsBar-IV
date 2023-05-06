@@ -6,21 +6,19 @@ import (
 )
 
 type Grupo struct {
-	Nombre                  string
-	JugadoresDisponibilidad map[string]bool
-	JugadoresNiveles        map[string]uint
+	Nombre    string
+	Jugadores map[string]EstadisticasJugador
 }
 
 // Constructor que crea un nuevo Grupo con el nombre pasado por parámetro, inicializando  el map de JugadoresNiveles y el de Jugadores Disponibilidad vacíos.
 func CrearGrupo(Nombre string) *Grupo {
 
-	JugadoresDisponibilidad := make(map[string]bool)
-	JugadoresNiveles := make(map[string]uint)
+	Jugadores := make(map[string]EstadisticasJugador)
 	NombreGrupo := Nombre
 	if NombreGrupo == "" {
 		NombreGrupo = "Grupo"
 	}
-	grupo := Grupo{NombreGrupo, JugadoresDisponibilidad, JugadoresNiveles}
+	grupo := Grupo{NombreGrupo, Jugadores}
 	return &grupo
 }
 
@@ -28,12 +26,12 @@ func CrearGrupo(Nombre string) *Grupo {
 // y lo inserta en la lista de disponibles en caso de que así se indique
 func (this *Grupo) crearJugador(NombreJugador string, Nivel uint, Disponibilidad bool) (bool, error) {
 	var success bool = false
-	_, existe := this.JugadoresNiveles[NombreJugador]
+	_, existe := this.Jugadores[NombreJugador]
 	if existe == false {
 		if Nivel >= 1 && Nivel <= 100 {
 
-			this.JugadoresNiveles[NombreJugador] = Nivel
-			this.JugadoresDisponibilidad[NombreJugador] = Disponibilidad
+			estadisticas := EstadisticasJugador{Nivel, Disponibilidad}
+			this.Jugadores[NombreJugador] = estadisticas
 			success = true
 
 		} else {
@@ -49,9 +47,11 @@ func (this *Grupo) crearJugador(NombreJugador string, Nivel uint, Disponibilidad
 
 func (this *Grupo) cambiarDisponibilidadJugador(NombreJugador string, Disponibilidad bool) (bool, error) {
 	var success bool = false
-	_, existe := this.JugadoresNiveles[NombreJugador]
+	_, existe := this.Jugadores[NombreJugador]
 	if existe == true {
-		this.JugadoresDisponibilidad[NombreJugador] = Disponibilidad
+		estadisticas := this.Jugadores[NombreJugador]
+		estadisticas.setDisponibilidad(Disponibilidad)
+		this.Jugadores[NombreJugador] = estadisticas
 		success = true
 	} else {
 		return success, fmt.Errorf("No existe un jugador con ese nombre")
@@ -61,14 +61,14 @@ func (this *Grupo) cambiarDisponibilidadJugador(NombreJugador string, Disponibil
 
 }
 
-func (this *Grupo) conseguirListaJugadoresDisponibles(JugadoresDisponibilidad map[string]bool) ([]string, error) {
+func (this *Grupo) conseguirListaJugadoresDisponibles(Jugadores map[string]EstadisticasJugador) ([]string, error) {
 
 	var ListaJugadoresDisponibles []string
 
-	if len(JugadoresDisponibilidad) > 0 {
+	if len(Jugadores) > 0 {
 
-		for key, value := range JugadoresDisponibilidad {
-			if value == true {
+		for key, value := range Jugadores {
+			if value.Disponibilidad == true {
 				ListaJugadoresDisponibles = append(ListaJugadoresDisponibles, key)
 			}
 		}
@@ -98,7 +98,7 @@ func (this *Grupo) ordenarListaJugadoresDisponiblesPorNivelDescendiente(ListaJug
 	if len(ListaJugadoresDisponibles) > 0 {
 
 		sort.SliceStable(ListaJugadoresDisponibles, func(i, j int) bool {
-			return this.JugadoresNiveles[ListaJugadoresDisponibles[i]] > this.JugadoresNiveles[ListaJugadoresDisponibles[j]]
+			return this.Jugadores[ListaJugadoresDisponibles[i]].Nivel > this.Jugadores[ListaJugadoresDisponibles[j]].Nivel
 		})
 
 		return ListaJugadoresDisponibles, nil
@@ -127,19 +127,19 @@ func (this *Grupo) repartirJugadoresDisponiblesEn2Equipos(ListaJugadoresDisponib
 
 			if len(EquipoA) == 0 && len(EquipoB) == 0 {
 				EquipoA = append(EquipoA, Jugador)
-				NivelTotalEquipoA += this.JugadoresNiveles[Jugador]
+				NivelTotalEquipoA += this.Jugadores[Jugador].Nivel
 			} else if len(EquipoB) == 0 {
 				EquipoB = append(EquipoB, Jugador)
-				NivelTotalEquipoB += this.JugadoresNiveles[Jugador]
+				NivelTotalEquipoB += this.Jugadores[Jugador].Nivel
 			} else if (NivelTotalEquipoA < NivelTotalEquipoB) && (len(EquipoA) < (len(ListaJugadoresDisponiblesOrdenados) / 2)) {
 				EquipoA = append(EquipoA, Jugador)
-				NivelTotalEquipoA += this.JugadoresNiveles[Jugador]
+				NivelTotalEquipoA += this.Jugadores[Jugador].Nivel
 			} else if len(EquipoB) < (len(ListaJugadoresDisponiblesOrdenados) / 2) {
 				EquipoB = append(EquipoB, Jugador)
-				NivelTotalEquipoB += this.JugadoresNiveles[Jugador]
+				NivelTotalEquipoB += this.Jugadores[Jugador].Nivel
 			} else {
 				EquipoA = append(EquipoA, Jugador)
-				NivelTotalEquipoA += this.JugadoresNiveles[Jugador]
+				NivelTotalEquipoA += this.Jugadores[Jugador].Nivel
 			}
 		}
 
@@ -150,9 +150,9 @@ func (this *Grupo) repartirJugadoresDisponiblesEn2Equipos(ListaJugadoresDisponib
 	}
 }
 
-func (this *Grupo) crearEquiposIgualadosParaPartido(JugadoresDisponibilidad map[string]bool) ([]string, []string, error) {
+func (this *Grupo) crearEquiposIgualadosParaPartido(Jugadores map[string]EstadisticasJugador) ([]string, []string, error) {
 
-	ListaJugadoresDisponibles, error := this.conseguirListaJugadoresDisponibles(JugadoresDisponibilidad)
+	ListaJugadoresDisponibles, error := this.conseguirListaJugadoresDisponibles(Jugadores)
 
 	if error != nil {
 		return nil, nil, fmt.Errorf(error.Error())
@@ -197,11 +197,11 @@ func (this *Grupo) estanIgualados(Equipo1 []string, Equipo2 []string) (bool, err
 	if len(Equipo1) == len(Equipo2) && len(Equipo1) >= 5 {
 
 		for _, jugador := range Equipo1 {
-			NivelTotalEquipo1 += this.JugadoresNiveles[jugador]
+			NivelTotalEquipo1 += this.Jugadores[jugador].Nivel
 		}
 
 		for _, jugador := range Equipo2 {
-			NivelTotalEquipo2 += this.JugadoresNiveles[jugador]
+			NivelTotalEquipo2 += this.Jugadores[jugador].Nivel
 		}
 
 		NivelEquipo1 := NivelTotalEquipo1 / uint(len(Equipo1))
