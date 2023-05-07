@@ -8,6 +8,7 @@ import (
 type Grupo struct {
 	Nombre    string
 	Jugadores map[string]EstadisticasJugador
+	Historial []HistorialPartidos
 }
 
 // Constructor que crea un nuevo Grupo con el nombre pasado por parámetro, inicializando  el map de JugadoresNiveles y el de Jugadores Disponibilidad vacíos.
@@ -18,7 +19,7 @@ func CrearGrupo(Nombre string) *Grupo {
 	if NombreGrupo == "" {
 		NombreGrupo = "Grupo"
 	}
-	grupo := Grupo{NombreGrupo, Jugadores}
+	grupo := Grupo{NombreGrupo, Jugadores, []HistorialPartidos{}}
 	return &grupo
 }
 
