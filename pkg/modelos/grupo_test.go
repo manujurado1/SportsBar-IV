@@ -128,3 +128,16 @@ func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
 	assert.True(t, DiferenciaNiveles < 15)
 
 }
+
+func TestConsultarHistorial(t *testing.T) {
+	listaPartidos := []DatosPartido{}
+	partido1 := DatosPartido{ResultadoEquipo1: 3, ResultadoEquipo2: 2, Equipo1: []string{"j1", "j2", "j3", "j4", "j5"}, Equipo2: []string{"j6", "j7", "j8", "j9", "j10"}}
+	partido2 := DatosPartido{ResultadoEquipo1: 0, ResultadoEquipo2: 5, Equipo1: []string{"j1", "j2", "j3", "j4", "j5"}, Equipo2: []string{"j6", "j7", "j8", "j9", "j10"}}
+	listaPartidos = append(listaPartidos, partido1, partido2)
+	grupo := CrearGrupo("GrupoTest")
+	grupo.Historial = []DatosPartido{partido1, partido2}
+
+	historial, err := grupo.ConsultarHistorial()
+	assert.Nil(t, err)
+	assert.Equal(t, listaPartidos, historial)
+}

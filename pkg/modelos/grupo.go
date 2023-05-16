@@ -8,6 +8,7 @@ import (
 type Grupo struct {
 	Nombre    string
 	Jugadores map[string]EstadisticasJugador
+	Historial []DatosPartido
 }
 
 // Constructor que crea un nuevo Grupo con el nombre pasado por parámetro, inicializando  el map de JugadoresNiveles y el de Jugadores Disponibilidad vacíos.
@@ -18,7 +19,7 @@ func CrearGrupo(Nombre string) *Grupo {
 	if NombreGrupo == "" {
 		NombreGrupo = "Grupo"
 	}
-	grupo := Grupo{NombreGrupo, Jugadores}
+	grupo := Grupo{NombreGrupo, Jugadores, []DatosPartido{}}
 	return &grupo
 }
 
@@ -215,4 +216,16 @@ func (this *Grupo) estanIgualados(Equipo1 []string, Equipo2 []string) (bool, err
 
 	return Igualados, nil
 
+}
+
+func (this *Grupo) TerminarPartido(Equipo1 []string, ResultadoEquipo1 uint8, ResultadoEquipo2 uint8, Equipo2 []string) error {
+	Partido := DatosPartido{Equipo1: Equipo1, ResultadoEquipo1: ResultadoEquipo1, Equipo2: Equipo2, ResultadoEquipo2: ResultadoEquipo2}
+	this.Historial = append(this.Historial, Partido)
+
+	return nil
+}
+
+func (this *Grupo) ConsultarHistorial() ([]DatosPartido, error) {
+
+	return this.Historial, nil
 }
