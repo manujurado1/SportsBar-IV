@@ -141,3 +141,18 @@ func TestConsultarHistorial(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, listaPartidos, historial)
 }
+
+func TestListaMejoresJugadores(t *testing.T) {
+	grupo := CrearGrupo("")
+	Jugadores := map[string]EstadisticasJugador{"Manuel": EstadisticasJugador{30, true}, "Jorge": EstadisticasJugador{50, true},
+		"Edu": EstadisticasJugador{10, true}, "Clara": EstadisticasJugador{90, true}, "Migue": EstadisticasJugador{100, true},
+		"Alberto": EstadisticasJugador{70, true}, "Javi": EstadisticasJugador{20, true}, "Lorena": EstadisticasJugador{80, true},
+		"Maria": EstadisticasJugador{60, true}, "Sergio": EstadisticasJugador{40, true}}
+
+	grupo.Jugadores = Jugadores
+
+	resultadoEsperado := []string{"Migue - 100", "Clara - 90", "Lorena - 80", "Alberto - 70", "Maria - 60", "Jorge - 50", "Sergio - 40", "Manuel - 30", "Javi - 20", "Edu - 10"}
+	resultado, err := grupo.ObtenerMejoresJugadores()
+	assert.Nil(t, err)
+	assert.Equal(t, resultadoEsperado, resultado)
+}

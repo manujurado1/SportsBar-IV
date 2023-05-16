@@ -94,7 +94,7 @@ func (this *Grupo) validarListaJugadoresDisponiblesParaPartido(ListaJugadoresDis
 	return success, nil
 }
 
-func (this *Grupo) ordenarListaJugadoresDisponiblesPorNivelDescendiente(ListaJugadoresDisponibles []string) ([]string, error) {
+func (this *Grupo) ordenarListaJugadoresPorNivelDescendiente(ListaJugadoresDisponibles []string) ([]string, error) {
 
 	if len(ListaJugadoresDisponibles) > 0 {
 
@@ -165,7 +165,7 @@ func (this *Grupo) crearEquiposIgualadosParaPartido(Jugadores map[string]Estadis
 		return nil, nil, fmt.Errorf(error.Error())
 	}
 
-	ListaJugadoresDisponiblesOrdenados, error := this.ordenarListaJugadoresDisponiblesPorNivelDescendiente(ListaJugadoresDisponibles)
+	ListaJugadoresDisponiblesOrdenados, error := this.ordenarListaJugadoresPorNivelDescendiente(ListaJugadoresDisponibles)
 
 	if error != nil {
 		return nil, nil, fmt.Errorf(error.Error())
@@ -228,4 +228,40 @@ func (this *Grupo) TerminarPartido(Equipo1 []string, ResultadoEquipo1 uint8, Res
 func (this *Grupo) ConsultarHistorial() ([]DatosPartido, error) {
 
 	return this.Historial, nil
+}
+
+func (this *Grupo) ObtenerMejoresJugadores() ([]string, error) {
+	ListaTotalJugadores, err := this.ObtenerListaTotalJugadores()
+	if err != nil {
+		return []string{}, err
+	}
+	ListaMejoresJugadores, err := this.ordenarListaJugadoresPorNivelDescendiente(ListaTotalJugadores)
+	if err != nil {
+		return []string{}, err
+	}
+
+	ListaMejoresJugadoresConNivel := []string{}
+
+	for _, jugador := range ListaMejoresJugadores {
+		nuevoJugador := jugador + " - " + fmt.Sprint(this.Jugadores[jugador].Nivel)
+		ListaMejoresJugadoresConNivel = append(ListaMejoresJugadoresConNivel, nuevoJugador)
+	}
+
+	return ListaMejoresJugadoresConNivel, nil
+
+}
+
+func (this *Grupo) ObtenerListaTotalJugadores() ([]string, error) {
+	var ListaJugadoresDisponibles []string
+
+	if len(this.Jugadores) > 0 {
+
+		for key := range this.Jugadores {
+			ListaJugadoresDisponibles = append(ListaJugadoresDisponibles, key)
+		}
+		return ListaJugadoresDisponibles, nil
+
+	} else {
+		return nil, fmt.Errorf("El map de Jugadores no puede estar vacío")
+	}
 }
