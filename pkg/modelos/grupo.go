@@ -2,6 +2,7 @@ package modelos
 
 import (
 	"fmt"
+	"math"
 	"sort"
 )
 
@@ -262,5 +263,17 @@ func (this *Grupo) ObtenerListaTotalJugadores() ([]string, error) {
 
 	} else {
 		return nil, fmt.Errorf("El map de Jugadores no puede estar vacío")
+	}
+}
+
+// Función que comprueba si el resultado de un partido ha sido igualado
+func (this *Grupo) esResultadoIgualado(ResultadoEquipo1 uint, ResultadoEquipo2 uint) bool {
+	diferenciaGoles := math.Abs(float64(ResultadoEquipo1) - float64(ResultadoEquipo2))
+	diferenciaGolesPartidoIgualado := 3
+
+	if diferenciaGoles <= float64(diferenciaGolesPartidoIgualado) {
+		return true
+	} else {
+		return false
 	}
 }
