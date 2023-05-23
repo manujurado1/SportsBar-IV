@@ -222,6 +222,10 @@ func (this *Grupo) TerminarPartido(Equipo1 []string, ResultadoEquipo1 uint8, Res
 	Partido := DatosPartido{Equipo1: Equipo1, ResultadoEquipo1: ResultadoEquipo1, Equipo2: Equipo2, ResultadoEquipo2: ResultadoEquipo2}
 	this.Historial = append(this.Historial, Partido)
 
+	if this.esResultadoIgualado(Partido.ResultadoEquipo1, Partido.ResultadoEquipo2) == false {
+		this.AjustarNivelesPorResultadoAbultado(Partido)
+	}
+
 	return nil
 }
 
@@ -267,7 +271,7 @@ func (this *Grupo) ObtenerListaTotalJugadores() ([]string, error) {
 }
 
 // Función que comprueba si el resultado de un partido ha sido igualado
-func (this *Grupo) esResultadoIgualado(ResultadoEquipo1 uint, ResultadoEquipo2 uint) bool {
+func (this *Grupo) esResultadoIgualado(ResultadoEquipo1 uint8, ResultadoEquipo2 uint8) bool {
 	diferenciaGoles := math.Abs(float64(ResultadoEquipo1) - float64(ResultadoEquipo2))
 	diferenciaGolesPartidoIgualado := 3
 
@@ -276,4 +280,30 @@ func (this *Grupo) esResultadoIgualado(ResultadoEquipo1 uint, ResultadoEquipo2 u
 	} else {
 		return false
 	}
+}
+
+// Función que ajusta los niveles de los jugadores de un partido cuando el resultado de este no ha sido igualado
+func (this *Grupo) AjustarNivelesPorResultadoAbultado(Partido DatosPartido) error {
+	ModificacionNivelGanador := 5
+	ModificacionNivelPerdedor := -5
+
+	if Partido.ResultadoEquipo1 > Partido.ResultadoEquipo2 {
+		this.AjustarNivelEquipo(Partido.Equipo1, ModificacionNivelGanador)
+		this.AjustarNivelEquipo(Partido.Equipo2, ModificacionNivelPerdedor)
+	} else {
+		this.AjustarNivelEquipo(Partido.Equipo1, ModificacionNivelPerdedor)
+		this.AjustarNivelEquipo(Partido.Equipo2, ModificacionNivelGanador)
+	}
+
+	return nil
+}
+
+// Función que modifica el nivel del equipo pasado como primer parámetro con la cantidad pasada como segundo parámetro.
+func (this *Grupo) AjustarNivelEquipo(Equipo []string, Cantidad int) error {
+	for _, jugador := range Equipo {
+		estadisticas := this.Jugadores[jugador]
+		estadisticas.modificarNivel(Cantidad)
+		this.Jugadores[jugador] = estadisticas
+	}
+	return nil
 }

@@ -156,3 +156,38 @@ func TestListaMejoresJugadores(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, resultadoEsperado, resultado)
 }
+
+func TestModificarNiveles(t *testing.T) {
+	grupo := CrearGrupo("")
+	Jugadores := map[string]EstadisticasJugador{"Manuel": EstadisticasJugador{30, true}, "Jorge": EstadisticasJugador{50, true},
+		"Edu": EstadisticasJugador{2, true}, "Clara": EstadisticasJugador{90, true}, "Migue": EstadisticasJugador{98, true},
+		"Alberto": EstadisticasJugador{70, true}, "Javi": EstadisticasJugador{20, true}, "Lorena": EstadisticasJugador{80, true},
+		"Maria": EstadisticasJugador{60, true}, "Sergio": EstadisticasJugador{40, true}}
+
+	grupo.Jugadores = Jugadores
+
+	//Comprobamos caso con resultado igualado
+	Equipo1 := []string{"Jorge"}
+	Equipo2 := []string{"Lorena"}
+	error := grupo.TerminarPartido(Equipo1, 2, 0, Equipo2)
+	assert.Nil(t, error)
+	assert.Equal(t, uint(50), grupo.Jugadores["Jorge"].Nivel)
+	assert.Equal(t, uint(80), grupo.Jugadores["Lorena"].Nivel)
+
+	//Comprobamos caso con resultado no igualado pero sin alcanzar ni el nivel mínimo ni el máximo
+	Equipo1 = []string{"Sergio"}
+	Equipo2 = []string{"Alberto"}
+	error = grupo.TerminarPartido(Equipo1, 0, 5, Equipo2)
+	assert.Nil(t, error)
+	assert.Equal(t, uint(35), grupo.Jugadores["Sergio"].Nivel)
+	assert.Equal(t, uint(75), grupo.Jugadores["Alberto"].Nivel)
+
+	//Comprobamos caso con resultado no igualado pero alcanzando el nivel mínimo y el máximo
+	Equipo1 = []string{"Migue"}
+	Equipo2 = []string{"Edu"}
+	error = grupo.TerminarPartido(Equipo1, 5, 0, Equipo2)
+	assert.Nil(t, error)
+	assert.Equal(t, uint(100), grupo.Jugadores["Migue"].Nivel)
+	assert.Equal(t, uint(1), grupo.Jugadores["Edu"].Nivel)
+
+}

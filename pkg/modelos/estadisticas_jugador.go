@@ -25,7 +25,7 @@ func (this *EstadisticasJugador) setDisponibilidad(Disponibilidad bool) {
 // Función que modifica el atributo nivel dentro de la estructura de datos. Se pasa por parámetro la cantidad de nivel a modificar.
 // Si este entero es un número positivo serán los niveles a sumar y si es negativo, los que se deben restar.
 // Si esta alteración del nivel sobrepasa los rangos de nivel permitidos (De 1 a 100) se truncará el nivel al máximo/mínimo permitido.
-func (this *EstadisticasJugador) setNivel(Cantidad int) {
+func (this *EstadisticasJugador) modificarNivel(Cantidad int) {
 	NuevoNivel := int(this.Nivel) + Cantidad
 
 	if NuevoNivel <= 0 {
