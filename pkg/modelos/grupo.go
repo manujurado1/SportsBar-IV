@@ -29,21 +29,18 @@ func (this *Grupo) crearJugador(NombreJugador string, Nivel uint, Disponibilidad
 	var success bool = false
 	_, existe := this.Jugadores[NombreJugador]
 	if existe == false {
-		if Nivel >= 1 && Nivel <= 100 {
-
-			estadisticas := EstadisticasJugador{Nivel, Disponibilidad}
-			this.Jugadores[NombreJugador] = estadisticas
+		estadisticas, error := crearEstadisticasJugador(Nivel, Disponibilidad)
+		if error == nil {
+			this.Jugadores[NombreJugador] = *estadisticas
 			success = true
-
 		} else {
-			return success, fmt.Errorf("El nivel del jugador debe estar entre 1 y 100")
+			return success, error
 		}
 	} else {
 		return success, fmt.Errorf("Ya existe un jugador con ese nombre")
 	}
 
 	return success, nil
-
 }
 
 func (this *Grupo) cambiarDisponibilidadJugador(NombreJugador string, Disponibilidad bool) (bool, error) {
@@ -185,6 +182,8 @@ func (this *Grupo) crearEquiposIgualadosParaPartido(Jugadores map[string]Estadis
 	return Equipo1, Equipo2, nil
 }
 
+// Función que calcula el nivel de cada uno de los 2 equipos pasados por parámetro, siendo este nivel la media del nivel de los jugadores que lo forman.
+// A continuación, comprueba si ambos equipos están igualados, lo que se traduce a que su diferencia de nivel sea menor a 10 niveles.
 func (this *Grupo) estanIgualados(Equipo1 []string, Equipo2 []string) (bool, error) {
 
 	Igualados := false
