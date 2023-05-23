@@ -218,13 +218,11 @@ func (this *Grupo) estanIgualados(Equipo1 []string, Equipo2 []string) (bool, err
 
 }
 
-func (this *Grupo) TerminarPartido(Equipo1 []string, ResultadoEquipo1 uint8, ResultadoEquipo2 uint8, Equipo2 []string) (bool, error) {
+func (this *Grupo) TerminarPartido(Equipo1 []string, ResultadoEquipo1 uint8, ResultadoEquipo2 uint8, Equipo2 []string) error {
 	Partido := DatosPartido{Equipo1: Equipo1, ResultadoEquipo1: ResultadoEquipo1, Equipo2: Equipo2, ResultadoEquipo2: ResultadoEquipo2}
 	this.Historial = append(this.Historial, Partido)
 
-	success, error := this.ModificarNiveles(Partido)
-
-	return success, error
+	return nil
 }
 
 func (this *Grupo) ConsultarHistorial() ([]DatosPartido, error) {
@@ -266,72 +264,4 @@ func (this *Grupo) ObtenerListaTotalJugadores() ([]string, error) {
 	} else {
 		return nil, fmt.Errorf("El map de Jugadores no puede estar vacío")
 	}
-}
-
-func (this *Grupo) ModificarNiveles(Partido DatosPartido) (bool, error) {
-	actualizado := false
-
-	if Partido.ResultadoEquipo1 == Partido.ResultadoEquipo2 {
-		actualizado = true
-		return actualizado, nil
-	}
-
-	if Partido.ResultadoEquipo1 > Partido.ResultadoEquipo2 {
-		if ((Partido.ResultadoEquipo1 - 3) >= Partido.ResultadoEquipo2) && (Partido.ResultadoEquipo1 >= (Partido.ResultadoEquipo2 * 2)) {
-
-			for _, jugador := range Partido.Equipo1 {
-				estadisticas := this.Jugadores[jugador]
-				estadisticas.setNivel(int(this.Jugadores[jugador].Nivel + 10))
-				this.Jugadores[jugador] = estadisticas
-			}
-			for _, jugador := range Partido.Equipo2 {
-				estadisticas := this.Jugadores[jugador]
-				estadisticas.setNivel(int(this.Jugadores[jugador].Nivel - 10))
-				this.Jugadores[jugador] = estadisticas
-			}
-			actualizado = true
-		} else {
-			for _, jugador := range Partido.Equipo1 {
-				estadisticas := this.Jugadores[jugador]
-				estadisticas.setNivel(int(this.Jugadores[jugador].Nivel + 5))
-				this.Jugadores[jugador] = estadisticas
-			}
-			for _, jugador := range Partido.Equipo2 {
-				estadisticas := this.Jugadores[jugador]
-				estadisticas.setNivel(int(this.Jugadores[jugador].Nivel - 5))
-				this.Jugadores[jugador] = estadisticas
-			}
-			actualizado = true
-		}
-
-	} else {
-		if ((Partido.ResultadoEquipo2 - 3) >= Partido.ResultadoEquipo1) && (Partido.ResultadoEquipo2 >= (Partido.ResultadoEquipo1 * 2)) {
-
-			for _, jugador := range Partido.Equipo2 {
-				estadisticas := this.Jugadores[jugador]
-				estadisticas.setNivel(int(this.Jugadores[jugador].Nivel + 10))
-				this.Jugadores[jugador] = estadisticas
-			}
-			for _, jugador := range Partido.Equipo1 {
-				estadisticas := this.Jugadores[jugador]
-				estadisticas.setNivel(int(this.Jugadores[jugador].Nivel - 10))
-				this.Jugadores[jugador] = estadisticas
-			}
-			actualizado = true
-		} else {
-			for _, jugador := range Partido.Equipo2 {
-				estadisticas := this.Jugadores[jugador]
-				estadisticas.setNivel(int(this.Jugadores[jugador].Nivel + 5))
-				this.Jugadores[jugador] = estadisticas
-			}
-			for _, jugador := range Partido.Equipo1 {
-				estadisticas := this.Jugadores[jugador]
-				estadisticas.setNivel(int(this.Jugadores[jugador].Nivel - 5))
-				this.Jugadores[jugador] = estadisticas
-			}
-			actualizado = true
-		}
-
-	}
-	return actualizado, nil
 }

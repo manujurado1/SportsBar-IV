@@ -156,24 +156,3 @@ func TestListaMejoresJugadores(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, resultadoEsperado, resultado)
 }
-
-func TestModificarNiveles(t *testing.T) {
-	grupo := CrearGrupo("")
-	Jugadores := map[string]EstadisticasJugador{"Manuel": EstadisticasJugador{30, true}, "Jorge": EstadisticasJugador{50, true},
-		"Edu": EstadisticasJugador{5, true}, "Clara": EstadisticasJugador{90, true}, "Migue": EstadisticasJugador{95, true},
-		"Alberto": EstadisticasJugador{70, true}, "Javi": EstadisticasJugador{20, true}, "Lorena": EstadisticasJugador{80, true},
-		"Maria": EstadisticasJugador{60, true}, "Sergio": EstadisticasJugador{40, true}}
-
-	grupo.Jugadores = Jugadores
-
-	Equipo1 := []string{"Migue"}
-	Equipo2 := []string{"Edu"}
-
-	sucess, error := grupo.TerminarPartido(Equipo1, 5, 0, Equipo2)
-
-	assert.True(t, sucess)
-	assert.Nil(t, error)
-	assert.Equal(t, uint(100), grupo.Jugadores["Migue"].Nivel)
-	assert.Equal(t, uint(1), grupo.Jugadores["Edu"].Nivel)
-
-}
