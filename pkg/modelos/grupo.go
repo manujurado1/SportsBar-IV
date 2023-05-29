@@ -29,7 +29,7 @@ func CrearGrupo(Nombre string) *Grupo {
 func (this *Grupo) crearJugador(NombreJugador string, Nivel uint, Disponibilidad bool) (bool, error) {
 	var success bool = false
 	_, existe := this.JugadoresNiveles[NombreJugador]
-	if existe == false {
+	if !existe {
 		if Nivel >= 1 && Nivel <= 100 {
 
 			this.JugadoresNiveles[NombreJugador] = Nivel
@@ -50,7 +50,7 @@ func (this *Grupo) crearJugador(NombreJugador string, Nivel uint, Disponibilidad
 func (this *Grupo) cambiarDisponibilidadJugador(NombreJugador string, Disponibilidad bool) (bool, error) {
 	var success bool = false
 	_, existe := this.JugadoresNiveles[NombreJugador]
-	if existe == true {
+	if existe {
 		this.JugadoresDisponibilidad[NombreJugador] = Disponibilidad
 		success = true
 	} else {
@@ -68,7 +68,7 @@ func (this *Grupo) conseguirListaJugadoresDisponibles(JugadoresDisponibilidad ma
 	if len(JugadoresDisponibilidad) > 0 {
 
 		for key, value := range JugadoresDisponibilidad {
-			if value == true {
+			if value {
 				ListaJugadoresDisponibles = append(ListaJugadoresDisponibles, key)
 			}
 		}
@@ -160,7 +160,7 @@ func (this *Grupo) crearEquiposIgualadosParaPartido(JugadoresDisponibilidad map[
 
 	success, error := this.validarListaJugadoresDisponiblesParaPartido(ListaJugadoresDisponibles)
 
-	if success == false && error != nil {
+	if !success && error != nil {
 		return nil, nil, fmt.Errorf(error.Error())
 	}
 
@@ -178,7 +178,11 @@ func (this *Grupo) crearEquiposIgualadosParaPartido(JugadoresDisponibilidad map[
 
 	Igualados, error := this.estanIgualados(Equipo1, Equipo2)
 	if !Igualados {
-		return Equipo1, Equipo2, fmt.Errorf("No se ha conseguido crear 2 equipos igualados")
+		if error != nil {
+			return Equipo1, Equipo2, error
+		} else {
+			return Equipo1, Equipo2, fmt.Errorf("No se ha conseguido crear 2 equipos igualados")
+		}
 	}
 
 	return Equipo1, Equipo2, nil

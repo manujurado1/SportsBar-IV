@@ -16,6 +16,7 @@ func TestCrearJugador(t *testing.T) {
 	assert.Errorf(t, error, "El nivel del jugador debe estar entre 0 y 100")
 
 	success, error = grupo.crearJugador("Manuel", 50, false)
+	assert.Nil(t, error)
 	assert.Equal(t, true, success)
 	assert.Equal(t, 1, len(grupo.JugadoresNiveles))
 	assert.Equal(t, 1, len(grupo.JugadoresDisponibilidad))
@@ -23,6 +24,7 @@ func TestCrearJugador(t *testing.T) {
 	assert.False(t, grupo.JugadoresDisponibilidad["Manuel"])
 
 	success, error = grupo.crearJugador("Jorge", 70, true)
+	assert.Nil(t, error)
 	assert.Equal(t, true, success)
 	assert.Equal(t, 2, len(grupo.JugadoresNiveles))
 	assert.Equal(t, 2, len(grupo.JugadoresDisponibilidad))
@@ -62,7 +64,7 @@ func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
 
 	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: JugadoresNiveles}
 
-	Equipo1, Equipo2, error := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
+	_, _, error := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
 	assert.Errorf(t, error, "La lista de jugadores disponibles debe ser de almenos 10 personas y ser un número par")
 
 	// Comprobamos la posibilidad de que aunque todo haya ido bien, sea imposible conseguir 2 equipos igualados
@@ -74,9 +76,10 @@ func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
 	grupo.JugadoresDisponibilidad = JugadoresDisponibilidad
 	grupo.JugadoresNiveles = JugadoresNivelesImposible
 
-	Equipo1, Equipo2, error = grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
+	Equipo1, Equipo2, error := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
 	assert.Errorf(t, error, "No se ha conseguido crear 2 equipos igualados")
 	igualados, error := grupo.estanIgualados(Equipo1, Equipo2)
+	assert.Nil(t, error)
 	assert.False(t, igualados)
 
 	// Comprobamos caso correcto
@@ -94,11 +97,12 @@ func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
 	assert.Equal(t, Equipo2Esperado, Equipo2)
 	assert.Nil(t, error)
 	igualados, error = grupo.estanIgualados(Equipo1, Equipo2)
+	assert.Nil(t, error)
 	assert.True(t, igualados)
 
 	// Comprobamos caso aleatorio para comprobar si el algoritmo es mejor que la aleatoriedad (issue)
-	var NivelEquipo1 uint = 0
-	var NivelEquipo2 uint = 0
+	var NivelEquipo1 uint
+	var NivelEquipo2 uint
 	var NivelTotalEquipo1 uint = 0
 	var NivelTotalEquipo2 uint = 0
 
@@ -107,7 +111,9 @@ func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
 
 	grupo.JugadoresNiveles = JugadoresNiveles
 	Equipo1, Equipo2, error = grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
+	assert.Nil(t, error)
 	igualados, error = grupo.estanIgualados(Equipo1, Equipo2)
+	assert.Nil(t, error)
 	assert.True(t, igualados)
 
 	for _, jugador := range Equipo1 {
