@@ -11,5 +11,5 @@ var (
 
 type GrupoAmigos struct {
 	Nombre string
-	Amigos map[string]*Amigo
+	Amigos []*Amigo
 }
