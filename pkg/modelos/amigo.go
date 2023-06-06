@@ -41,3 +41,15 @@ func (a Amigo) ObtenerNivel() Nivel {
 func (a Amigo) EstaDisponible() bool {
 	return a.disponible
 }
+
+func (a *Amigo) CambiarDisponibilidad(disponible bool) {
+	a.disponible = disponible
+}
+
+func (a *Amigo) AumentarNivel(cantidad Nivel) {
+	a.nivel = a.nivel.AumentarNivel(cantidad)
+}
+
+func (a *Amigo) DisminuirNivel(cantidad Nivel) {
+	a.nivel = a.nivel.DisminuirNivel(cantidad)
+}

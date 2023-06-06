@@ -25,3 +25,36 @@ func TestNuevoAmigo(t *testing.T) {
 	assert.Equal(t, amigoEsperado, amigo3)
 
 }
+
+func TestCambiarDisponibilidad(t *testing.T) {
+
+	amigo, _ := NuevoAmigo("Carlos", 7, false)
+	amigo.CambiarDisponibilidad(true)
+
+	assert.True(t, amigo.EstaDisponible())
+
+}
+
+func TestAumentarNivelAmigo(t *testing.T) {
+	// Caso aumentar dentro del rango
+	amigo, _ := NuevoAmigo("Carlos", 7, false)
+	amigo.AumentarNivel(2)
+	assert.Equal(t, Nivel(9), amigo.ObtenerNivel())
+
+	//Caso aumentar fuera del rango
+	amigo2, _ := NuevoAmigo("David", 8, false)
+	amigo2.AumentarNivel(4)
+	assert.Equal(t, NivelMaximo, amigo2.ObtenerNivel())
+}
+
+func TestDisminuirNivelAmigo(t *testing.T) {
+	// Caso disminuir dentro del rango
+	amigo, _ := NuevoAmigo("Carlos", 4, false)
+	amigo.DisminuirNivel(1)
+	assert.Equal(t, Nivel(3), amigo.ObtenerNivel())
+
+	//Caso disminuir fuera del rango
+	amigo2, _ := NuevoAmigo("David", 3, false)
+	amigo2.DisminuirNivel(4)
+	assert.Equal(t, NivelMinimo, amigo2.ObtenerNivel())
+}
