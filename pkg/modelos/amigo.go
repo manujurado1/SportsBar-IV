@@ -29,3 +29,15 @@ func NuevoAmigo(nombre string, nivel Nivel, disponible bool) (Amigo, error) {
 		disponible: disponible,
 	}, nil
 }
+
+func (a Amigo) ObtenerNombre() string {
+	return a.nombre
+}
+
+func (a Amigo) ObtenerNivel() Nivel {
+	return a.nivel
+}
+
+func (a Amigo) EstaDisponible() bool {
+	return a.disponible
+}
