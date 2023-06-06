@@ -16,29 +16,27 @@ var (
 	ErrorNivelFueraDeRango = fmt.Errorf("El nivel de un jugador debe estar en el rango %d - %d", NivelMinimo, NivelMaximo)
 )
 
-func NuevoNivel(valor Nivel) (*Nivel, error) {
+func NuevoNivel(valor Nivel) (Nivel, error) {
 	if valor < NivelMinimo || valor > NivelMaximo {
-		return nil, ErrorNivelFueraDeRango
+		return NivelMedio, ErrorNivelFueraDeRango
 	}
 
 	nivel := Nivel(valor)
-	return &nivel, nil
+	return nivel, nil
 }
 
-func (n *Nivel) AumentarNivel(cantidad Nivel) {
-	nuevoNivel := *n + cantidad
+func (n Nivel) AumentarNivel(cantidad Nivel) Nivel {
+	nuevoNivel := n + cantidad
 	if nuevoNivel > NivelMaximo {
-		*n = NivelMaximo
-	} else {
-		*n = nuevoNivel
+		nuevoNivel = NivelMaximo
 	}
+	return nuevoNivel
 }
 
-func (n *Nivel) DisminuirNivel(cantidad Nivel) {
-	nuevoNivel := *n - cantidad
+func (n Nivel) DisminuirNivel(cantidad Nivel) Nivel {
+	nuevoNivel := n - cantidad
 	if nuevoNivel < NivelMinimo {
-		*n = NivelMinimo
-	} else {
-		*n = nuevoNivel
+		nuevoNivel = NivelMinimo
 	}
+	return nuevoNivel
 }
