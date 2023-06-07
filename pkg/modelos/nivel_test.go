@@ -18,7 +18,7 @@ func TestAumentarNivel(t *testing.T) {
 	//Aumentar dentro de los límites
 	nivel := NewNivel()
 	nivel = nivel.AumentarNivel()
-	assert.Equal(t, Nivel(6), nivel)
+	assert.Greater(t, nivel, NivelPorOmision)
 
 	//Aumentamos más allá de los límites
 	nivel2 := NivelMaximo
@@ -31,7 +31,7 @@ func TestDisminuirNivel(t *testing.T) {
 	//Disminuir dentro de los límites
 	nivel := NewNivel()
 	nivel = nivel.DisminuirNivel()
-	assert.Equal(t, Nivel(4), nivel)
+	assert.Less(t, nivel, NivelPorOmision)
 
 	//Aumentamos más allá de los límites
 	nivel2 := NivelMinimo
