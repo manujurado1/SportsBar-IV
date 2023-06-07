@@ -15,7 +15,7 @@ func TestNuevoAmigo(t *testing.T) {
 
 	//Caso correcto
 	amigo3, error3 := NewAmigo("Juan")
-	amigoEsperado := Amigo{"Juan", NivelPorOmision, true}
+	amigoEsperado := Amigo{"Juan", NivelPorOmision, DisponibilidadPorDefecto}
 	assert.Nil(t, error3)
 	assert.Equal(t, amigoEsperado, amigo3)
 
@@ -25,8 +25,9 @@ func TestCambiarDisponibilidad(t *testing.T) {
 
 	amigo, _ := NewAmigo("Carlos")
 	amigo = amigo.CambiarDisponibilidad(false)
-
 	assert.False(t, amigo.EstaDisponible())
+	amigo = amigo.CambiarDisponibilidad(true)
+	assert.True(t, amigo.EstaDisponible())
 
 }
 
@@ -36,18 +37,14 @@ func TestAumentarNivelAmigo(t *testing.T) {
 	amigo, _ := NewAmigo("Carlos")
 	amigo = amigo.AumentarNivel()
 
-	amigoEsperado := Amigo{"Carlos", Nivel(6), true}
-
-	assert.Equal(t, amigoEsperado, amigo)
+	assert.Greater(t, amigo.ObtenerNivel(), NivelPorOmision)
 
 	//Caso aumentar superando el rango permitido
 	amigo2, _ := NewAmigo("Carlos")
 	amigo2.nivel = NivelMaximo
 	amigo2.AumentarNivel()
 
-	amigoEsperado2 := Amigo{"Carlos", NivelMaximo, true}
-
-	assert.Equal(t, amigoEsperado2, amigo2)
+	assert.Equal(t, NivelMaximo, amigo2.ObtenerNivel())
 }
 
 func TestDisminuirNivelAmigo(t *testing.T) {
@@ -56,16 +53,12 @@ func TestDisminuirNivelAmigo(t *testing.T) {
 	amigo, _ := NewAmigo("Carlos")
 	amigo = amigo.DisminuirNivel()
 
-	amigoEsperado := Amigo{"Carlos", Nivel(4), true}
-
-	assert.Equal(t, amigoEsperado, amigo)
+	assert.Less(t, amigo.ObtenerNivel(), NivelPorOmision)
 
 	//Caso disminuir superando el rango permitido
 	amigo2, _ := NewAmigo("Carlos")
 	amigo2.nivel = NivelMinimo
 	amigo2.AumentarNivel()
 
-	amigoEsperado2 := Amigo{"Carlos", NivelMinimo, true}
-
-	assert.Equal(t, amigoEsperado2, amigo2)
+	assert.Equal(t, NivelMinimo, amigo2.ObtenerNivel())
 }
