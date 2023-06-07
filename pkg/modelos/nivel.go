@@ -1,42 +1,30 @@
 package modelos
 
-import (
-	"fmt"
-)
-
 type Nivel int
 
 const (
-	NivelMinimo Nivel = 0
-	NivelMaximo Nivel = 10
-	NivelMedio  Nivel = 5
+	NivelMinimo                    Nivel = 0
+	NivelMaximo                    Nivel = 10
+	NivelPorOmision                Nivel = 5
+	CantidadAumentarDisminuirNivel Nivel = 1
 )
 
-var (
-	ErrorNivelFueraDeRango = fmt.Errorf("El nivel de un jugador debe estar en el rango %d - %d", NivelMinimo, NivelMaximo)
-)
-
-func NuevoNivel(valor Nivel) (Nivel, error) {
-	if valor < NivelMinimo || valor > NivelMaximo {
-		return NivelMedio, ErrorNivelFueraDeRango
-	}
-
-	nivel := Nivel(valor)
-	return nivel, nil
+func NewNivel() Nivel {
+	return NivelPorOmision
 }
 
-func (n Nivel) AumentarNivel(cantidad Nivel) Nivel {
-	nuevoNivel := n + cantidad
-	if nuevoNivel > NivelMaximo {
-		nuevoNivel = NivelMaximo
+func (n Nivel) AumentarNivel() Nivel {
+	if n == NivelMaximo {
+		return n
 	}
-	return nuevoNivel
+
+	return n + CantidadAumentarDisminuirNivel
 }
 
-func (n Nivel) DisminuirNivel(cantidad Nivel) Nivel {
-	nuevoNivel := n - cantidad
-	if nuevoNivel < NivelMinimo {
-		nuevoNivel = NivelMinimo
+func (n Nivel) DisminuirNivel() Nivel {
+	if n == NivelMinimo {
+		return n
 	}
-	return nuevoNivel
+
+	return n - CantidadAumentarDisminuirNivel
 }
