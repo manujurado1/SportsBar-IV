@@ -6,32 +6,30 @@ var (
 	ErrorNombreVacio = fmt.Errorf("El nombre de un jugador no puede ser un string vacío")
 )
 
+const (
+	DisponibilidadPorDefecto bool = true
+)
+
 type Amigo struct {
-	nombre     string //Nombre o apodo por el que se le conoce a ese amigo dentro del grupo de amigos
-	nivel      Nivel  //Nivel que posee ese amigo dentro del grupo de amigos
-	disponible bool   //Atributo que indica si está disponible en ese momento para jugar un partido
+	nombreDentroDelGrupo string
+	nivel                Nivel
+	disponible           bool
 }
 
-func NuevoAmigo(nombre string, nivel Nivel, disponible bool) (Amigo, error) {
+func NewAmigo(nombre string) (Amigo, error) {
 	if nombre == "" {
 		return Amigo{}, ErrorNombreVacio
 	}
 
-	nivel_amigo, error := NuevoNivel(nivel)
-
-	if error != nil {
-		return Amigo{}, error
-	}
-
 	return Amigo{
-		nombre:     nombre,
-		nivel:      nivel_amigo,
-		disponible: disponible,
+		nombreDentroDelGrupo: nombre,
+		nivel:                NewNivel(),
+		disponible:           DisponibilidadPorDefecto,
 	}, nil
 }
 
-func (a Amigo) ObtenerNombre() string {
-	return a.nombre
+func (a Amigo) ObtenerNombreDentroDelGrupo() string {
+	return a.nombreDentroDelGrupo
 }
 
 func (a Amigo) ObtenerNivel() Nivel {
@@ -42,14 +40,27 @@ func (a Amigo) EstaDisponible() bool {
 	return a.disponible
 }
 
-func (a *Amigo) CambiarDisponibilidad(disponible bool) {
-	a.disponible = disponible
+func (a Amigo) CambiarDisponibilidad(disponible bool) Amigo {
+	return Amigo{
+		nombreDentroDelGrupo: a.ObtenerNombreDentroDelGrupo(),
+		nivel:                a.ObtenerNivel(),
+		disponible:           disponible,
+	}
+
 }
 
-func (a *Amigo) AumentarNivel(cantidad Nivel) {
-	a.nivel = a.nivel.AumentarNivel(cantidad)
+func (a Amigo) AumentarNivel() Amigo {
+	return Amigo{
+		nombreDentroDelGrupo: a.ObtenerNombreDentroDelGrupo(),
+		nivel:                a.nivel.AumentarNivel(),
+		disponible:           a.EstaDisponible(),
+	}
 }
 
-func (a *Amigo) DisminuirNivel(cantidad Nivel) {
-	a.nivel = a.nivel.DisminuirNivel(cantidad)
+func (a Amigo) DisminuirNivel() Amigo {
+	return Amigo{
+		nombreDentroDelGrupo: a.ObtenerNombreDentroDelGrupo(),
+		nivel:                a.nivel.DisminuirNivel(),
+		disponible:           a.EstaDisponible(),
+	}
 }
