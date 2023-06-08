@@ -2,6 +2,7 @@ package modelos
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -9,7 +10,9 @@ import (
 func TestNewEquipo(t *testing.T) {
 
 	Equipo := NewEquipo()
+	fechaEsperada := time.Now().Format("02-01-2006")
 	assert.Equal(t, []string{}, Equipo.ObtenerEquipo())
+	assert.Equal(t, fechaEsperada, Equipo.ObtenerFechaCreacion())
 
 }
 
