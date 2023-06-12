@@ -2,11 +2,11 @@ package modelos
 
 import (
 	"fmt"
-	"strings"
+	"time"
 )
 
 var (
-	ErrorNombreVacio = fmt.Errorf("El nombre de un jugador no puede ser un string vacío")
+	ErrorNickVacio = fmt.Errorf("El nick de un amigo no puede ser un string vacío")
 )
 
 const (
@@ -14,24 +14,25 @@ const (
 )
 
 type Amigo struct {
-	nombre        string
-	diaNacimiento int
-	mesNacimiento string
+	identificador string
 }
 
-func NewAmigo(nombre string, diaNacimiento int, mesNacimiento string) (Amigo, error) {
-	if nombre == "" {
-		return Amigo{}, ErrorNombreVacio
+func NewAmigo(nick string, fechaNacimiento time.Time) (Amigo, error) {
+	if nick == "" {
+		return Amigo{}, ErrorNickVacio
 	}
 
+	identificador := GenerarIdentificador(nick, fechaNacimiento)
+
 	return Amigo{
-		nombre:        nombre,
-		diaNacimiento: diaNacimiento,
-		mesNacimiento: mesNacimiento,
+		identificador: identificador,
 	}, nil
 }
 
 func (a Amigo) ObtenerId() string {
-	identificativo := a.nombre + fmt.Sprint(a.diaNacimiento) + strings.ToLower(a.mesNacimiento)
-	return identificativo
+	return a.identificador
+}
+
+func GenerarIdentificador(nickAmigo string, fechaNacimiento time.Time) string {
+	return nickAmigo + fmt.Sprint(fechaNacimiento.Day()) + fmt.Sprint(fechaNacimiento.Month())
 }
