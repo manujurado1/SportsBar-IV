@@ -3,6 +3,35 @@
 En esta sección se mostrarán las pruebas que se han realizado para dar por solucionado los distintos problemas que plantea resolver 
 el proyecto, junto a un análisis de los resultados obtenidos.
 
+\section{Identificación y estructura de datos de los objetos valor}
+
+El primer paso que se ha tenido que resolver es identificar los distintos objetos valor que conformarían nuestra aplicación. Esta identificación se logra analizando las diferentes historias de usuario.
+Para crear la estructura de datos, se ha seguido el diseño dirigido por dominio (DDD), técnica que se centra en el análisis y diseño del dominio del problema.
+
+Este proceso ha durado 3 semanas y se han identificado los siguientes objetos valor:
+
+\subsection{Nivel}
+
+El primer objeto valor que se identificó fue el nivel.
+Este tipo de dato ha quedado definido como un entero cuyo valor puede oscilar entre el 0 y el 10, siendo su valor por omisión el valor intermedio 5.
+Este tipo de dato nos permite asignar una puntuación al nivel de habilidad de cada amigo dentro de un grupo.
+
+\subsection{Amigo}
+
+El objeto valor amigo, cuya función es identificar a cada uno de los miembros de un grupo, ha sido definido como una estructura cuyo atributo es un identificador, generado en base al \textit{nick}
+ de esa persona en el grupo y su fecha de nacimiento. De esta forma se permite la posibilidad de tener en el mismo grupo de amigos 2 o más personas con el mismo nick, obteniendo identificadores distintos
+ y de esta manera satisfacer \href{https://github.com/manujurado1/SportsBar-IV/issues/119}{la historia de usuario.}
+
+
+\subsection{Equipo}
+
+Por último, faltaba definir qué es un equipo. Este objeto valor es una estructura cuyo atributos son:
+
+\begin{itemize}
+    \item Una lista formada por los identificadores de los amigos que forman ese equipo.
+    \item La fecha en la cual se creó ese equipo.
+\end{itemize}
+
 \section{Creación de equipos igualados}
 
 El primer problema que plantea resolver el proyecto es la creación de 2 equipos igualados en función del nivel de los jugadores disponibles.
