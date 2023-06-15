@@ -9,10 +9,6 @@ var (
 	ErrorNickVacio = fmt.Errorf("El nick de un amigo no puede ser un string vacío")
 )
 
-const (
-	DisponibilidadPorDefecto bool = true
-)
-
 type Amigo struct {
 	identificador string
 }
