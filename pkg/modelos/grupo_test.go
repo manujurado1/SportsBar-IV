@@ -1,134 +1,148 @@
 package modelos
 
 import (
-	"math"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCrearJugador(t *testing.T) {
+func TestNewGrupoAmigos(t *testing.T) {
 
-	grupo := CrearGrupo("GrupoTest")
+	amigo, _ := NewAmigo("Javi", time.Date(1999, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
+	amigo2, _ := NewAmigo("Migue", time.Date(2001, time.January, 22, 0, 0, 0, 0, time.Now().Location()))
+	listaAmigos := []Amigo{amigo, amigo2}
+	estadoAmigos := map[string]EstadoAmigo{}
+	estadoAmigos[amigo.ObtenerId()] = EstadoAmigoPorDefecto
+	estadoAmigos[amigo2.ObtenerId()] = EstadoAmigoPorDefecto
 
-	success, error := grupo.crearJugador("Manuel", 120, false)
-	assert.Equal(t, false, success)
-	assert.Errorf(t, error, "El nivel del jugador debe estar entre 0 y 100")
+	//Caso incorrecto: Nombre vacío
+	grupo, errorGrupo := NewGrupoAmigos("", listaAmigos)
 
-	success, error = grupo.crearJugador("Manuel", 50, false)
-	assert.Nil(t, error)
-	assert.Equal(t, true, success)
-	assert.Equal(t, 1, len(grupo.JugadoresNiveles))
-	assert.Equal(t, 1, len(grupo.JugadoresDisponibilidad))
-	assert.Equal(t, uint(50), grupo.JugadoresNiveles["Manuel"])
-	assert.False(t, grupo.JugadoresDisponibilidad["Manuel"])
+	assert.EqualError(t, errorGrupo, "Un grupo no puede tener como nombre un string vacío")
+	assert.Nil(t, grupo)
 
-	success, error = grupo.crearJugador("Jorge", 70, true)
-	assert.Nil(t, error)
-	assert.Equal(t, true, success)
-	assert.Equal(t, 2, len(grupo.JugadoresNiveles))
-	assert.Equal(t, 2, len(grupo.JugadoresDisponibilidad))
-	assert.Equal(t, uint(70), grupo.JugadoresNiveles["Jorge"])
-	assert.True(t, grupo.JugadoresDisponibilidad["Jorge"])
+	//Caso incorrecto: Lista de amigos vacía
+	grupo2, errorGrupo2 := NewGrupoAmigos("Nombre", []Amigo{})
 
-	success, error = grupo.crearJugador("Manuel", 75, false)
-	assert.Equal(t, false, success)
-	assert.Errorf(t, error, "Ya existe un jugador con ese nombre")
+	assert.EqualError(t, errorGrupo2, "No se puede crear un grupo de amigos con una lista de amigos vacía")
+	assert.Nil(t, grupo2)
+
+	//Caso correcto
+	grupo3, errorGrupo3 := NewGrupoAmigos("Prueba", listaAmigos)
+	grupoEsperado := GrupoAmigos{"Prueba", listaAmigos, estadoAmigos}
+
+	assert.Nil(t, errorGrupo3)
+	assert.Equal(t, grupoEsperado, *grupo3)
+}
+
+func TestCrearAmigoYAniadirAlGrupo(t *testing.T) {
+
+	amigo, _ := NewAmigo("Javi", time.Date(1999, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
+	amigo2, _ := NewAmigo("Migue", time.Date(2001, time.January, 22, 0, 0, 0, 0, time.Now().Location()))
+	listaAmigos := []Amigo{amigo, amigo2}
+
+	//Caso incorrecto por nombre amigo vacío
+	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
+	errorAmigo := grupo.CrearAmigoYAniadirAlGrupo("", time.Date(1990, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
+	assert.EqualError(t, errorAmigo, "El nick de un amigo no puede ser un string vacío")
+
+	//Caso correcto añadiendo 2 amigos con el mismo nombre
+	grupo2, _ := NewGrupoAmigos("Prueba2", listaAmigos)
+
+	errorAmigo = grupo2.CrearAmigoYAniadirAlGrupo("Jose", time.Date(1990, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
+	assert.Nil(t, errorAmigo)
+
+	errorAmigo = grupo2.CrearAmigoYAniadirAlGrupo("Jose", time.Date(1990, time.August, 19, 0, 0, 0, 0, time.Now().Location()))
+	assert.Nil(t, errorAmigo)
+	assert.Equal(t, 4, len(grupo2.ListaAmigos))
+}
+
+func TestModificarDisponibilidadAmigo(t *testing.T) {
+
+	amigo, _ := NewAmigo("Javi", time.Date(1999, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
+	amigo2, _ := NewAmigo("Migue", time.Date(2001, time.January, 22, 0, 0, 0, 0, time.Now().Location()))
+	listaAmigos := []Amigo{amigo, amigo2}
+
+	//Caso incorrecto intentando cambiar disponibilidad de un amigo que no está en el grupo
+	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
+	amigoNuevo, _ := NewAmigo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
+
+	errorDisponibilidad := grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
+
+	assert.EqualError(t, errorDisponibilidad, ErrorAmigoInexistente.Error())
+
+	//Caso correcto
+	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
+	amigoNuevo = grupo.ListaAmigos[2]
+	errorDisponibilidad = grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
+	estado := grupo.NivelYDisponibilidadAmigos[amigoNuevo.ObtenerId()]
+
+	assert.Nil(t, errorDisponibilidad)
+	assert.False(t, estado.Disponible)
 
 }
 
-func TestCambiarDisponibilidadJugador(t *testing.T) {
+func TestAumentarNivelAmigo(t *testing.T) {
+	amigo, _ := NewAmigo("Javi", time.Date(1999, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
+	amigo2, _ := NewAmigo("Migue", time.Date(2001, time.January, 22, 0, 0, 0, 0, time.Now().Location()))
+	listaAmigos := []Amigo{amigo, amigo2}
 
-	JugadoresNiveles := map[string]uint{"Manuel": 20}
-	JugadoresDisponibilidad := map[string]bool{"Manuel": true}
-	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: JugadoresNiveles}
+	//Caso incorrecto intentando cambiar disponibilidad de un amigo que no está en el grupo
+	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
+	amigoNuevo, _ := NewAmigo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
 
-	success, error := grupo.cambiarDisponibilidadJugador("Manuel", false)
-	assert.True(t, success)
-	assert.Nil(t, error)
-	assert.False(t, grupo.JugadoresDisponibilidad["Manuel"])
+	errorNivel := grupo.AumentarNivelAmigo(amigoNuevo)
 
-	success, error = grupo.cambiarDisponibilidadJugador("Jorge", false)
-	assert.False(t, success)
-	assert.Errorf(t, error, "No existe un jugador con ese nombre")
+	assert.EqualError(t, errorNivel, ErrorAmigoInexistente.Error())
 
+	//Caso correcto sin alcanzar el límite
+	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
+	amigoAniadido := grupo.ListaAmigos[2]
+	errorNivel = grupo.AumentarNivelAmigo(amigoAniadido)
+
+	assert.Nil(t, errorNivel)
+	assert.Greater(t, grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()].Nivel, NivelPorOmision)
+
+	//Caso correcto alcanzando el límite
+
+	estado := grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()]
+	estado.Nivel = NivelMaximo
+	grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()] = estado
+	errorNivel = grupo.AumentarNivelAmigo(amigoAniadido)
+	assert.Nil(t, errorNivel)
+	assert.Equal(t, grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()].Nivel, NivelMaximo)
 }
 
-func TestCrearEquiposIgualadosParaPartido(t *testing.T) {
+func TestDisminuirNivelAmigo(t *testing.T) {
 
-	// Comprobamos que si no hay los suficientes jugadores disponibles no se pueden crear equipos igualados
-	JugadoresNiveles := map[string]uint{"Manuel": 30, "Jorge": 50, "Edu": 10, "Clara": 90, "Migue": 100, "Alberto": 70,
-		"Javi": 20, "Lorena": 80, "Maria": 60, "Sergio": 40}
-	JugadoresDisponibilidad := map[string]bool{"Manuel": false, "Jorge": false, "Edu": false, "Migue": true, "Clara": true, "Alberto": true,
-		"Javi": true, "Lorena": true, "Maria": true, "Sergio": false}
+	amigo, _ := NewAmigo("Javi", time.Date(1999, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
+	amigo2, _ := NewAmigo("Migue", time.Date(2001, time.January, 22, 0, 0, 0, 0, time.Now().Location()))
+	listaAmigos := []Amigo{amigo, amigo2}
 
-	grupo := Grupo{Nombre: "GrupoTest", JugadoresDisponibilidad: JugadoresDisponibilidad, JugadoresNiveles: JugadoresNiveles}
+	//Caso incorrecto intentando cambiar disponibilidad de un amigo que no está en el grupo
+	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
+	amigoNuevo, _ := NewAmigo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
 
-	_, _, error := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
-	assert.Errorf(t, error, "La lista de jugadores disponibles debe ser de almenos 10 personas y ser un número par")
+	errorNivel := grupo.AumentarNivelAmigo(amigoNuevo)
 
-	// Comprobamos la posibilidad de que aunque todo haya ido bien, sea imposible conseguir 2 equipos igualados
+	assert.EqualError(t, errorNivel, ErrorAmigoInexistente.Error())
 
-	JugadoresDisponibilidad = map[string]bool{"Manuel": true, "Jorge": true, "Edu": true, "Migue": true, "Clara": true, "Alberto": true,
-		"Javi": true, "Lorena": true, "Maria": true, "Sergio": true}
-	JugadoresNivelesImposible := map[string]uint{"Manuel": 3, "Jorge": 5, "Edu": 1, "Clara": 9, "Migue": 100, "Alberto": 7,
-		"Javi": 2, "Lorena": 8, "Maria": 6, "Sergio": 4}
-	grupo.JugadoresDisponibilidad = JugadoresDisponibilidad
-	grupo.JugadoresNiveles = JugadoresNivelesImposible
+	//Caso correcto sin alcanzar el límite
+	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
+	amigoAniadido := grupo.ListaAmigos[2]
+	errorNivel = grupo.DisminuirNivelAmigo(amigoAniadido)
 
-	Equipo1, Equipo2, error := grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
-	assert.Errorf(t, error, "No se ha conseguido crear 2 equipos igualados")
-	igualados, error := grupo.estanIgualados(Equipo1, Equipo2)
-	assert.Nil(t, error)
-	assert.False(t, igualados)
+	assert.Nil(t, errorNivel)
+	assert.Less(t, grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()].Nivel, NivelPorOmision)
 
-	// Comprobamos caso correcto
+	//Caso correcto alcanzando el límite
 
-	JugadoresNiveles = map[string]uint{"Manuel": 30, "Jorge": 50, "Edu": 10, "Clara": 90, "Migue": 100, "Alberto": 70,
-		"Javi": 20, "Lorena": 80, "Maria": 60, "Sergio": 40}
-
-	grupo.JugadoresNiveles = JugadoresNiveles
-
-	Equipo1Esperado := []string{"Migue", "Alberto", "Jorge", "Sergio", "Edu"}
-	Equipo2Esperado := []string{"Clara", "Lorena", "Maria", "Manuel", "Javi"}
-
-	Equipo1, Equipo2, error = grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
-	assert.Equal(t, Equipo1Esperado, Equipo1)
-	assert.Equal(t, Equipo2Esperado, Equipo2)
-	assert.Nil(t, error)
-	igualados, error = grupo.estanIgualados(Equipo1, Equipo2)
-	assert.Nil(t, error)
-	assert.True(t, igualados)
-
-	// Comprobamos caso aleatorio para comprobar si el algoritmo es mejor que la aleatoriedad (issue)
-	var NivelEquipo1 uint
-	var NivelEquipo2 uint
-	var NivelTotalEquipo1 uint = 0
-	var NivelTotalEquipo2 uint = 0
-
-	JugadoresNiveles = map[string]uint{"Manuel": 73, "Jorge": 70, "Edu": 42, "Clara": 66, "Migue": 28, "Alberto": 16,
-		"Javi": 29, "Lorena": 50, "Maria": 10, "Sergio": 18}
-
-	grupo.JugadoresNiveles = JugadoresNiveles
-	Equipo1, Equipo2, error = grupo.crearEquiposIgualadosParaPartido(grupo.JugadoresDisponibilidad)
-	assert.Nil(t, error)
-	igualados, error = grupo.estanIgualados(Equipo1, Equipo2)
-	assert.Nil(t, error)
-	assert.True(t, igualados)
-
-	for _, jugador := range Equipo1 {
-		NivelTotalEquipo1 += grupo.JugadoresNiveles[jugador]
-	}
-
-	for _, jugador := range Equipo2 {
-		NivelTotalEquipo2 += grupo.JugadoresNiveles[jugador]
-	}
-
-	NivelEquipo1 = NivelTotalEquipo1 / uint(len(Equipo1))
-	NivelEquipo2 = NivelTotalEquipo2 / uint(len(Equipo2))
-
-	DiferenciaNiveles := math.Abs(float64(NivelEquipo1) - float64(NivelEquipo2))
-
-	assert.True(t, DiferenciaNiveles < 15)
+	estado := grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()]
+	estado.Nivel = NivelMinimo
+	grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()] = estado
+	errorNivel = grupo.DisminuirNivelAmigo(amigoAniadido)
+	assert.Nil(t, errorNivel)
+	assert.Equal(t, grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()].Nivel, NivelMinimo)
 
 }
