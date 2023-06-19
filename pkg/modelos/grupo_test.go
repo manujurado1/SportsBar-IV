@@ -69,8 +69,9 @@ func TestModificarDisponibilidadAmigo(t *testing.T) {
 	amigoNuevo, _ := NewAmigo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
 
 	errorDisponibilidad := grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
+	errorEsperado := ErrorAmigoInexistente.Error() + ": " + amigoNuevo.ObtenerId()
 
-	assert.EqualError(t, errorDisponibilidad, ErrorAmigoInexistente.Error())
+	assert.EqualError(t, errorDisponibilidad, errorEsperado)
 
 	//Caso correcto
 	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
@@ -93,8 +94,9 @@ func TestAumentarNivelAmigo(t *testing.T) {
 	amigoNuevo, _ := NewAmigo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
 
 	errorNivel := grupo.AumentarNivelAmigo(amigoNuevo)
+	errorEsperado := ErrorAmigoInexistente.Error() + ": " + amigoNuevo.ObtenerId()
 
-	assert.EqualError(t, errorNivel, ErrorAmigoInexistente.Error())
+	assert.EqualError(t, errorNivel, errorEsperado)
 
 	//Caso correcto sin alcanzar el límite
 	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
@@ -125,8 +127,9 @@ func TestDisminuirNivelAmigo(t *testing.T) {
 	amigoNuevo, _ := NewAmigo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
 
 	errorNivel := grupo.AumentarNivelAmigo(amigoNuevo)
+	errorEsperado := ErrorAmigoInexistente.Error() + ": " + amigoNuevo.ObtenerId()
 
-	assert.EqualError(t, errorNivel, ErrorAmigoInexistente.Error())
+	assert.EqualError(t, errorNivel, errorEsperado)
 
 	//Caso correcto sin alcanzar el límite
 	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
@@ -144,5 +147,43 @@ func TestDisminuirNivelAmigo(t *testing.T) {
 	errorNivel = grupo.DisminuirNivelAmigo(amigoAniadido)
 	assert.Nil(t, errorNivel)
 	assert.Equal(t, grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()].Nivel, NivelMinimo)
+
+}
+
+func TestCrearEquiposIgualados(t *testing.T) {
+
+	// Caso incorrecto no hay jugadores suficientes
+	amigo, _ := NewAmigo("Javi", time.Date(1999, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
+	amigo2, _ := NewAmigo("Migue", time.Date(2001, time.January, 22, 0, 0, 0, 0, time.Now().Location()))
+	listaAmigos := []Amigo{amigo, amigo2}
+	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
+
+	equipo1, equipo2, errorCrearEquipos := grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
+
+	assert.Equal(t, Equipo{}, equipo1)
+	assert.Equal(t, Equipo{}, equipo2)
+	assert.EqualError(t, errorCrearEquipos, ErrorJugadoresDisponiblesNoAptosParaCrearEquipos.Error())
+
+	//Caso incorrecto por imposibilidad de crear 2 equipos igualados
+	_ = grupo.CrearAmigoYAniadirAlGrupo("Jose", time.Date(1999, time.December, 1, 0, 0, 0, 0, time.Now().Location()))
+	_ = grupo.CrearAmigoYAniadirAlGrupo("Javi", time.Date(1999, time.September, 7, 0, 0, 0, 0, time.Now().Location()))
+	_ = grupo.CrearAmigoYAniadirAlGrupo("Guille", time.Date(1999, time.February, 17, 0, 0, 0, 0, time.Now().Location()))
+	_ = grupo.CrearAmigoYAniadirAlGrupo("Manu", time.Date(1999, time.June, 27, 0, 0, 0, 0, time.Now().Location()))
+	_ = grupo.CrearAmigoYAniadirAlGrupo("Alex", time.Date(1999, time.July, 13, 0, 0, 0, 0, time.Now().Location()))
+	_ = grupo.CrearAmigoYAniadirAlGrupo("Jorge", time.Date(1999, time.July, 3, 0, 0, 0, 0, time.Now().Location()))
+	_ = grupo.CrearAmigoYAniadirAlGrupo("Sergio", time.Date(1999, time.May, 4, 0, 0, 0, 0, time.Now().Location()))
+	_ = grupo.CrearAmigoYAniadirAlGrupo("Fran", time.Date(1999, time.March, 8, 0, 0, 0, 0, time.Now().Location()))
+
+	for nombre := range grupo.NivelYDisponibilidadAmigos {
+		grupo.NivelYDisponibilidadAmigos[nombre] = EstadoAmigo{Nivel: 1, Disponible: true}
+	}
+
+	grupo.NivelYDisponibilidadAmigos["Javi17August"] = EstadoAmigo{Nivel: NivelMaximo, Disponible: true}
+
+	equipo1, equipo2, errorCrearEquipos = grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
+
+	assert.Equal(t, Equipo{}, equipo1)
+	assert.Equal(t, Equipo{}, equipo2)
+	assert.EqualError(t, errorCrearEquipos, ErrorImposibilidadCrearEquiposIgualados.Error())
 
 }
