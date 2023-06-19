@@ -186,4 +186,25 @@ func TestCrearEquiposIgualados(t *testing.T) {
 	assert.Equal(t, Equipo{}, equipo2)
 	assert.EqualError(t, errorCrearEquipos, ErrorImposibilidadCrearEquiposIgualados.Error())
 
+	//Caso correcto
+	grupo.NivelYDisponibilidadAmigos["Guille17February"] = EstadoAmigo{Nivel: Nivel(0), Disponible: true}
+	grupo.NivelYDisponibilidadAmigos["Jose1December"] = EstadoAmigo{Nivel: Nivel(1), Disponible: true}
+	grupo.NivelYDisponibilidadAmigos["Javi17August"] = EstadoAmigo{Nivel: Nivel(2), Disponible: true}
+	grupo.NivelYDisponibilidadAmigos["Jorge3July"] = EstadoAmigo{Nivel: Nivel(3), Disponible: true}
+	grupo.NivelYDisponibilidadAmigos["Alex13July"] = EstadoAmigo{Nivel: Nivel(4), Disponible: true}
+	grupo.NivelYDisponibilidadAmigos["Manu27June"] = EstadoAmigo{Nivel: Nivel(5), Disponible: true}
+	grupo.NivelYDisponibilidadAmigos["Migue22January"] = EstadoAmigo{Nivel: Nivel(6), Disponible: true}
+	grupo.NivelYDisponibilidadAmigos["Fran8March"] = EstadoAmigo{Nivel: Nivel(7), Disponible: true}
+	grupo.NivelYDisponibilidadAmigos["Sergio4May"] = EstadoAmigo{Nivel: Nivel(8), Disponible: true}
+	grupo.NivelYDisponibilidadAmigos["Javi7September"] = EstadoAmigo{Nivel: Nivel(9), Disponible: true}
+
+	equipo1, equipo2, errorCrearEquipos = grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
+
+	listaEquipo1Esperada := []string{"Javi7September", "Migue22January", "Alex13July", "Jorge3July", "Guille17February"}
+	listaEquipo2Esperada := []string{"Sergio4May", "Fran8March", "Manu27June", "Javi17August", "Jose1December"}
+
+	assert.Equal(t, listaEquipo1Esperada, equipo1.listaNombreAmigoDentoDelGrupo)
+	assert.Equal(t, listaEquipo2Esperada, equipo2.listaNombreAmigoDentoDelGrupo)
+	assert.Nil(t, errorCrearEquipos)
+
 }
