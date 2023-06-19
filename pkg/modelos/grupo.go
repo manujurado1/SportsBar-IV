@@ -6,14 +6,16 @@ import (
 )
 
 const (
-	DisponibilidadPorDefecto bool = true
+	DisponibilidadPorDefecto             bool = true
+	CantidadAmigosMinimaParaCrearEquipos      = 10
 )
 
 var (
-	ErrorNombreGrupoVacio = fmt.Errorf("Un grupo no puede tener como nombre un string vacío")
-	ErrorAmigoDuplicado   = fmt.Errorf("Ya existe un amigo con ese identificador")
-	ErrorAmigoInexistente = fmt.Errorf("No existe el amigo indicado dentro del grupo de amigos")
-	ErrorListaAmigosVacia = fmt.Errorf("No se puede crear un grupo de amigos con una lista de amigos vacía")
+	ErrorNombreGrupoVacio                            = fmt.Errorf("Un grupo no puede tener como nombre un string vacío")
+	ErrorAmigoDuplicado                              = fmt.Errorf("Ya existe un amigo con ese identificador")
+	ErrorAmigoInexistente                            = fmt.Errorf("No existe el amigo indicado dentro del grupo de amigos")
+	ErrorListaAmigosVacia                            = fmt.Errorf("No se puede crear un grupo de amigos con una lista de amigos vacía")
+	ErrorJugadoresDisponiblesNoAptosParaCrearEquipos = fmt.Errorf("No se pueden crear 2 equipos igualados si la cantidad de amigos disponibles no es un número par mayor o igual a 10")
 )
 
 var EstadoAmigoPorDefecto EstadoAmigo = EstadoAmigo{
@@ -108,4 +110,26 @@ func (g *GrupoAmigos) DisminuirNivelAmigo(amigo Amigo) error {
 	g.NivelYDisponibilidadAmigos[amigo.ObtenerId()] = estado
 
 	return nil
+}
+
+func (g *GrupoAmigos) GrupoAmigosListoParaCrearEquipos(estadosAmigos map[string]EstadoAmigo) (bool, error) {
+	amigosDisponibles := g.ObtenerListaAmigosDisponibles(estadosAmigos)
+	if (len(amigosDisponibles) < CantidadAmigosMinimaParaCrearEquipos) || (len(amigosDisponibles)%2 != 0) {
+		return false, ErrorJugadoresDisponiblesNoAptosParaCrearEquipos
+	}
+
+	return true, nil
+
+}
+
+func (g *GrupoAmigos) ObtenerListaAmigosDisponibles(estadosAmigos map[string]EstadoAmigo) []string {
+	amigosDisponibles := []string{}
+
+	for nombre, estado := range estadosAmigos {
+		if estado.Disponible {
+			amigosDisponibles = append(amigosDisponibles, nombre)
+		}
+	}
+
+	return amigosDisponibles
 }
