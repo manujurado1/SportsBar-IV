@@ -101,20 +101,16 @@ func TestModificarDisponibilidadAmigo(t *testing.T) {
 	amigo, _ := NewAmigo("Javi", time.Date(1999, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
 	amigo2, _ := NewAmigo("Migue", time.Date(2001, time.January, 22, 0, 0, 0, 0, time.Now().Location()))
 	listaAmigos := []Amigo{amigo, amigo2}
+	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
 
 	//Caso incorrecto intentando cambiar disponibilidad de un amigo que no está en el grupo
-	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
-	amigoNuevo, _ := NewAmigo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
 
-	errorDisponibilidad := grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
-	errorEsperado := ErrorAmigoInexistente.Error() + ": " + amigoNuevo.ObtenerId()
-
-	assert.EqualError(t, errorDisponibilidad, errorEsperado)
+	assertModificarAmigoInexistente(t, grupo, "Disponibilidad")
 
 	//Caso correcto
 	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
-	amigoNuevo = grupo.ListaAmigos[2]
-	errorDisponibilidad = grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
+	amigoNuevo := grupo.ListaAmigos[2]
+	errorDisponibilidad := grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
 	estado := grupo.NivelYDisponibilidadAmigos[amigoNuevo.ObtenerId()]
 
 	assert.Nil(t, errorDisponibilidad)
@@ -128,9 +124,9 @@ func TestAumentarNivelAmigo(t *testing.T) {
 	listaAmigos := []Amigo{amigo, amigo2}
 	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
 
-	//Caso incorrecto intentando cambiar disponibilidad de un amigo que no está en el grupo
+	//Caso incorrecto intentando aumentar nivel de un amigo que no está en el grupo
 
-	assertCambiarNivelAAmigoInexistente(t, grupo)
+	assertModificarAmigoInexistente(t, grupo, "Aumentar")
 
 	//Caso correcto sin alcanzar el límite
 	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
@@ -156,8 +152,9 @@ func TestDisminuirNivelAmigo(t *testing.T) {
 	amigo2, _ := NewAmigo("Migue", time.Date(2001, time.January, 22, 0, 0, 0, 0, time.Now().Location()))
 	listaAmigos := []Amigo{amigo, amigo2}
 	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
-	//Caso incorrecto intentando cambiar disponibilidad de un amigo que no está en el grupo
-	assertCambiarNivelAAmigoInexistente(t, grupo)
+
+	//Caso incorrecto intentando disminuir de un amigo que no está en el grupo
+	assertModificarAmigoInexistente(t, grupo, "Disminuir")
 
 	//Caso correcto sin alcanzar el límite
 	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
@@ -178,13 +175,21 @@ func TestDisminuirNivelAmigo(t *testing.T) {
 
 }
 
-func assertCambiarNivelAAmigoInexistente(t *testing.T, grupo *GrupoAmigos) {
+func assertModificarAmigoInexistente(t *testing.T, grupo *GrupoAmigos, tipo string) {
 	amigoNuevo, _ := NewAmigo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
-
-	errorNivel := grupo.AumentarNivelAmigo(amigoNuevo)
 	errorEsperado := ErrorAmigoInexistente.Error() + ": " + amigoNuevo.ObtenerId()
 
-	assert.EqualError(t, errorNivel, errorEsperado)
+	var errorInexistente error
+
+	if tipo == "Aumentar" {
+		errorInexistente = grupo.AumentarNivelAmigo(amigoNuevo)
+	} else if tipo == "Disminuir" {
+		errorInexistente = grupo.DisminuirNivelAmigo(amigoNuevo)
+	} else if tipo == "Disponibilidad" {
+		errorInexistente = grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
+	}
+
+	assert.EqualError(t, errorInexistente, errorEsperado)
 }
 
 func TestCrearEquiposIgualados(t *testing.T) {

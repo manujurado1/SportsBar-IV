@@ -21,12 +21,8 @@ var (
 	ErrorImposibilidadCrearEquiposIgualados          = fmt.Errorf("Ha sido imposible crear 2 equipos igualados con la lista de jugadores disponibles")
 )
 
-func FormatearErrorAmigoDuplicado(identificador string) error {
-	return fmt.Errorf(ErrorAmigoDuplicado.Error() + ": " + identificador)
-}
-
-func FormatearErrorAmigoInexistente(identificador string) error {
-	return fmt.Errorf(ErrorAmigoInexistente.Error() + ": " + identificador)
+func FormatearError(e error, identificador string) error {
+	return fmt.Errorf(e.Error() + ": " + identificador)
 }
 
 var EstadoAmigoPorDefecto EstadoAmigo = EstadoAmigo{
@@ -75,7 +71,7 @@ func (g *GrupoAmigos) CrearAmigoYAniadirAlGrupo(nickAmigo string, fechaNacimient
 	_, existe := g.NivelYDisponibilidadAmigos[amigo.ObtenerId()]
 
 	if existe {
-		return FormatearErrorAmigoDuplicado(amigo.ObtenerId())
+		return FormatearError(ErrorAmigoDuplicado, amigo.ObtenerId())
 	}
 
 	g.ListaAmigos = append(g.ListaAmigos, amigo)
@@ -88,7 +84,7 @@ func (g *GrupoAmigos) CambiarDisponibilidadAmigo(amigo Amigo, disponibilidad boo
 	estado, existe := g.NivelYDisponibilidadAmigos[amigo.ObtenerId()]
 
 	if !existe {
-		return FormatearErrorAmigoInexistente(amigo.ObtenerId())
+		return FormatearError(ErrorAmigoInexistente, amigo.ObtenerId())
 	}
 
 	estado.Disponible = disponibilidad
@@ -101,7 +97,7 @@ func (g *GrupoAmigos) AumentarNivelAmigo(amigo Amigo) error {
 	estado, existe := g.NivelYDisponibilidadAmigos[amigo.ObtenerId()]
 
 	if !existe {
-		return FormatearErrorAmigoInexistente(amigo.ObtenerId())
+		return FormatearError(ErrorAmigoInexistente, amigo.ObtenerId())
 	}
 
 	estado.Nivel = estado.Nivel.AumentarNivel()
@@ -114,7 +110,7 @@ func (g *GrupoAmigos) DisminuirNivelAmigo(amigo Amigo) error {
 	estado, existe := g.NivelYDisponibilidadAmigos[amigo.ObtenerId()]
 
 	if !existe {
-		return FormatearErrorAmigoInexistente(amigo.ObtenerId())
+		return FormatearError(ErrorAmigoInexistente, amigo.ObtenerId())
 	}
 
 	estado.Nivel = estado.Nivel.DisminuirNivel()
