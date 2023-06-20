@@ -7,6 +7,44 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var (
+	amigo1, _              = NewAmigo("Javi", time.Date(1999, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
+	amigo2, _              = NewAmigo("Migue", time.Date(2001, time.January, 22, 0, 0, 0, 0, time.Now().Location()))
+	amigo3, _              = NewAmigo("Jose", time.Date(1999, time.December, 1, 0, 0, 0, 0, time.Now().Location()))
+	amigo4, _              = NewAmigo("Javi", time.Date(1999, time.September, 7, 0, 0, 0, 0, time.Now().Location()))
+	amigo5, _              = NewAmigo("Guille", time.Date(1999, time.February, 17, 0, 0, 0, 0, time.Now().Location()))
+	amigo6, _              = NewAmigo("Manu", time.Date(1999, time.June, 27, 0, 0, 0, 0, time.Now().Location()))
+	amigo7, _              = NewAmigo("Alex", time.Date(1999, time.July, 13, 0, 0, 0, 0, time.Now().Location()))
+	amigo8, _              = NewAmigo("Jorge", time.Date(1999, time.July, 3, 0, 0, 0, 0, time.Now().Location()))
+	amigo9, _              = NewAmigo("Sergio", time.Date(1999, time.May, 4, 0, 0, 0, 0, time.Now().Location()))
+	amigo10, _             = NewAmigo("Fran", time.Date(1999, time.March, 8, 0, 0, 0, 0, time.Now().Location()))
+	ListaAmigosCompleta    = []Amigo{amigo1, amigo2, amigo3, amigo4, amigo5, amigo6, amigo7, amigo8, amigo9, amigo10}
+	EstadosAmigosImposible = map[string]EstadoAmigo{
+		"Javi17August":     {NivelMaximo, DisponibilidadPorDefecto},
+		"Migue22January":   {NivelMinimo, DisponibilidadPorDefecto},
+		"Jose1December":    {NivelMinimo, DisponibilidadPorDefecto},
+		"Javi7September":   {NivelMinimo, DisponibilidadPorDefecto},
+		"Guille17February": {NivelMinimo, DisponibilidadPorDefecto},
+		"Manu27June":       {NivelMinimo, DisponibilidadPorDefecto},
+		"Alex13July":       {NivelMinimo, DisponibilidadPorDefecto},
+		"Jorge3July":       {NivelMinimo, DisponibilidadPorDefecto},
+		"Sergio4May":       {NivelMinimo, DisponibilidadPorDefecto},
+		"Fran8March":       {NivelMinimo, DisponibilidadPorDefecto},
+	}
+	EstadosAmigosPosible = map[string]EstadoAmigo{
+		"Javi17August":     {Nivel(2), DisponibilidadPorDefecto},
+		"Migue22January":   {Nivel(6), DisponibilidadPorDefecto},
+		"Jose1December":    {Nivel(1), DisponibilidadPorDefecto},
+		"Javi7September":   {Nivel(9), DisponibilidadPorDefecto},
+		"Guille17February": {Nivel(0), DisponibilidadPorDefecto},
+		"Manu27June":       {Nivel(5), DisponibilidadPorDefecto},
+		"Alex13July":       {Nivel(4), DisponibilidadPorDefecto},
+		"Jorge3July":       {Nivel(3), DisponibilidadPorDefecto},
+		"Sergio4May":       {Nivel(8), DisponibilidadPorDefecto},
+		"Fran8March":       {Nivel(7), DisponibilidadPorDefecto},
+	}
+)
+
 func TestNewGrupoAmigos(t *testing.T) {
 
 	amigo, _ := NewAmigo("Javi", time.Date(1999, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
@@ -165,20 +203,9 @@ func TestCrearEquiposIgualados(t *testing.T) {
 	assert.EqualError(t, errorCrearEquipos, ErrorJugadoresDisponiblesNoAptosParaCrearEquipos.Error())
 
 	//Caso incorrecto por imposibilidad de crear 2 equipos igualados
-	_ = grupo.CrearAmigoYAniadirAlGrupo("Jose", time.Date(1999, time.December, 1, 0, 0, 0, 0, time.Now().Location()))
-	_ = grupo.CrearAmigoYAniadirAlGrupo("Javi", time.Date(1999, time.September, 7, 0, 0, 0, 0, time.Now().Location()))
-	_ = grupo.CrearAmigoYAniadirAlGrupo("Guille", time.Date(1999, time.February, 17, 0, 0, 0, 0, time.Now().Location()))
-	_ = grupo.CrearAmigoYAniadirAlGrupo("Manu", time.Date(1999, time.June, 27, 0, 0, 0, 0, time.Now().Location()))
-	_ = grupo.CrearAmigoYAniadirAlGrupo("Alex", time.Date(1999, time.July, 13, 0, 0, 0, 0, time.Now().Location()))
-	_ = grupo.CrearAmigoYAniadirAlGrupo("Jorge", time.Date(1999, time.July, 3, 0, 0, 0, 0, time.Now().Location()))
-	_ = grupo.CrearAmigoYAniadirAlGrupo("Sergio", time.Date(1999, time.May, 4, 0, 0, 0, 0, time.Now().Location()))
-	_ = grupo.CrearAmigoYAniadirAlGrupo("Fran", time.Date(1999, time.March, 8, 0, 0, 0, 0, time.Now().Location()))
+	grupo.ListaAmigos = ListaAmigosCompleta
 
-	for nombre := range grupo.NivelYDisponibilidadAmigos {
-		grupo.NivelYDisponibilidadAmigos[nombre] = EstadoAmigo{Nivel: 1, Disponible: true}
-	}
-
-	grupo.NivelYDisponibilidadAmigos["Javi17August"] = EstadoAmigo{Nivel: NivelMaximo, Disponible: true}
+	grupo.NivelYDisponibilidadAmigos = EstadosAmigosImposible
 
 	equipo1, equipo2, errorCrearEquipos = grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
 
@@ -187,16 +214,7 @@ func TestCrearEquiposIgualados(t *testing.T) {
 	assert.EqualError(t, errorCrearEquipos, ErrorImposibilidadCrearEquiposIgualados.Error())
 
 	//Caso correcto
-	grupo.NivelYDisponibilidadAmigos["Guille17February"] = EstadoAmigo{Nivel: Nivel(0), Disponible: true}
-	grupo.NivelYDisponibilidadAmigos["Jose1December"] = EstadoAmigo{Nivel: Nivel(1), Disponible: true}
-	grupo.NivelYDisponibilidadAmigos["Javi17August"] = EstadoAmigo{Nivel: Nivel(2), Disponible: true}
-	grupo.NivelYDisponibilidadAmigos["Jorge3July"] = EstadoAmigo{Nivel: Nivel(3), Disponible: true}
-	grupo.NivelYDisponibilidadAmigos["Alex13July"] = EstadoAmigo{Nivel: Nivel(4), Disponible: true}
-	grupo.NivelYDisponibilidadAmigos["Manu27June"] = EstadoAmigo{Nivel: Nivel(5), Disponible: true}
-	grupo.NivelYDisponibilidadAmigos["Migue22January"] = EstadoAmigo{Nivel: Nivel(6), Disponible: true}
-	grupo.NivelYDisponibilidadAmigos["Fran8March"] = EstadoAmigo{Nivel: Nivel(7), Disponible: true}
-	grupo.NivelYDisponibilidadAmigos["Sergio4May"] = EstadoAmigo{Nivel: Nivel(8), Disponible: true}
-	grupo.NivelYDisponibilidadAmigos["Javi7September"] = EstadoAmigo{Nivel: Nivel(9), Disponible: true}
+	grupo.NivelYDisponibilidadAmigos = EstadosAmigosPosible
 
 	equipo1, equipo2, errorCrearEquipos = grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
 
