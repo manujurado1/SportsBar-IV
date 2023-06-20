@@ -104,92 +104,20 @@ func TestModificarDisponibilidadAmigo(t *testing.T) {
 	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
 
 	//Caso incorrecto intentando cambiar disponibilidad de un amigo que no está en el grupo
-
-	assertModificarAmigoInexistente(t, grupo, "Disponibilidad")
+	amigoNuevo, _ := NewAmigo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
+	errorEsperado := ErrorAmigoInexistente.Error() + ": " + amigoNuevo.ObtenerId()
+	errorInexistente := grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
+	assert.EqualError(t, errorInexistente, errorEsperado)
 
 	//Caso correcto
 	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
-	amigoNuevo := grupo.ListaAmigos[2]
+	amigoNuevo = grupo.ListaAmigos[2]
 	errorDisponibilidad := grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
 	estado := grupo.NivelYDisponibilidadAmigos[amigoNuevo.ObtenerId()]
 
 	assert.Nil(t, errorDisponibilidad)
 	assert.False(t, estado.Disponible)
 
-}
-
-func TestAumentarNivelAmigo(t *testing.T) {
-	amigo, _ := NewAmigo("Javi", time.Date(1999, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
-	amigo2, _ := NewAmigo("Migue", time.Date(2001, time.January, 22, 0, 0, 0, 0, time.Now().Location()))
-	listaAmigos := []Amigo{amigo, amigo2}
-	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
-
-	//Caso incorrecto intentando aumentar nivel de un amigo que no está en el grupo
-
-	assertModificarAmigoInexistente(t, grupo, "Aumentar")
-
-	//Caso correcto sin alcanzar el límite
-	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
-	amigoAniadido := grupo.ListaAmigos[2]
-	errorNivel := grupo.AumentarNivelAmigo(amigoAniadido)
-
-	assert.Nil(t, errorNivel)
-	assert.Greater(t, grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()].Nivel, NivelPorOmision)
-
-	//Caso correcto alcanzando el límite
-
-	estado := grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()]
-	estado.Nivel = NivelMaximo
-	grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()] = estado
-	errorNivel = grupo.AumentarNivelAmigo(amigoAniadido)
-	assert.Nil(t, errorNivel)
-	assert.Equal(t, grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()].Nivel, NivelMaximo)
-}
-
-func TestDisminuirNivelAmigo(t *testing.T) {
-
-	amigo, _ := NewAmigo("Javi", time.Date(1999, time.August, 17, 0, 0, 0, 0, time.Now().Location()))
-	amigo2, _ := NewAmigo("Migue", time.Date(2001, time.January, 22, 0, 0, 0, 0, time.Now().Location()))
-	listaAmigos := []Amigo{amigo, amigo2}
-	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
-
-	//Caso incorrecto intentando disminuir de un amigo que no está en el grupo
-	assertModificarAmigoInexistente(t, grupo, "Disminuir")
-
-	//Caso correcto sin alcanzar el límite
-	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
-	amigoAniadido := grupo.ListaAmigos[2]
-	errorNivel := grupo.DisminuirNivelAmigo(amigoAniadido)
-
-	assert.Nil(t, errorNivel)
-	assert.Less(t, grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()].Nivel, NivelPorOmision)
-
-	//Caso correcto alcanzando el límite
-
-	estado := grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()]
-	estado.Nivel = NivelMinimo
-	grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()] = estado
-	errorNivel = grupo.DisminuirNivelAmigo(amigoAniadido)
-	assert.Nil(t, errorNivel)
-	assert.Equal(t, grupo.NivelYDisponibilidadAmigos[amigoAniadido.ObtenerId()].Nivel, NivelMinimo)
-
-}
-
-func assertModificarAmigoInexistente(t *testing.T, grupo *GrupoAmigos, tipo string) {
-	amigoNuevo, _ := NewAmigo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
-	errorEsperado := ErrorAmigoInexistente.Error() + ": " + amigoNuevo.ObtenerId()
-
-	var errorInexistente error
-
-	if tipo == "Aumentar" {
-		errorInexistente = grupo.AumentarNivelAmigo(amigoNuevo)
-	} else if tipo == "Disminuir" {
-		errorInexistente = grupo.DisminuirNivelAmigo(amigoNuevo)
-	} else if tipo == "Disponibilidad" {
-		errorInexistente = grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
-	}
-
-	assert.EqualError(t, errorInexistente, errorEsperado)
 }
 
 func TestCrearEquiposIgualados(t *testing.T) {
@@ -228,5 +156,39 @@ func TestCrearEquiposIgualados(t *testing.T) {
 	assert.Equal(t, listaEquipo1Esperada, equipo1.listaNombreAmigoDentoDelGrupo)
 	assert.Equal(t, listaEquipo2Esperada, equipo2.listaNombreAmigoDentoDelGrupo)
 	assert.Nil(t, errorCrearEquipos)
+
+}
+
+func TestModificarNivelesTrasPartido(t *testing.T) {
+	grupo, _ := NewGrupoAmigos("Prueba", ListaAmigosCompleta)
+	grupo.NivelYDisponibilidadAmigos = EstadosAmigosPosible
+
+	//Caso incorrecto con equipos de distintas fechas
+	equipo1, equipo2, _ := grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
+	equipo1.fechaCreacion = time.Date(2023, time.June, 19, 0, 0, 0, 0, time.Now().Location())
+
+	errorModificarNiveles := grupo.ModificarNivelesTrasPartido(equipo1, 3, equipo2, 4)
+	assert.EqualError(t, errorModificarNiveles, ErrorEquiposPartidoDistinto.Error())
+
+	//Caso correcto con resultado igualado donde no se modifican los niveles
+
+	equipo1, equipo2, _ = grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
+	errorModificarNiveles = grupo.ModificarNivelesTrasPartido(equipo1, 3, equipo2, 3)
+
+	assert.Nil(t, errorModificarNiveles)
+	assert.Equal(t, EstadosAmigosPosible, grupo.NivelYDisponibilidadAmigos)
+
+	//Caso correcto en el que se modifican los resultados ya que el resultado no es empate
+	grupo, _ = NewGrupoAmigos("Prueba", ListaAmigosCompleta)
+	equipo1, equipo2, _ = grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
+	errorModificarNiveles = grupo.ModificarNivelesTrasPartido(equipo1, 2, equipo2, 1)
+
+	assert.Nil(t, errorModificarNiveles)
+	for _, amigo := range equipo1.listaNombreAmigoDentoDelGrupo {
+		assert.Greater(t, grupo.NivelYDisponibilidadAmigos[amigo].Nivel, NivelPorOmision)
+	}
+	for _, amigo := range equipo2.listaNombreAmigoDentoDelGrupo {
+		assert.Less(t, grupo.NivelYDisponibilidadAmigos[amigo].Nivel, NivelPorOmision)
+	}
 
 }
