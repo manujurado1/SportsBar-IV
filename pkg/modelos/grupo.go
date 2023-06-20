@@ -9,6 +9,7 @@ import (
 const (
 	DisponibilidadPorDefecto             bool = true
 	CantidadAmigosMinimaParaCrearEquipos      = 10
+	DiferenciaDeNivelMaximaEntreEquipos       = 1
 )
 
 var (
@@ -219,7 +220,7 @@ func (g *GrupoAmigos) EstanIgualados(Equipo1 Equipo, Equipo2 Equipo) bool {
 		NivelEquipo1 := float64(NivelTotalEquipo1) / float64(len(Equipo1.ObtenerEquipo()))
 		NivelEquipo2 := float64(NivelTotalEquipo2) / float64(len(Equipo2.ObtenerEquipo()))
 
-		if (NivelEquipo1+1.5 > NivelEquipo2) && (NivelEquipo2+1.5 > NivelEquipo1) {
+		if (NivelEquipo1+DiferenciaDeNivelMaximaEntreEquipos > NivelEquipo2) && (NivelEquipo2+DiferenciaDeNivelMaximaEntreEquipos > NivelEquipo1) {
 			Igualados = true
 		}
 
