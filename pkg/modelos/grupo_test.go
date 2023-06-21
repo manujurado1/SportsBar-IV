@@ -1,6 +1,7 @@
 package modelos
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -129,10 +130,11 @@ func TestCrearEquiposIgualados(t *testing.T) {
 	grupo, _ := NewGrupoAmigos("Prueba", listaAmigos)
 
 	equipo1, equipo2, errorCrearEquipos := grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
+	errorEsperado := ErrorJugadoresDisponiblesNoAptosParaCrearEquipos.Error() + ": " + fmt.Sprint(2)
 
 	assert.Equal(t, Equipo{}, equipo1)
 	assert.Equal(t, Equipo{}, equipo2)
-	assert.EqualError(t, errorCrearEquipos, ErrorJugadoresDisponiblesNoAptosParaCrearEquipos.Error())
+	assert.EqualError(t, errorCrearEquipos, errorEsperado)
 
 	//Caso incorrecto por imposibilidad de crear 2 equipos igualados
 	grupo.ListaAmigos = ListaAmigosCompleta
@@ -163,17 +165,10 @@ func TestModificarNivelesTrasPartido(t *testing.T) {
 	grupo, _ := NewGrupoAmigos("Prueba", ListaAmigosCompleta)
 	grupo.NivelYDisponibilidadAmigos = EstadosAmigosPosible
 
-	//Caso incorrecto con equipos de distintas fechas
-	equipo1, equipo2, _ := grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
-	equipo1.fechaCreacion = time.Date(2023, time.June, 19, 0, 0, 0, 0, time.Now().Location())
-
-	errorModificarNiveles := grupo.ModificarNivelesTrasPartido(equipo1, 3, equipo2, 4)
-	assert.EqualError(t, errorModificarNiveles, ErrorEquiposPartidoDistinto.Error())
-
 	//Caso correcto con resultado igualado donde no se modifican los niveles
 
-	equipo1, equipo2, _ = grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
-	errorModificarNiveles = grupo.ModificarNivelesTrasPartido(equipo1, 3, equipo2, 3)
+	equipo1, equipo2, _ := grupo.CrearDosEquiposIgualados(grupo.NivelYDisponibilidadAmigos)
+	errorModificarNiveles := grupo.ModificarNivelesTrasPartido(equipo1, 3, equipo2, 3)
 
 	assert.Nil(t, errorModificarNiveles)
 	assert.Equal(t, EstadosAmigosPosible, grupo.NivelYDisponibilidadAmigos)

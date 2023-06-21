@@ -17,7 +17,7 @@ var (
 	ErrorAmigoDuplicado                              = fmt.Errorf("Ya existe un amigo con ese identificador")
 	ErrorAmigoInexistente                            = fmt.Errorf("No existe el amigo indicado dentro del grupo de amigos")
 	ErrorListaAmigosVacia                            = fmt.Errorf("No se puede crear un grupo de amigos con una lista de amigos vacía")
-	ErrorJugadoresDisponiblesNoAptosParaCrearEquipos = fmt.Errorf("No se pueden crear 2 equipos igualados si la cantidad de amigos disponibles no es un número par mayor o igual a 10")
+	ErrorJugadoresDisponiblesNoAptosParaCrearEquipos = fmt.Errorf("No se pueden crear 2 equipos igualados si la cantidad de amigos disponibles no es un número par mayor o igual a 10, Cantidad actual")
 	ErrorImposibilidadCrearEquiposIgualados          = fmt.Errorf("Ha sido imposible crear 2 equipos igualados con la lista de jugadores disponibles")
 	ErrorEquiposPartidoDistinto                      = fmt.Errorf("Los equipos introducidos no son del mismo partido ya que tienen fechas diferentes")
 )
@@ -127,7 +127,7 @@ func (g *GrupoAmigos) DisminuirNivelEquipo(equipo Equipo) error {
 func (g *GrupoAmigos) GrupoAmigosListoParaCrearEquipos(estadosAmigos map[string]EstadoAmigo) (bool, []string, error) {
 	amigosDisponibles := g.ObtenerListaAmigosDisponibles(estadosAmigos)
 	if (len(amigosDisponibles) < CantidadAmigosMinimaParaCrearEquipos) || (len(amigosDisponibles)%2 != 0) {
-		return false, nil, ErrorJugadoresDisponiblesNoAptosParaCrearEquipos
+		return false, nil, FormatearError(ErrorJugadoresDisponiblesNoAptosParaCrearEquipos, fmt.Sprint(len(amigosDisponibles)))
 	}
 
 	return true, amigosDisponibles, nil
@@ -232,7 +232,8 @@ func (g *GrupoAmigos) EstanIgualados(Equipo1 Equipo, Equipo2 Equipo) bool {
 
 func (g *GrupoAmigos) ModificarNivelesTrasPartido(Equipo1 Equipo, ResultadoEquipo1 uint, Equipo2 Equipo, ResultadoEquipo2 uint) error {
 	if Equipo1.ObtenerFechaCreacion() != Equipo2.ObtenerFechaCreacion() {
-		return ErrorEquiposPartidoDistinto
+		mensaje := fmt.Sprint(Equipo1.ObtenerFechaCreacion()) + " != " + fmt.Sprint(Equipo2.ObtenerEquipo())
+		return FormatearError(ErrorEquiposPartidoDistinto, mensaje)
 	}
 
 	if ResultadoEquipo1 != ResultadoEquipo2 {
