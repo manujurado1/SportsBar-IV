@@ -544,3 +544,75 @@ testeado las siguientes versiones:
   ha testeado también por la brevedad de tiempo que lleva sin ser tener
   soporte. También se testea mediante GitHub actions.
 \end{itemize}
+
+\newpage
+\section{Quinto hito: Creación de la API REST}
+
+En este milestone se plantea la creación de una API REST para trabajar con la lógica de negocio.
+
+\subsection{Elección del framework para la creación de la API REST}
+
+\subsubsection{Criterios}
+
+\begin{itemize}
+\item
+  Herramientas ligeras que no conviertan el proyecto en pesado.
+\item
+  Facilidad de uso.
+\item
+  Comunidad y ecosistema afianzado.
+\end{itemize}
+
+\subsubsection{Opciones}
+
+\textbf{\href{https://pkg.go.dev/net/http}{net/http}}
+
+\begin{itemize}
+\item
+  Es la opción más liviana al pertenecer a la biblioteca estándar de Go, por lo que no incluye ninguna dependencia.
+\item
+  Es más complejo de usar al no ser un framework, ya que requiere más configuración manual. Por otra parte, te da mayor control y flexibilidad.
+\item
+  Al ser parte de la biblioteca estandar de Go, su comunidad es grande, estable y afianzada.
+\end{itemize}
+
+\textbf{\href{https://pkg.go.dev/github.com/gin-gonic/gin}{Gin}}
+
+\begin{itemize}
+\item
+  Es una opción ligera pese a agregar una capa adicional al proyecto. Por esto último, nunca será tan una opción tan liviana como la primera.
+\item
+  Ofrece una sintaxis sencilla y fácil de entender para definir rutas y manejar solicitudes y respuestas.
+\item
+  Es el framework que tiene una comunidad más activa. Hay bastantes resoluciones de problemas y tutoriales.
+\end{itemize}
+
+\textbf{\href{https://pkg.go.dev/github.com/labstack/echo/v4}{Echo}}
+
+\begin{itemize}
+\item
+  Este framework también se caracteriza por ser ligero y enfocarse en el rendimiento de la aplicación.
+\item
+  Proporciona una sintaxis clara para definir rutas y manejar solicitudes y respuestas. 
+\item
+  Tiene una comunidad activa, aunque esta es más pequeña que la opción anterior debido a que es un framework más nuevo y su comunidad está aún en periodo de crecimiento.
+\end{itemize}
+
+\textbf{\href{https://pkg.go.dev/github.com/gofiber/fiber/v2}{Fiber}}
+
+\begin{itemize}
+\item
+  Este framework también se caracteriza por ser ligero y enfocarse en el rendimiento y velocidad de la aplicación.
+\item
+  Está inspirado en Express.js, lo que facilita su uso a desarrolladores familiarizados con ese framework. 
+\item
+  Al igual que la opción anterior, su comunidad es aún pequeña debido a su poco tiempo en el mercado.
+\end{itemize}
+
+\subsubsection{Elección}
+
+Una vez expuestos los criterios sobre estas 4 opciones, he decidido decantarme por Gin, debido a que tiene una mayor comunidad que los 
+otros frameworks, aporta facilidades respecto a net/http (biblioteca estandar de Go) y no es una opción muy pesada que vaya a producir un 
+decremento notable en el rendimiento de mi producto.
+
+
