@@ -558,7 +558,7 @@ En este milestone se plantea la creación de una API REST para trabajar con la l
 \item
   Herramientas ligeras que no conviertan el proyecto en pesado.
 \item
-  Facilidad de uso.
+  Herramienta que proporcione funciones para la validación de solicitudes y manejo de errores
 \item
   Comunidad y ecosistema afianzado.
 \end{itemize}
@@ -571,7 +571,7 @@ En este milestone se plantea la creación de una API REST para trabajar con la l
 \item
   Es la opción más liviana al pertenecer a la biblioteca estándar de Go, por lo que no incluye ninguna dependencia.
 \item
-  Es más complejo de usar al no ser un framework, ya que requiere más configuración manual. Por otra parte, te da mayor control y flexibilidad.
+  No proporciona ayuda frente validación de solicitudes ni manejo de errores, habría que tratarlos manualmente.
 \item
   Al ser parte de la biblioteca estandar de Go, su comunidad es grande, estable y afianzada.
 \end{itemize}
@@ -582,7 +582,7 @@ En este milestone se plantea la creación de una API REST para trabajar con la l
 \item
   Es una opción ligera pese a agregar una capa adicional al proyecto. Por esto último, nunca será tan una opción tan liviana como la primera.
 \item
-  Ofrece una sintaxis sencilla y fácil de entender para definir rutas y manejar solicitudes y respuestas.
+  Ofrece funciones para facilitar la validación de solicitudes y manejo de errores mediante un \textit{middleware}.
 \item
   Es el framework que tiene una comunidad más activa. Hay bastantes resoluciones de problemas y tutoriales.
 \end{itemize}
@@ -593,7 +593,7 @@ En este milestone se plantea la creación de una API REST para trabajar con la l
 \item
   Este framework también se caracteriza por ser ligero y enfocarse en el rendimiento de la aplicación.
 \item
-  Proporciona una sintaxis clara para definir rutas y manejar solicitudes y respuestas. 
+  Incluye un mecanismo de validación y permite añadir middleware para el manejo de errores
 \item
   Tiene una comunidad activa, aunque esta es más pequeña que la opción anterior debido a que es un framework más nuevo y su comunidad está aún en periodo de crecimiento.
 \end{itemize}
@@ -604,7 +604,7 @@ En este milestone se plantea la creación de una API REST para trabajar con la l
 \item
   Este framework también se caracteriza por ser ligero y enfocarse en el rendimiento y velocidad de la aplicación.
 \item
-  Está inspirado en Express.js, lo que facilita su uso a desarrolladores familiarizados con ese framework. 
+  Incluye el mismo validador que Echo y tiene una función de manejo de errores integrada.
 \item
   Al igual que la opción anterior, su comunidad es aún pequeña debido a su poco tiempo en el mercado.
 \end{itemize}
@@ -612,7 +612,7 @@ En este milestone se plantea la creación de una API REST para trabajar con la l
 \subsubsection{Elección}
 
 Una vez expuestos los criterios sobre estas 4 opciones, he decidido decantarme por Gin, debido a que tiene una mayor comunidad que los 
-otros frameworks, aporta facilidades respecto a net/http (biblioteca estandar de Go) y no es una opción muy pesada que vaya a producir un 
+otros frameworks, aporta facilidades en la validación de solicitudes y manejo de errores respecto a net/http (biblioteca estandar de Go) y no es una opción muy pesada que vaya a producir un 
 decremento notable en el rendimiento de mi producto.
 
 
