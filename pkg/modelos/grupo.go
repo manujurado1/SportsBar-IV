@@ -19,7 +19,6 @@ var (
 	ErrorListaAmigosVacia                            = fmt.Errorf("No se puede crear un grupo de amigos con una lista de amigos vacía")
 	ErrorJugadoresDisponiblesNoAptosParaCrearEquipos = fmt.Errorf("No se pueden crear 2 equipos igualados si la cantidad de amigos disponibles no es un número par mayor o igual a 10, Cantidad actual")
 	ErrorImposibilidadCrearEquiposIgualados          = fmt.Errorf("Ha sido imposible crear 2 equipos igualados con la lista de jugadores disponibles")
-	ErrorEquiposPartidoDistinto                      = fmt.Errorf("Los equipos introducidos no son del mismo partido ya que tienen fechas diferentes")
 )
 
 func FormatearError(e error, identificador string) error {
