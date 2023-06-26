@@ -12,19 +12,19 @@ var (
 	GruposAmigos = map[string]modelos.GrupoAmigos{}
 )
 
-func inicializarAPI() {
+func setupRouter() *gin.Engine {
 	r := gin.Default()
 	r.GET("/grupos-amigos", obtenerGruposAmigos)
-	r.GET("/grupos-amigos/:nombre-grupo", obtenerGrupoAmigos)
-	r.POST("/grupos-amigos", crearGrupoAmigos)
+	r.GET("/grupo-amigo/:nombre-grupo", obtenerGrupoAmigos)
+	r.POST("/grupo-amigo", crearGrupoAmigos)
 	r.POST("/aniadir-amigo/:nombre-grupo", aniadirAmigoAlGrupo)
 	r.POST("/cambiar-disponibilidad-amigo/:nombre-grupo", cambiarDisponibilidadAmigo)
 	r.GET("/obtener-equipos-igualados/:nombre-grupo", obtenerEquiposIgualados)
 	r.POST("/actualizar-niveles-tras-partido/:nombre-grupo", modificarNivelesTrasPartido)
-	_ = r.Run()
+	return r
 }
 func obtenerGruposAmigos(c *gin.Context) {
-	c.JSON(http.StatusAccepted, GruposAmigos)
+	c.JSON(http.StatusOK, GruposAmigos)
 }
 
 func obtenerGrupoAmigos(c *gin.Context) {
@@ -37,7 +37,7 @@ func obtenerGrupoAmigos(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusAccepted, grupo)
+	c.JSON(http.StatusOK, grupo)
 }
 
 func crearGrupoAmigos(c *gin.Context) {
@@ -137,7 +137,7 @@ func cambiarDisponibilidadAmigo(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusAccepted, grupo.NivelYDisponibilidadAmigos)
+	c.JSON(http.StatusOK, grupo.NivelYDisponibilidadAmigos)
 }
 
 func obtenerEquiposIgualados(c *gin.Context) {
@@ -163,7 +163,7 @@ func obtenerEquiposIgualados(c *gin.Context) {
 	EquiposIgualados.Equipo1 = Equipo1.ListaNombreAmigoDentoDelGrupo
 	EquiposIgualados.Equipo2 = Equipo2.ListaNombreAmigoDentoDelGrupo
 
-	c.JSON(http.StatusAccepted, EquiposIgualados)
+	c.JSON(http.StatusOK, EquiposIgualados)
 }
 
 func modificarNivelesTrasPartido(c *gin.Context) {
@@ -198,9 +198,5 @@ func modificarNivelesTrasPartido(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusAccepted, grupo.NivelYDisponibilidadAmigos)
-}
-
-func main() {
-	inicializarAPI()
+	c.JSON(http.StatusOK, grupo.NivelYDisponibilidadAmigos)
 }
