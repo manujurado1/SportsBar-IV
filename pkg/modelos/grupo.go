@@ -130,7 +130,6 @@ func (g *GrupoAmigos) GrupoAmigosListoParaCrearEquipos(estadosAmigos map[string]
 	}
 
 	return true, amigosDisponibles, nil
-
 }
 
 func (g *GrupoAmigos) ObtenerListaAmigosDisponibles(estadosAmigos map[string]EstadoAmigo) []string {
