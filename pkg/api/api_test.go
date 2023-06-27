@@ -191,7 +191,6 @@ func TestAniadirAmigo(t *testing.T) {
 
 	assert.Equal(t, 201, w2.Code)
 	assert.Equal(t, SalidaEsperadaTipo3, w2.Body.String())
-
 }
 
 func TestCambiarDisponibilidad(t *testing.T) {
