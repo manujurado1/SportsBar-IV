@@ -107,13 +107,13 @@ func TestModificarDisponibilidadAmigo(t *testing.T) {
 	//Caso incorrecto intentando cambiar disponibilidad de un amigo que no está en el grupo
 	amigoNuevo, _ := NewAmigo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
 	errorEsperado := ErrorAmigoInexistente.Error() + ": " + amigoNuevo.ObtenerId()
-	errorInexistente := grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
+	errorInexistente := grupo.CambiarDisponibilidadAmigo(amigoNuevo.ObtenerId(), false)
 	assert.EqualError(t, errorInexistente, errorEsperado)
 
 	//Caso correcto
 	_ = grupo.CrearAmigoYAniadirAlGrupo("Migue", time.Date(1999, time.April, 27, 0, 0, 0, 0, time.Now().Location()))
 	amigoNuevo = grupo.ListaAmigos[2]
-	errorDisponibilidad := grupo.CambiarDisponibilidadAmigo(amigoNuevo, false)
+	errorDisponibilidad := grupo.CambiarDisponibilidadAmigo(amigoNuevo.ObtenerId(), false)
 	estado := grupo.NivelYDisponibilidadAmigos[amigoNuevo.ObtenerId()]
 
 	assert.Nil(t, errorDisponibilidad)
@@ -155,8 +155,8 @@ func TestCrearEquiposIgualados(t *testing.T) {
 	listaEquipo1Esperada := []string{"Javi7September", "Migue22January", "Alex13July", "Jorge3July", "Guille17February"}
 	listaEquipo2Esperada := []string{"Sergio4May", "Fran8March", "Manu27June", "Javi17August", "Jose1December"}
 
-	assert.Equal(t, listaEquipo1Esperada, equipo1.listaNombreAmigoDentoDelGrupo)
-	assert.Equal(t, listaEquipo2Esperada, equipo2.listaNombreAmigoDentoDelGrupo)
+	assert.Equal(t, listaEquipo1Esperada, equipo1.ListaNombreAmigoDentoDelGrupo)
+	assert.Equal(t, listaEquipo2Esperada, equipo2.ListaNombreAmigoDentoDelGrupo)
 	assert.Nil(t, errorCrearEquipos)
 
 }
@@ -179,10 +179,10 @@ func TestModificarNivelesTrasPartido(t *testing.T) {
 	errorModificarNiveles = grupo.ModificarNivelesTrasPartido(equipo1, 2, equipo2, 1)
 
 	assert.Nil(t, errorModificarNiveles)
-	for _, amigo := range equipo1.listaNombreAmigoDentoDelGrupo {
+	for _, amigo := range equipo1.ListaNombreAmigoDentoDelGrupo {
 		assert.Greater(t, grupo.NivelYDisponibilidadAmigos[amigo].Nivel, NivelPorOmision)
 	}
-	for _, amigo := range equipo2.listaNombreAmigoDentoDelGrupo {
+	for _, amigo := range equipo2.ListaNombreAmigoDentoDelGrupo {
 		assert.Less(t, grupo.NivelYDisponibilidadAmigos[amigo].Nivel, NivelPorOmision)
 	}
 
