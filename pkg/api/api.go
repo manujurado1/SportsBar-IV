@@ -138,6 +138,7 @@ func cambiarDisponibilidadAmigo(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, grupo.NivelYDisponibilidadAmigos)
+
 }
 
 func obtenerEquiposIgualados(c *gin.Context) {
