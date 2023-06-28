@@ -164,6 +164,7 @@ func (g *GrupoAmigos) CrearDosEquiposIgualados(estadosAmigos map[string]EstadoAm
 	}
 
 	return equipo1, equipo2, nil
+
 }
 
 func (g *GrupoAmigos) RepartirJugadoresDisponiblesEnDosEquiposSegunNivel(ListaAmigosDisponiblesOrdenados []string) (Equipo, Equipo) {
