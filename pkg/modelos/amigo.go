@@ -23,6 +23,7 @@ func NewAmigo(nick string, fechaNacimiento time.Time) (Amigo, error) {
 	return Amigo{
 		Identificador: identificador,
 	}, nil
+
 }
 
 func (a Amigo) ObtenerId() string {
