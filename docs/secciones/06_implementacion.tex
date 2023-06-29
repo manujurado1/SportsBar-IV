@@ -550,13 +550,25 @@ testeado las siguientes versiones:
 
 En este milestone se plantea la creación de una API REST para trabajar con la lógica de negocio.
 
+\subsection{Conveniencia de usar un framework para crear la API REST}
+
+\subsubsection{Criterios}
+
+Como criterio a la hora de tomar la decisión de usar o no un \textit{framework} se expondrán los pincipales pros y contras de usar un \textit{framework} o decantarse únicamente por la biblioteca estándar
+
+\subsubsection{Opciones y decisión}
+
+Go nos da la posibilidad de crear una API REST sin necesidad de usar ningún \textit{framework}, gracias a su biblioteca estándar \href{https://pkg.go.dev/net/http}{net/http}.
+Aún así, la posibilidad de añadir una capa al proyecto usando algún \textit{framework} para crear la API nos puede otorgar ciertas facilidades a la hora de su creación y de manejar las solicitudes y los errores.
+
+Por lo tanto, debido a que gracias a Go Modules no es un problema añadir dependencias al proyecto, y estas no afectan negativamente al rendimiento del mismo, se ha optado por usar
+un framework para crear la API REST, respaldado por las funcionalidades que nos proporciona la bibioteca estándar.
+
 \subsection{Elección del framework para la creación de la API REST}
 
 \subsubsection{Criterios}
 
 \begin{itemize}
-\item
-  Herramientas ligeras que no conviertan el proyecto en pesado.
 \item
   Herramienta que proporcione funciones para la validación de solicitudes y manejo de errores
 \item
@@ -565,22 +577,9 @@ En este milestone se plantea la creación de una API REST para trabajar con la l
 
 \subsubsection{Opciones}
 
-\textbf{\href{https://pkg.go.dev/net/http}{net/http}}
-
-\begin{itemize}
-\item
-  Es la opción más liviana al pertenecer a la biblioteca estándar de Go, por lo que no incluye ninguna dependencia.
-\item
-  No proporciona ayuda frente validación de solicitudes ni manejo de errores, habría que tratarlos manualmente.
-\item
-  Al ser parte de la biblioteca estandar de Go, su comunidad es grande, estable y afianzada.
-\end{itemize}
-
 \textbf{\href{https://pkg.go.dev/github.com/gin-gonic/gin}{Gin}}
 
 \begin{itemize}
-\item
-  Es una opción ligera pese a agregar una capa adicional al proyecto. Por esto último, nunca será tan una opción tan liviana como la primera.
 \item
   Ofrece funciones para facilitar la validación de solicitudes y manejo de errores mediante un \textit{middleware}.
 \item
@@ -591,8 +590,6 @@ En este milestone se plantea la creación de una API REST para trabajar con la l
 
 \begin{itemize}
 \item
-  Este framework también se caracteriza por ser ligero y enfocarse en el rendimiento de la aplicación.
-\item
   Incluye un mecanismo de validación y permite añadir middleware para el manejo de errores
 \item
   Tiene una comunidad activa, aunque esta es más pequeña que la opción anterior debido a que es un framework más nuevo y su comunidad está aún en periodo de crecimiento.
@@ -602,8 +599,6 @@ En este milestone se plantea la creación de una API REST para trabajar con la l
 
 \begin{itemize}
 \item
-  Este framework también se caracteriza por ser ligero y enfocarse en el rendimiento y velocidad de la aplicación.
-\item
   Incluye el mismo validador que Echo y tiene una función de manejo de errores integrada.
 \item
   Al igual que la opción anterior, su comunidad es aún pequeña debido a su poco tiempo en el mercado.
@@ -611,8 +606,6 @@ En este milestone se plantea la creación de una API REST para trabajar con la l
 
 \subsubsection{Elección}
 
-Una vez expuestos los criterios sobre estas 4 opciones, he decidido decantarme por Gin, debido a que tiene una mayor comunidad que los 
-otros frameworks, aporta facilidades en la validación de solicitudes y manejo de errores respecto a net/http (biblioteca estandar de Go) y no es una opción muy pesada que vaya a producir un 
-decremento notable en el rendimiento de mi producto.
-
+Una vez expuestos los criterios sobre estas opciones, he decidido decantarme por Gin, debido a que tiene una mayor comunidad que los 
+otros frameworks y aporta facilidades en la validación de solicitudes y manejo de errores.
 
