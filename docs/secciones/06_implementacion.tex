@@ -544,3 +544,68 @@ testeado las siguientes versiones:
   ha testeado también por la brevedad de tiempo que lleva sin ser tener
   soporte. También se testea mediante GitHub actions.
 \end{itemize}
+
+\newpage
+\section{Quinto hito: Creación de la API REST}
+
+En este milestone se plantea la creación de una API REST para trabajar con la lógica de negocio.
+
+\subsection{Conveniencia de usar un framework para crear la API REST}
+
+\subsubsection{Criterios}
+
+Como criterio a la hora de tomar la decisión de usar o no un \textit{framework} se expondrán los pincipales pros y contras de usar un \textit{framework} o decantarse únicamente por la biblioteca estándar
+
+\subsubsection{Opciones y decisión}
+
+Go nos da la posibilidad de crear una API REST sin necesidad de usar ningún \textit{framework}, gracias a su biblioteca estándar \href{https://pkg.go.dev/net/http}{net/http}.
+Aún así, la posibilidad de añadir una capa al proyecto usando algún \textit{framework} para crear la API nos puede otorgar ciertas facilidades a la hora de su creación y de manejar las solicitudes y los errores.
+
+Por lo tanto, debido a que gracias a Go Modules no es un problema añadir dependencias al proyecto, y estas no afectan negativamente al rendimiento del mismo, se ha optado por usar
+un framework para crear la API REST, respaldado por las funcionalidades que nos proporciona la bibioteca estándar.
+
+\subsection{Elección del framework para la creación de la API REST}
+
+\subsubsection{Criterios}
+
+\begin{itemize}
+\item
+  Herramienta que proporcione funciones para la validación de solicitudes y manejo de errores
+\item
+  Puntuación en \href{https://goreportcard.com/}{Go Report Card}
+\end{itemize}
+
+\subsubsection{Opciones}
+
+\textbf{\href{https://pkg.go.dev/github.com/gin-gonic/gin}{Gin}}
+
+\begin{itemize}
+\item
+  Ofrece funciones para facilitar la validación de solicitudes y manejo de errores mediante un \textit{middleware}.
+\item
+  Puntuación A+ en Go Report Card (5 \textit{issues} encontrados)
+\end{itemize}
+
+\textbf{\href{https://pkg.go.dev/github.com/labstack/echo/v4}{Echo}}
+
+\begin{itemize}
+\item
+  Incluye un mecanismo de validación y permite añadir middleware para el manejo de errores
+\item
+Puntuación A+ en Go Report Card (19 \textit{issues} encontrados)
+\end{itemize}
+
+\textbf{\href{https://pkg.go.dev/github.com/gofiber/fiber/v2}{Fiber}}
+
+\begin{itemize}
+\item
+  Incluye el mismo validador que Echo y tiene una función de manejo de errores integrada.
+\item
+Puntuación A+ en Go Report Card (38 \textit{issues} encontrados)
+\end{itemize}
+
+\subsubsection{Elección}
+
+Una vez expuestos los criterios sobre estas opciones, he decidido decantarme por Gin, debido a que tiene tiene mejores porcentajes en Go Report Card debido a que contiene menos problemas que el resto.
+Además aporta facilidades en la validación de solicitudes y manejo de errores.
+

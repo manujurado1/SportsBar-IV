@@ -10,7 +10,7 @@ var (
 )
 
 type Amigo struct {
-	identificador string
+	Identificador string
 }
 
 func NewAmigo(nick string, fechaNacimiento time.Time) (Amigo, error) {
@@ -21,12 +21,13 @@ func NewAmigo(nick string, fechaNacimiento time.Time) (Amigo, error) {
 	identificador := GenerarIdentificador(nick, fechaNacimiento)
 
 	return Amigo{
-		identificador: identificador,
+		Identificador: identificador,
 	}, nil
+
 }
 
 func (a Amigo) ObtenerId() string {
-	return a.identificador
+	return a.Identificador
 }
 
 func GenerarIdentificador(nickAmigo string, fechaNacimiento time.Time) string {

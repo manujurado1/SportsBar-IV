@@ -19,7 +19,6 @@ var (
 	ErrorListaAmigosVacia                            = fmt.Errorf("No se puede crear un grupo de amigos con una lista de amigos vacía")
 	ErrorJugadoresDisponiblesNoAptosParaCrearEquipos = fmt.Errorf("No se pueden crear 2 equipos igualados si la cantidad de amigos disponibles no es un número par mayor o igual a 10, Cantidad actual")
 	ErrorImposibilidadCrearEquiposIgualados          = fmt.Errorf("Ha sido imposible crear 2 equipos igualados con la lista de jugadores disponibles")
-	ErrorEquiposPartidoDistinto                      = fmt.Errorf("Los equipos introducidos no son del mismo partido ya que tienen fechas diferentes")
 )
 
 func FormatearError(e error, identificador string) error {
@@ -81,15 +80,15 @@ func (g *GrupoAmigos) CrearAmigoYAniadirAlGrupo(nickAmigo string, fechaNacimient
 	return nil
 }
 
-func (g *GrupoAmigos) CambiarDisponibilidadAmigo(amigo Amigo, disponibilidad bool) error {
-	estado, existe := g.NivelYDisponibilidadAmigos[amigo.ObtenerId()]
+func (g *GrupoAmigos) CambiarDisponibilidadAmigo(identificador string, disponibilidad bool) error {
+	estado, existe := g.NivelYDisponibilidadAmigos[identificador]
 
 	if !existe {
-		return FormatearError(ErrorAmigoInexistente, amigo.ObtenerId())
+		return FormatearError(ErrorAmigoInexistente, identificador)
 	}
 
 	estado.Disponible = disponibilidad
-	g.NivelYDisponibilidadAmigos[amigo.ObtenerId()] = estado
+	g.NivelYDisponibilidadAmigos[identificador] = estado
 
 	return nil
 }
@@ -131,7 +130,6 @@ func (g *GrupoAmigos) GrupoAmigosListoParaCrearEquipos(estadosAmigos map[string]
 	}
 
 	return true, amigosDisponibles, nil
-
 }
 
 func (g *GrupoAmigos) ObtenerListaAmigosDisponibles(estadosAmigos map[string]EstadoAmigo) []string {
@@ -166,7 +164,6 @@ func (g *GrupoAmigos) CrearDosEquiposIgualados(estadosAmigos map[string]EstadoAm
 	}
 
 	return equipo1, equipo2, nil
-
 }
 
 func (g *GrupoAmigos) RepartirJugadoresDisponiblesEnDosEquiposSegunNivel(ListaAmigosDisponiblesOrdenados []string) (Equipo, Equipo) {
@@ -208,7 +205,7 @@ func (g *GrupoAmigos) EstanIgualados(Equipo1 Equipo, Equipo2 Equipo) bool {
 	var NivelTotalEquipo1 uint = 0
 	var NivelTotalEquipo2 uint = 0
 
-	if len(Equipo1.listaNombreAmigoDentoDelGrupo) == len(Equipo2.listaNombreAmigoDentoDelGrupo) && len(Equipo1.listaNombreAmigoDentoDelGrupo) >= 5 {
+	if len(Equipo1.ListaNombreAmigoDentoDelGrupo) == len(Equipo2.ListaNombreAmigoDentoDelGrupo) && len(Equipo1.ListaNombreAmigoDentoDelGrupo) >= 5 {
 
 		for _, jugador := range Equipo1.ObtenerEquipo() {
 			NivelTotalEquipo1 += uint(g.NivelYDisponibilidadAmigos[jugador].Nivel)
@@ -231,10 +228,6 @@ func (g *GrupoAmigos) EstanIgualados(Equipo1 Equipo, Equipo2 Equipo) bool {
 }
 
 func (g *GrupoAmigos) ModificarNivelesTrasPartido(Equipo1 Equipo, ResultadoEquipo1 uint, Equipo2 Equipo, ResultadoEquipo2 uint) error {
-	if Equipo1.ObtenerFechaCreacion() != Equipo2.ObtenerFechaCreacion() {
-		mensaje := fmt.Sprint(Equipo1.ObtenerFechaCreacion()) + " != " + fmt.Sprint(Equipo2.ObtenerEquipo())
-		return FormatearError(ErrorEquiposPartidoDistinto, mensaje)
-	}
 
 	if ResultadoEquipo1 != ResultadoEquipo2 {
 
