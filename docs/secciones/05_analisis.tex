@@ -1,7 +1,7 @@
 \chapter{Análisis del problema}
  
-En esta sección se mostrarán las pruebas que se han realizado para dar por solucionado los distintos problemas que plantea resolver 
-el proyecto, junto a un análisis de los resultados obtenidos.
+En esta sección se mostrará cómo se han abordado los distintos problemas que han ido surgiendo con el fin de conseguir solucionar los problemas que plantea resolver 
+el proyecto.
 
 \section{Identificación y estructura de datos de los objetos valor}
 
@@ -18,19 +18,25 @@ Este tipo de dato nos permite asignar una puntuación al nivel de habilidad de c
 
 \subsection{Amigo}
 
-El objeto valor amigo, cuya función es identificar a cada uno de los miembros de un grupo, ha sido definido como una estructura cuyo atributo es un identificador, generado en base al \textit{nick}
+El objeto valor amigo, cuya función es identificar a cada uno de los miembros de un grupo, ha sido definido como una estructura cuyo atributo es un identificador, generado según el \textit{nick}
  de esa persona en el grupo y su fecha de nacimiento. De esta forma se permite la posibilidad de tener en el mismo grupo de amigos 2 o más personas con el mismo nick, obteniendo identificadores distintos
  y de esta manera satisfacer \href{https://github.com/manujurado1/SportsBar-IV/issues/119}{la historia de usuario.}
 
 
 \subsection{Equipo}
 
-Por último, faltaba definir qué es un equipo. Este objeto valor es una estructura cuyo atributos son:
+Por último, faltaba definir qué es un equipo. Este objeto valor es una estructura cuyo atributo es una lista formada por los identificadores de los amigos que forman ese equipo.
+
+\section{Identificación y estructura de datos de la entidad}
+Se ha identificado el tipo de dato "GrupoAmigos" como la entidad manejadora de la lógica de negocio.
+Este tipo de dato está formado por:
 
 \begin{itemize}
-    \item Una lista formada por los identificadores de los amigos que forman ese equipo.
-    \item La fecha en la cual se creó ese equipo.
+    \item Un string el cual contiene el nombre del grupo. Dicho nombre será único.
+    \item Una lista con los amigos que forman el grupo.
+    \item Un map en el que, por cada identificador de cada amigo que forma el grupo, obtenemos como valor su nivel y su disponibilidad.
 \end{itemize}
+
 
 \section{Creación de equipos igualados}
 
@@ -38,16 +44,16 @@ El primer problema que plantea resolver el proyecto es la creación de 2 equipos
 Para comprender los resultados de los análisis, se deben conocer los siguientes conceptos:
 
 \begin{itemize}
-    \item El nivel de cada jugador es un entero que puede oscilar entre el 1 y el 100.
+    \item El nivel de cada jugador es un entero que puede oscilar entre el 0 y el 10, aunque en esta prueba se ha aumentado hasta 100 para poder tener un abanico más amplio de posibilidades.
     \item El nivel de un equipo viene dado por la media de nivel de los jugadores que lo componen.
-    \item Dos equipos se consideran igualados si la diferencia de nivel entre ambos equipos no es superior a 10 niveles.
+    \item Dos equipos se consideran igualados si la diferencia de nivel entre ambos equipos no es superior a 1 nivel.
 \end{itemize}
 
 \newpage
 
 El primer análisis efectuado pretende comprobar si el algoritmo establecido para la creación de equipos mejora la aleatoriedad.\\
 
-Se ha creado aleatoriamente una lista de 10 elementos comprendidos entre el 1 y el 100 que hace referencia al nivel de los 10 jugadores
+Se ha creado aleatoriamente una lista de 10 elementos comprendidos entre el 0 y el 100 que hace referencia al nivel de los 10 jugadores
 que se simulan en esta prueba y se han realizado 5 combinaciones aleatorias. La lista ha sido la siguiente:  73, 70, 42, 66, 28, 16, 29, 50, 10, 18.\\
 
 
@@ -81,3 +87,14 @@ Sin embargo, si con estos mismos datos de entrada aplicamos el algoritmo diseña
 \end{tabular}\\
 
 Podemos observar que el algoritmo implementado supera con creces la aleatoriedad.
+
+\section{Gestion de niveles tras un partido}
+
+Por último, este proyecto también plantea una gestión de niveles en función del resultado que, con el tiempo, produzca partidos más igualados. Esto debido a que cada jugador irá oscilando sobre su nivel real.
+Para resolver este problema, se ha seguido la siguiente lógica:
+
+\begin{itemize}
+    \item Si el partido queda en empate, los niveles no se modifican.
+    \item Si el partido no queda en empate, suben 1 nivel los que ganan y bajan 1 nivel los que pierden, nunca rebasando los límites de nivel (0 a 10)
+    
+\end{itemize}
