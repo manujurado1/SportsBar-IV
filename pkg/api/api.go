@@ -12,7 +12,7 @@ var (
 	GruposAmigos = map[string]modelos.GrupoAmigos{}
 )
 
-func setupRouter() *gin.Engine {
+func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.GET("/grupos-amigos", obtenerGruposAmigos)
 	r.GET("/grupo-amigo/:nombre-grupo", obtenerGrupoAmigos)

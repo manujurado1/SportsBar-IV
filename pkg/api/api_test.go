@@ -129,7 +129,7 @@ var (
 
 func TestCrearGruposAmigos(t *testing.T) {
 	GruposAmigos = make(map[string]modelos.GrupoAmigos)
-	router := setupRouter()
+	router := SetupRouter()
 
 	w := httptest.NewRecorder()
 	req, err := http.NewRequest("POST", "/grupo-amigo", bytes.NewBuffer([]byte(CuerpoTipo1)))
@@ -142,7 +142,7 @@ func TestCrearGruposAmigos(t *testing.T) {
 
 func TestObtenerGrupoAmigo(t *testing.T) {
 	GruposAmigos = make(map[string]modelos.GrupoAmigos)
-	router := setupRouter()
+	router := SetupRouter()
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/grupo-amigo", bytes.NewBuffer([]byte(CuerpoTipo1)))
@@ -159,7 +159,7 @@ func TestObtenerGrupoAmigo(t *testing.T) {
 
 func TestObtenerGruposAmigos(t *testing.T) {
 	GruposAmigos = make(map[string]modelos.GrupoAmigos)
-	router := setupRouter()
+	router := SetupRouter()
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/grupo-amigo", bytes.NewBuffer([]byte(CuerpoTipo1)))
@@ -178,7 +178,7 @@ func TestObtenerGruposAmigos(t *testing.T) {
 
 func TestAniadirAmigo(t *testing.T) {
 	GruposAmigos = make(map[string]modelos.GrupoAmigos)
-	router := setupRouter()
+	router := SetupRouter()
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/grupo-amigo", bytes.NewBuffer([]byte(CuerpoTipo1)))
@@ -195,7 +195,7 @@ func TestAniadirAmigo(t *testing.T) {
 
 func TestCambiarDisponibilidad(t *testing.T) {
 	GruposAmigos = make(map[string]modelos.GrupoAmigos)
-	router := setupRouter()
+	router := SetupRouter()
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/grupo-amigo", bytes.NewBuffer([]byte(CuerpoTipo1)))
@@ -212,7 +212,7 @@ func TestCambiarDisponibilidad(t *testing.T) {
 
 func TestObtenerEquiposIgualados(t *testing.T) {
 	GruposAmigos = make(map[string]modelos.GrupoAmigos)
-	router := setupRouter()
+	router := SetupRouter()
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/grupo-amigo", bytes.NewBuffer([]byte(CuerpoTipo3)))
@@ -228,7 +228,7 @@ func TestObtenerEquiposIgualados(t *testing.T) {
 
 func TestModificarNivelesTrasPartido(t *testing.T) {
 	GruposAmigos = make(map[string]modelos.GrupoAmigos)
-	router := setupRouter()
+	router := SetupRouter()
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/grupo-amigo", bytes.NewBuffer([]byte(CuerpoTipo3)))
