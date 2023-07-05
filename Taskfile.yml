@@ -10,9 +10,3 @@ tasks:
     cmds:
       - echo "Lanzando tests..."
       - go test -v ./pkg/modelos
-
-  run:
-    cmds:
-      - echo "Corriendo API REST"
-      - go run cmd/main.go
-      
