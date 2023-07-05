@@ -12,9 +12,9 @@ require (
 	github.com/go-playground/validator/v10 v10.14.1 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
 	github.com/stretchr/testify v1.8.4
-	github.com/swaggo/files v1.0.1 // indirect
-	github.com/swaggo/gin-swagger v1.6.0 // indirect
-	github.com/swaggo/swag v1.16.1 // indirect
+	github.com/swaggo/files v1.0.1
+	github.com/swaggo/gin-swagger v1.6.0
+	github.com/swaggo/swag v1.16.1
 	github.com/urfave/cli/v2 v2.25.7 // indirect
 	golang.org/x/arch v0.4.0 // indirect
 	golang.org/x/net v0.12.0 // indirect
