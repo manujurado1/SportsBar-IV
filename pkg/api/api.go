@@ -2,10 +2,11 @@ package api
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/manujurado1/SportsBar-IV/pkg/modelos"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 var (
@@ -14,6 +15,10 @@ var (
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
+	r.GET("", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, "Bienvenido a SportsBar API REST, accede a /docs/index.html para consultar la documentación")
+	})
+	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/grupos-amigos", obtenerGruposAmigos)
 	r.GET("/grupo-amigo/:nombre-grupo", obtenerGrupoAmigos)
 	r.POST("/grupo-amigo", crearGrupoAmigos)
@@ -23,10 +28,26 @@ func SetupRouter() *gin.Engine {
 	r.POST("/actualizar-niveles-tras-partido/:nombre-grupo", modificarNivelesTrasPartido)
 	return r
 }
+
+// obtenerGruposAmigos	godoc
+// @Summary 			Obtener los grupos de amigos
+// @Description 		Obtener todos los grupos de amigos que se han creado
+// @Produce 			application/json
+// @Tags 				GrupoAmigo
+// @Success				200 {object} map[string]modelos.GrupoAmigos{}
+// @Router 				/grupos-amigos [get]
 func obtenerGruposAmigos(c *gin.Context) {
 	c.JSON(http.StatusOK, GruposAmigos)
 }
 
+// obtenerGrupoAmigo	godoc
+// @Summary 			Obtener el grupo de amigos con el nombre indicado
+// @Description 		Se obtiene el grupo de amigo con el nombre indicado
+// @Produce 			application/json
+// @Tags 				GrupoAmigo
+// @Param				nombre-grupo path string true "Obtener grupo de amigos"
+// @Success				200 {object} modelos.GrupoAmigos{}
+// @Router 				/grupo-amigo [get]
 func obtenerGrupoAmigos(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -40,14 +61,18 @@ func obtenerGrupoAmigos(c *gin.Context) {
 	c.JSON(http.StatusOK, grupo)
 }
 
+// crearGrupoAmigos		godoc
+// @Summary 			Crear grupo amigos
+// @Description 		Crear un nuevo grupo de amigos
+// @Produce 			application/json
+// @Tags 				GrupoAmigo
+// @Param				NuevoGrupo body modelos.NuevoGrupo true "Nombre del grupo y lista de amigos"
+// @Success				201 {object} modelos.GrupoAmigos{}
+// @Router 				/grupos-amigos [post]
 func crearGrupoAmigos(c *gin.Context) {
-	var nuevoGrupo struct {
-		NombreDelGrupo string
-		ListaAmigos    []struct {
-			Nick            string
-			FechaNacimiento time.Time
-		}
-	}
+
+	nuevoGrupo := modelos.NuevoGrupo{}
+
 	if err := c.ShouldBindJSON(&nuevoGrupo); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -83,6 +108,15 @@ func crearGrupoAmigos(c *gin.Context) {
 	c.JSON(http.StatusCreated, grupo)
 }
 
+// añadirAmigo			godoc
+// @Summary 			Añadir amigo
+// @Description 		Añadir un nuevo amigo al grupo
+// @Produce 			application/json
+// @Tags 				Amigo
+// @Param				nombre-grupo path string true "Obtener grupo de amigos"
+// @Param				AmigoAAñadir body modelos.AmigoAAniadir true "Nick y fecha de nacimiento del amigo a añadir"
+// @Success				201 {object} modelos.GrupoAmigos{}
+// @Router 				/aniadir-amigo/ [post]
 func aniadirAmigoAlGrupo(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -93,10 +127,7 @@ func aniadirAmigoAlGrupo(c *gin.Context) {
 		return
 	}
 
-	var amigoAAniadir struct {
-		Nick            string
-		FechaNacimiento time.Time
-	}
+	amigoAAniadir := modelos.AmigoAAniadir{}
 
 	if err := c.ShouldBindJSON(&amigoAAniadir); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -113,6 +144,15 @@ func aniadirAmigoAlGrupo(c *gin.Context) {
 	c.JSON(http.StatusCreated, grupo)
 }
 
+// cambiarDisponibilidadAmigo	godoc
+// @Summary 					Cambiar disponibilidad amigo
+// @Description 				Cambiar la disponibilidad de un amigo del grupo
+// @Produce 					application/json
+// @Tags 						Amigo
+// @Param						nombre-grupo path string true "Obtener grupo de amigos"
+// @Param						AmigoAModificar body modelos.AmigoAModificar true "Identificador y disponibilidad del amigo al que se le quiere cambiar la disponibilidad"
+// @Success						200 {object} modelos.RespuestaModificarAmigo
+// @Router 						/cambiar-disponibilidad-amigo/ [post]
 func cambiarDisponibilidadAmigo(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -123,10 +163,7 @@ func cambiarDisponibilidadAmigo(c *gin.Context) {
 		return
 	}
 
-	var amigoAModificar struct {
-		Identificador string
-		Disponible    bool
-	}
+	amigoAModificar := modelos.AmigoAModificar{}
 	if err := c.ShouldBindJSON(&amigoAModificar); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -140,13 +177,18 @@ func cambiarDisponibilidadAmigo(c *gin.Context) {
 	c.JSON(http.StatusOK, grupo.NivelYDisponibilidadAmigos)
 }
 
+// obtenerEquiposIgualados		godoc
+// @Summary 					Obtener equipos igualados
+// @Description 				Obtener equipos igualados en función de los jugadores disponibles de ese equipo
+// @Produce 					application/json
+// @Tags 						GrupoAmigo
+// @Param						nombre-grupo path string true "Obtener grupo de amigos"
+// @Success						200 {object} modelos.EquiposIgualados{}
+// @Router 						/obtener-equipos-igualados/ [get]
 func obtenerEquiposIgualados(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
-	var EquiposIgualados struct {
-		Equipo1 []string
-		Equipo2 []string
-	}
+	EquiposIgualados := modelos.EquiposIgualados{}
 
 	// Verificar si el grupo de amigos  existe
 	grupo, ok := GruposAmigos[nombreGrupo]
@@ -166,15 +208,19 @@ func obtenerEquiposIgualados(c *gin.Context) {
 	c.JSON(http.StatusOK, EquiposIgualados)
 }
 
+// modificarNiveles				godoc
+// @Summary 					Modificar niveles tras partido
+// @Description 				Modificar los niveles de los jugadores que han participado en un partido en función del resultado
+// @Produce 					application/json
+// @Tags 						GrupoAmigo
+// @Param						nombre-grupo path string true "Obtener grupo de amigos"
+// @Param						Partido body modelos.Partido true "Equipos y Resultado de ambos equipos en el partido"
+// @Success						200 {object} modelos.RespuestaModificarAmigo
+// @Router 						/actualizar-niveles-tras-partido/:nombre-grupo/ [post]
 func modificarNivelesTrasPartido(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
-	var partido struct {
-		Equipo1          []string
-		ResultadoEquipo1 uint
-		Equipo2          []string
-		ResultadoEquipo2 uint
-	}
+	partido := modelos.Partido{}
 
 	if err := c.ShouldBindJSON(&partido); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
