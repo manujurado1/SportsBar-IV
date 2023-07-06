@@ -17,7 +17,28 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/grupo-amigos": {
-            "post": {
+            "get": {
+                "description": "Obtener todos los grupos de amigos que se han creado",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GrupoAmigos"
+                ],
+                "summary": "Obtener los grupos de amigos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "$ref": "#/definitions/modelos.GrupoAmigos"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
                 "description": "Crear un nuevo grupo de amigos",
                 "produces": [
                     "application/json"
@@ -115,7 +136,7 @@ const docTemplate = `{
             }
         },
         "/grupo-amigos/{nombre-grupo}/disponibilidad-amigo/": {
-            "put": {
+            "post": {
                 "description": "Cambiar la disponibilidad de un amigo del grupo",
                 "produces": [
                     "application/json"
@@ -181,16 +202,16 @@ const docTemplate = `{
                 }
             }
         },
-        "/grupo-amigos/{nombre-grupo}/niveles": {
-            "put": {
-                "description": "Modificar los niveles de los jugadores que han participado en un partido en función del resultado",
+        "/grupo-amigos/{nombre-grupo}/resultado-partido": {
+            "post": {
+                "description": "Introducir el resultado del partido para que el sistema modifique los niveles necesarios.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "GrupoAmigos"
                 ],
-                "summary": "Modificar niveles tras partido",
+                "summary": "Introducir resultado del partido",
                 "parameters": [
                     {
                         "type": "string",
@@ -214,29 +235,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/modelos.RespuestaModificarAmigo"
-                        }
-                    }
-                }
-            }
-        },
-        "/grupos-amigos": {
-            "get": {
-                "description": "Obtener todos los grupos de amigos que se han creado",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "GruposAmigos"
-                ],
-                "summary": "Obtener los grupos de amigos",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "$ref": "#/definitions/modelos.GrupoAmigos"
-                            }
                         }
                     }
                 }

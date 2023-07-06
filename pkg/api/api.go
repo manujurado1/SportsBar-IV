@@ -19,13 +19,13 @@ func SetupRouter() *gin.Engine {
 		ctx.JSON(http.StatusOK, "Bienvenido a SportsBar API REST, accede a /docs/index.html para consultar la documentación")
 	})
 	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	r.GET("/grupos-amigos", obtenerGruposAmigos)
+	r.GET("/grupo-amigos", obtenerGruposAmigos)
 	r.GET("/grupo-amigos/:nombre-grupo", obtenerGrupoAmigos)
-	r.POST("/grupo-amigos", crearGrupoAmigos)
+	r.PUT("/grupo-amigos", crearGrupoAmigos)
 	r.POST("/grupo-amigos/:nombre-grupo/amigo", aniadirAmigoAlGrupo)
-	r.PUT("/grupo-amigos/:nombre-grupo/disponibilidad-amigo", cambiarDisponibilidadAmigo)
+	r.POST("/grupo-amigos/:nombre-grupo/disponibilidad-amigo", cambiarDisponibilidadAmigo)
 	r.GET("/grupo-amigos/:nombre-grupo/equipos-igualados", obtenerEquiposIgualados)
-	r.PUT("/grupo-amigos/:nombre-grupo/niveles", modificarNivelesTrasPartido)
+	r.POST("/grupo-amigos/:nombre-grupo/resultado-partido", modificarNivelesTrasPartido)
 	return r
 }
 
@@ -33,9 +33,9 @@ func SetupRouter() *gin.Engine {
 // @Summary 			Obtener los grupos de amigos
 // @Description 		Obtener todos los grupos de amigos que se han creado
 // @Produce 			application/json
-// @Tags 				GruposAmigos
+// @Tags 				GrupoAmigos
 // @Success				200 {object} map[string]modelos.GrupoAmigos{}
-// @Router 				/grupos-amigos [get]
+// @Router 				/grupo-amigos [get]
 func obtenerGruposAmigos(c *gin.Context) {
 	c.JSON(http.StatusOK, GruposAmigos)
 }
@@ -68,7 +68,7 @@ func obtenerGrupoAmigos(c *gin.Context) {
 // @Tags 				GrupoAmigos
 // @Param				NuevoGrupo body modelos.NuevoGrupo true "Nombre del grupo y lista de amigos"
 // @Success				201 {object} modelos.GrupoAmigos{}
-// @Router 				/grupo-amigos [post]
+// @Router 				/grupo-amigos [put]
 func crearGrupoAmigos(c *gin.Context) {
 
 	nuevoGrupo := modelos.NuevoGrupo{}
@@ -152,7 +152,7 @@ func aniadirAmigoAlGrupo(c *gin.Context) {
 // @Param						nombre-grupo path string true "Obtener grupo de amigos"
 // @Param						AmigoAModificar body modelos.AmigoAModificar true "Identificador y disponibilidad del amigo al que se le quiere cambiar la disponibilidad"
 // @Success						200 {object} modelos.RespuestaModificarAmigo
-// @Router 						/grupo-amigos/{nombre-grupo}/disponibilidad-amigo/ [put]
+// @Router 						/grupo-amigos/{nombre-grupo}/disponibilidad-amigo/ [post]
 func cambiarDisponibilidadAmigo(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -209,14 +209,14 @@ func obtenerEquiposIgualados(c *gin.Context) {
 }
 
 // modificarNiveles				godoc
-// @Summary 					Modificar niveles tras partido
-// @Description 				Modificar los niveles de los jugadores que han participado en un partido en función del resultado
+// @Summary 					Introducir resultado del partido
+// @Description 				Introducir el resultado del partido para que el sistema modifique los niveles necesarios.
 // @Produce 					application/json
 // @Tags 						GrupoAmigos
 // @Param						nombre-grupo path string true "Obtener grupo de amigos"
 // @Param						Partido body modelos.Partido true "Equipos y Resultado de ambos equipos en el partido"
 // @Success						200 {object} modelos.RespuestaModificarAmigo
-// @Router 						/grupo-amigos/{nombre-grupo}/niveles [put]
+// @Router 						/grupo-amigos/{nombre-grupo}/resultado-partido [post]
 func modificarNivelesTrasPartido(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 

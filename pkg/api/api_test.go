@@ -132,7 +132,7 @@ func TestCrearGruposAmigos(t *testing.T) {
 	router := SetupRouter()
 
 	w := httptest.NewRecorder()
-	req, err := http.NewRequest("POST", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo1)))
+	req, err := http.NewRequest("PUT", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo1)))
 	assert.Nil(t, err)
 	router.ServeHTTP(w, req)
 
@@ -145,7 +145,7 @@ func TestObtenerGrupoAmigo(t *testing.T) {
 	router := SetupRouter()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo1)))
+	req, _ := http.NewRequest("PUT", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo1)))
 	router.ServeHTTP(w, req)
 
 	w2 := httptest.NewRecorder()
@@ -162,13 +162,13 @@ func TestObtenerGruposAmigos(t *testing.T) {
 	router := SetupRouter()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo1)))
+	req, _ := http.NewRequest("PUT", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo1)))
 	router.ServeHTTP(w, req)
-	req, _ = http.NewRequest("POST", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo2)))
+	req, _ = http.NewRequest("PUT", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo2)))
 	router.ServeHTTP(w, req)
 
 	w2 := httptest.NewRecorder()
-	req2, err := http.NewRequest("GET", "/grupos-amigos", nil)
+	req2, err := http.NewRequest("GET", "/grupo-amigos", nil)
 	assert.Nil(t, err)
 	router.ServeHTTP(w2, req2)
 
@@ -181,7 +181,7 @@ func TestAniadirAmigo(t *testing.T) {
 	router := SetupRouter()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo1)))
+	req, _ := http.NewRequest("PUT", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo1)))
 	router.ServeHTTP(w, req)
 
 	w2 := httptest.NewRecorder()
@@ -198,11 +198,11 @@ func TestCambiarDisponibilidad(t *testing.T) {
 	router := SetupRouter()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo1)))
+	req, _ := http.NewRequest("PUT", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo1)))
 	router.ServeHTTP(w, req)
 
 	w2 := httptest.NewRecorder()
-	req2, err := http.NewRequest("PUT", "/grupo-amigos/Grupo1/disponibilidad-amigo", bytes.NewBuffer([]byte(AmigoAModificar)))
+	req2, err := http.NewRequest("POST", "/grupo-amigos/Grupo1/disponibilidad-amigo", bytes.NewBuffer([]byte(AmigoAModificar)))
 	assert.Nil(t, err)
 	router.ServeHTTP(w2, req2)
 
@@ -215,7 +215,7 @@ func TestObtenerEquiposIgualados(t *testing.T) {
 	router := SetupRouter()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo3)))
+	req, _ := http.NewRequest("PUT", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo3)))
 	router.ServeHTTP(w, req)
 
 	w2 := httptest.NewRecorder()
@@ -231,11 +231,11 @@ func TestModificarNivelesTrasPartido(t *testing.T) {
 	router := SetupRouter()
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo3)))
+	req, _ := http.NewRequest("PUT", "/grupo-amigos", bytes.NewBuffer([]byte(CuerpoTipo3)))
 	router.ServeHTTP(w, req)
 
 	w2 := httptest.NewRecorder()
-	req2, err := http.NewRequest("PUT", "/grupo-amigos/Grupo1/niveles", bytes.NewBuffer([]byte(CuerpoTipo4)))
+	req2, err := http.NewRequest("POST", "/grupo-amigos/Grupo1/resultado-partido", bytes.NewBuffer([]byte(CuerpoTipo4)))
 	assert.Nil(t, err)
 	router.ServeHTTP(w2, req2)
 
