@@ -100,33 +100,45 @@ info:
   title: SportsBar API REST
   version: "1.0"
 paths:
-  /actualizar-niveles-tras-partido/:nombre-grupo/:
-    post:
-      description: Modificar los niveles de los jugadores que han participado en un
-        partido en función del resultado
+  /grupo-amigos:
+    get:
+      description: Se obtiene el grupo de amigo con el nombre indicado
       parameters:
       - description: Obtener grupo de amigos
         in: path
         name: nombre-grupo
         required: true
         type: string
-      - description: Equipos y Resultado de ambos equipos en el partido
-        in: body
-        name: Partido
-        required: true
-        schema:
-          $ref: '#/definitions/modelos.Partido'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/modelos.RespuestaModificarAmigo'
-      summary: Modificar niveles tras partido
+            $ref: '#/definitions/modelos.GrupoAmigos'
+      summary: Obtener el grupo de amigos con el nombre indicado
       tags:
-      - GrupoAmigo
-  /aniadir-amigo/:
+      - GrupoAmigos
+    post:
+      description: Crear un nuevo grupo de amigos
+      parameters:
+      - description: Nombre del grupo y lista de amigos
+        in: body
+        name: NuevoGrupo
+        required: true
+        schema:
+          $ref: '#/definitions/modelos.NuevoGrupo'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/modelos.GrupoAmigos'
+      summary: Crear grupo amigos
+      tags:
+      - GrupoAmigos
+  /grupo-amigos/:nombre-grupo/amigo:
     post:
       description: Añadir un nuevo amigo al grupo
       parameters:
@@ -150,9 +162,9 @@ paths:
             $ref: '#/definitions/modelos.GrupoAmigos'
       summary: Añadir amigo
       tags:
-      - Amigo
-  /cambiar-disponibilidad-amigo/:
-    post:
+      - GrupoAmigos
+  /grupo-amigos/:nombre-grupo/disponibilidad-amigo/:
+    put:
       description: Cambiar la disponibilidad de un amigo del grupo
       parameters:
       - description: Obtener grupo de amigos
@@ -176,61 +188,8 @@ paths:
             $ref: '#/definitions/modelos.RespuestaModificarAmigo'
       summary: Cambiar disponibilidad amigo
       tags:
-      - Amigo
-  /grupo-amigo:
-    get:
-      description: Se obtiene el grupo de amigo con el nombre indicado
-      parameters:
-      - description: Obtener grupo de amigos
-        in: path
-        name: nombre-grupo
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/modelos.GrupoAmigos'
-      summary: Obtener el grupo de amigos con el nombre indicado
-      tags:
-      - GrupoAmigo
-  /grupos-amigos:
-    get:
-      description: Obtener todos los grupos de amigos que se han creado
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties:
-              $ref: '#/definitions/modelos.GrupoAmigos'
-            type: object
-      summary: Obtener los grupos de amigos
-      tags:
-      - GrupoAmigo
-    post:
-      description: Crear un nuevo grupo de amigos
-      parameters:
-      - description: Nombre del grupo y lista de amigos
-        in: body
-        name: NuevoGrupo
-        required: true
-        schema:
-          $ref: '#/definitions/modelos.NuevoGrupo'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/modelos.GrupoAmigos'
-      summary: Crear grupo amigos
-      tags:
-      - GrupoAmigo
-  /obtener-equipos-igualados/:
+      - GrupoAmigos
+  /grupo-amigos/:nombre-grupo/equipos-igualados/:
     get:
       description: Obtener equipos igualados en función de los jugadores disponibles
         de ese equipo
@@ -249,5 +208,46 @@ paths:
             $ref: '#/definitions/modelos.EquiposIgualados'
       summary: Obtener equipos igualados
       tags:
-      - GrupoAmigo
+      - GrupoAmigos
+  /grupo-amigos/:nombre-grupo/niveles:
+    put:
+      description: Modificar los niveles de los jugadores que han participado en un
+        partido en función del resultado
+      parameters:
+      - description: Obtener grupo de amigos
+        in: path
+        name: nombre-grupo
+        required: true
+        type: string
+      - description: Equipos y Resultado de ambos equipos en el partido
+        in: body
+        name: Partido
+        required: true
+        schema:
+          $ref: '#/definitions/modelos.Partido'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/modelos.RespuestaModificarAmigo'
+      summary: Modificar niveles tras partido
+      tags:
+      - GrupoAmigos
+  /grupos-amigos:
+    get:
+      description: Obtener todos los grupos de amigos que se han creado
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/modelos.GrupoAmigos'
+            type: object
+      summary: Obtener los grupos de amigos
+      tags:
+      - GruposAmigos
 swagger: "2.0"

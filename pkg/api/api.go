@@ -20,12 +20,12 @@ func SetupRouter() *gin.Engine {
 	})
 	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.GET("/grupos-amigos", obtenerGruposAmigos)
-	r.GET("/grupo-amigo/:nombre-grupo", obtenerGrupoAmigos)
-	r.POST("/grupo-amigo", crearGrupoAmigos)
-	r.POST("/aniadir-amigo/:nombre-grupo", aniadirAmigoAlGrupo)
-	r.POST("/cambiar-disponibilidad-amigo/:nombre-grupo", cambiarDisponibilidadAmigo)
-	r.GET("/obtener-equipos-igualados/:nombre-grupo", obtenerEquiposIgualados)
-	r.POST("/actualizar-niveles-tras-partido/:nombre-grupo", modificarNivelesTrasPartido)
+	r.GET("/grupo-amigos/:nombre-grupo", obtenerGrupoAmigos)
+	r.POST("/grupo-amigos", crearGrupoAmigos)
+	r.POST("/grupo-amigos/:nombre-grupo/amigo", aniadirAmigoAlGrupo)
+	r.PUT("/grupo-amigos/:nombre-grupo/disponibilidad-amigo", cambiarDisponibilidadAmigo)
+	r.GET("/grupo-amigos/:nombre-grupo/equipos-igualados", obtenerEquiposIgualados)
+	r.PUT("/grupo-amigos/:nombre-grupo/niveles", modificarNivelesTrasPartido)
 	return r
 }
 
@@ -33,7 +33,7 @@ func SetupRouter() *gin.Engine {
 // @Summary 			Obtener los grupos de amigos
 // @Description 		Obtener todos los grupos de amigos que se han creado
 // @Produce 			application/json
-// @Tags 				GrupoAmigo
+// @Tags 				GruposAmigos
 // @Success				200 {object} map[string]modelos.GrupoAmigos{}
 // @Router 				/grupos-amigos [get]
 func obtenerGruposAmigos(c *gin.Context) {
@@ -44,10 +44,10 @@ func obtenerGruposAmigos(c *gin.Context) {
 // @Summary 			Obtener el grupo de amigos con el nombre indicado
 // @Description 		Se obtiene el grupo de amigo con el nombre indicado
 // @Produce 			application/json
-// @Tags 				GrupoAmigo
+// @Tags 				GrupoAmigos
 // @Param				nombre-grupo path string true "Obtener grupo de amigos"
 // @Success				200 {object} modelos.GrupoAmigos{}
-// @Router 				/grupo-amigo [get]
+// @Router 				/grupo-amigos [get]
 func obtenerGrupoAmigos(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -65,10 +65,10 @@ func obtenerGrupoAmigos(c *gin.Context) {
 // @Summary 			Crear grupo amigos
 // @Description 		Crear un nuevo grupo de amigos
 // @Produce 			application/json
-// @Tags 				GrupoAmigo
+// @Tags 				GrupoAmigos
 // @Param				NuevoGrupo body modelos.NuevoGrupo true "Nombre del grupo y lista de amigos"
 // @Success				201 {object} modelos.GrupoAmigos{}
-// @Router 				/grupos-amigos [post]
+// @Router 				/grupo-amigos [post]
 func crearGrupoAmigos(c *gin.Context) {
 
 	nuevoGrupo := modelos.NuevoGrupo{}
@@ -112,11 +112,11 @@ func crearGrupoAmigos(c *gin.Context) {
 // @Summary 			Añadir amigo
 // @Description 		Añadir un nuevo amigo al grupo
 // @Produce 			application/json
-// @Tags 				Amigo
+// @Tags 				GrupoAmigos
 // @Param				nombre-grupo path string true "Obtener grupo de amigos"
 // @Param				AmigoAAñadir body modelos.AmigoAAniadir true "Nick y fecha de nacimiento del amigo a añadir"
 // @Success				201 {object} modelos.GrupoAmigos{}
-// @Router 				/aniadir-amigo/ [post]
+// @Router 				/grupo-amigos/:nombre-grupo/amigo [post]
 func aniadirAmigoAlGrupo(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -148,11 +148,11 @@ func aniadirAmigoAlGrupo(c *gin.Context) {
 // @Summary 					Cambiar disponibilidad amigo
 // @Description 				Cambiar la disponibilidad de un amigo del grupo
 // @Produce 					application/json
-// @Tags 						Amigo
+// @Tags 						GrupoAmigos
 // @Param						nombre-grupo path string true "Obtener grupo de amigos"
 // @Param						AmigoAModificar body modelos.AmigoAModificar true "Identificador y disponibilidad del amigo al que se le quiere cambiar la disponibilidad"
 // @Success						200 {object} modelos.RespuestaModificarAmigo
-// @Router 						/cambiar-disponibilidad-amigo/ [post]
+// @Router 						/grupo-amigos/:nombre-grupo/disponibilidad-amigo/ [put]
 func cambiarDisponibilidadAmigo(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -181,10 +181,10 @@ func cambiarDisponibilidadAmigo(c *gin.Context) {
 // @Summary 					Obtener equipos igualados
 // @Description 				Obtener equipos igualados en función de los jugadores disponibles de ese equipo
 // @Produce 					application/json
-// @Tags 						GrupoAmigo
+// @Tags 						GrupoAmigos
 // @Param						nombre-grupo path string true "Obtener grupo de amigos"
 // @Success						200 {object} modelos.EquiposIgualados{}
-// @Router 						/obtener-equipos-igualados/ [get]
+// @Router 						/grupo-amigos/:nombre-grupo/equipos-igualados/ [get]
 func obtenerEquiposIgualados(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -212,11 +212,11 @@ func obtenerEquiposIgualados(c *gin.Context) {
 // @Summary 					Modificar niveles tras partido
 // @Description 				Modificar los niveles de los jugadores que han participado en un partido en función del resultado
 // @Produce 					application/json
-// @Tags 						GrupoAmigo
+// @Tags 						GrupoAmigos
 // @Param						nombre-grupo path string true "Obtener grupo de amigos"
 // @Param						Partido body modelos.Partido true "Equipos y Resultado de ambos equipos en el partido"
 // @Success						200 {object} modelos.RespuestaModificarAmigo
-// @Router 						/actualizar-niveles-tras-partido/:nombre-grupo/ [post]
+// @Router 						/grupo-amigos/:nombre-grupo/niveles [put]
 func modificarNivelesTrasPartido(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 

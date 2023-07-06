@@ -16,16 +16,16 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/actualizar-niveles-tras-partido/:nombre-grupo/": {
-            "post": {
-                "description": "Modificar los niveles de los jugadores que han participado en un partido en función del resultado",
+        "/grupo-amigos": {
+            "get": {
+                "description": "Se obtiene el grupo de amigo con el nombre indicado",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "GrupoAmigo"
+                    "GrupoAmigos"
                 ],
-                "summary": "Modificar niveles tras partido",
+                "summary": "Obtener el grupo de amigos con el nombre indicado",
                 "parameters": [
                     {
                         "type": "string",
@@ -33,35 +33,55 @@ const docTemplate = `{
                         "name": "nombre-grupo",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "Equipos y Resultado de ambos equipos en el partido",
-                        "name": "Partido",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/modelos.Partido"
-                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/modelos.RespuestaModificarAmigo"
+                            "$ref": "#/definitions/modelos.GrupoAmigos"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Crear un nuevo grupo de amigos",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GrupoAmigos"
+                ],
+                "summary": "Crear grupo amigos",
+                "parameters": [
+                    {
+                        "description": "Nombre del grupo y lista de amigos",
+                        "name": "NuevoGrupo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/modelos.NuevoGrupo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/modelos.GrupoAmigos"
                         }
                     }
                 }
             }
         },
-        "/aniadir-amigo/": {
+        "/grupo-amigos/:nombre-grupo/amigo": {
             "post": {
                 "description": "Añadir un nuevo amigo al grupo",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Amigo"
+                    "GrupoAmigos"
                 ],
                 "summary": "Añadir amigo",
                 "parameters": [
@@ -92,14 +112,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/cambiar-disponibilidad-amigo/": {
-            "post": {
+        "/grupo-amigos/:nombre-grupo/disponibilidad-amigo/": {
+            "put": {
                 "description": "Cambiar la disponibilidad de un amigo del grupo",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Amigo"
+                    "GrupoAmigos"
                 ],
                 "summary": "Cambiar disponibilidad amigo",
                 "parameters": [
@@ -130,95 +150,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/grupo-amigo": {
-            "get": {
-                "description": "Se obtiene el grupo de amigo con el nombre indicado",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "GrupoAmigo"
-                ],
-                "summary": "Obtener el grupo de amigos con el nombre indicado",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Obtener grupo de amigos",
-                        "name": "nombre-grupo",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/modelos.GrupoAmigos"
-                        }
-                    }
-                }
-            }
-        },
-        "/grupos-amigos": {
-            "get": {
-                "description": "Obtener todos los grupos de amigos que se han creado",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "GrupoAmigo"
-                ],
-                "summary": "Obtener los grupos de amigos",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "$ref": "#/definitions/modelos.GrupoAmigos"
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Crear un nuevo grupo de amigos",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "GrupoAmigo"
-                ],
-                "summary": "Crear grupo amigos",
-                "parameters": [
-                    {
-                        "description": "Nombre del grupo y lista de amigos",
-                        "name": "NuevoGrupo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/modelos.NuevoGrupo"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/modelos.GrupoAmigos"
-                        }
-                    }
-                }
-            }
-        },
-        "/obtener-equipos-igualados/": {
+        "/grupo-amigos/:nombre-grupo/equipos-igualados/": {
             "get": {
                 "description": "Obtener equipos igualados en función de los jugadores disponibles de ese equipo",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "GrupoAmigo"
+                    "GrupoAmigos"
                 ],
                 "summary": "Obtener equipos igualados",
                 "parameters": [
@@ -235,6 +174,67 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/modelos.EquiposIgualados"
+                        }
+                    }
+                }
+            }
+        },
+        "/grupo-amigos/:nombre-grupo/niveles": {
+            "put": {
+                "description": "Modificar los niveles de los jugadores que han participado en un partido en función del resultado",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GrupoAmigos"
+                ],
+                "summary": "Modificar niveles tras partido",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Obtener grupo de amigos",
+                        "name": "nombre-grupo",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Equipos y Resultado de ambos equipos en el partido",
+                        "name": "Partido",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/modelos.Partido"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/modelos.RespuestaModificarAmigo"
+                        }
+                    }
+                }
+            }
+        },
+        "/grupos-amigos": {
+            "get": {
+                "description": "Obtener todos los grupos de amigos que se han creado",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GruposAmigos"
+                ],
+                "summary": "Obtener los grupos de amigos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "$ref": "#/definitions/modelos.GrupoAmigos"
+                            }
                         }
                     }
                 }
