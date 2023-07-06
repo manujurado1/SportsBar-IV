@@ -101,24 +101,6 @@ info:
   version: "1.0"
 paths:
   /grupo-amigos:
-    get:
-      description: Se obtiene el grupo de amigo con el nombre indicado
-      parameters:
-      - description: Obtener grupo de amigos
-        in: path
-        name: nombre-grupo
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/modelos.GrupoAmigos'
-      summary: Obtener el grupo de amigos con el nombre indicado
-      tags:
-      - GrupoAmigos
     post:
       description: Crear un nuevo grupo de amigos
       parameters:
@@ -138,7 +120,26 @@ paths:
       summary: Crear grupo amigos
       tags:
       - GrupoAmigos
-  /grupo-amigos/:nombre-grupo/amigo:
+  /grupo-amigos/{nombre-grupo}:
+    get:
+      description: Se obtiene el grupo de amigo con el nombre indicado
+      parameters:
+      - description: Obtener grupo de amigos
+        in: path
+        name: nombre-grupo
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/modelos.GrupoAmigos'
+      summary: Obtener el grupo de amigos con el nombre indicado
+      tags:
+      - GrupoAmigos
+  /grupo-amigos/{nombre-grupo}/amigo:
     post:
       description: Añadir un nuevo amigo al grupo
       parameters:
@@ -163,7 +164,7 @@ paths:
       summary: Añadir amigo
       tags:
       - GrupoAmigos
-  /grupo-amigos/:nombre-grupo/disponibilidad-amigo/:
+  /grupo-amigos/{nombre-grupo}/disponibilidad-amigo/:
     put:
       description: Cambiar la disponibilidad de un amigo del grupo
       parameters:
@@ -189,7 +190,7 @@ paths:
       summary: Cambiar disponibilidad amigo
       tags:
       - GrupoAmigos
-  /grupo-amigos/:nombre-grupo/equipos-igualados/:
+  /grupo-amigos/{nombre-grupo}/equipos-igualados/:
     get:
       description: Obtener equipos igualados en función de los jugadores disponibles
         de ese equipo
@@ -209,7 +210,7 @@ paths:
       summary: Obtener equipos igualados
       tags:
       - GrupoAmigos
-  /grupo-amigos/:nombre-grupo/niveles:
+  /grupo-amigos/{nombre-grupo}/niveles:
     put:
       description: Modificar los niveles de los jugadores que han participado en un
         partido en función del resultado

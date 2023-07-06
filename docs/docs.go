@@ -17,33 +17,6 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/grupo-amigos": {
-            "get": {
-                "description": "Se obtiene el grupo de amigo con el nombre indicado",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "GrupoAmigos"
-                ],
-                "summary": "Obtener el grupo de amigos con el nombre indicado",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Obtener grupo de amigos",
-                        "name": "nombre-grupo",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/modelos.GrupoAmigos"
-                        }
-                    }
-                }
-            },
             "post": {
                 "description": "Crear un nuevo grupo de amigos",
                 "produces": [
@@ -74,7 +47,36 @@ const docTemplate = `{
                 }
             }
         },
-        "/grupo-amigos/:nombre-grupo/amigo": {
+        "/grupo-amigos/{nombre-grupo}": {
+            "get": {
+                "description": "Se obtiene el grupo de amigo con el nombre indicado",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GrupoAmigos"
+                ],
+                "summary": "Obtener el grupo de amigos con el nombre indicado",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Obtener grupo de amigos",
+                        "name": "nombre-grupo",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/modelos.GrupoAmigos"
+                        }
+                    }
+                }
+            }
+        },
+        "/grupo-amigos/{nombre-grupo}/amigo": {
             "post": {
                 "description": "Añadir un nuevo amigo al grupo",
                 "produces": [
@@ -112,7 +114,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/grupo-amigos/:nombre-grupo/disponibilidad-amigo/": {
+        "/grupo-amigos/{nombre-grupo}/disponibilidad-amigo/": {
             "put": {
                 "description": "Cambiar la disponibilidad de un amigo del grupo",
                 "produces": [
@@ -150,7 +152,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/grupo-amigos/:nombre-grupo/equipos-igualados/": {
+        "/grupo-amigos/{nombre-grupo}/equipos-igualados/": {
             "get": {
                 "description": "Obtener equipos igualados en función de los jugadores disponibles de ese equipo",
                 "produces": [
@@ -179,7 +181,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/grupo-amigos/:nombre-grupo/niveles": {
+        "/grupo-amigos/{nombre-grupo}/niveles": {
             "put": {
                 "description": "Modificar los niveles de los jugadores que han participado en un partido en función del resultado",
                 "produces": [

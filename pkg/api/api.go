@@ -47,7 +47,7 @@ func obtenerGruposAmigos(c *gin.Context) {
 // @Tags 				GrupoAmigos
 // @Param				nombre-grupo path string true "Obtener grupo de amigos"
 // @Success				200 {object} modelos.GrupoAmigos{}
-// @Router 				/grupo-amigos [get]
+// @Router 				/grupo-amigos/{nombre-grupo} [get]
 func obtenerGrupoAmigos(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -116,7 +116,7 @@ func crearGrupoAmigos(c *gin.Context) {
 // @Param				nombre-grupo path string true "Obtener grupo de amigos"
 // @Param				AmigoAAñadir body modelos.AmigoAAniadir true "Nick y fecha de nacimiento del amigo a añadir"
 // @Success				201 {object} modelos.GrupoAmigos{}
-// @Router 				/grupo-amigos/:nombre-grupo/amigo [post]
+// @Router 				/grupo-amigos/{nombre-grupo}/amigo [post]
 func aniadirAmigoAlGrupo(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -152,7 +152,7 @@ func aniadirAmigoAlGrupo(c *gin.Context) {
 // @Param						nombre-grupo path string true "Obtener grupo de amigos"
 // @Param						AmigoAModificar body modelos.AmigoAModificar true "Identificador y disponibilidad del amigo al que se le quiere cambiar la disponibilidad"
 // @Success						200 {object} modelos.RespuestaModificarAmigo
-// @Router 						/grupo-amigos/:nombre-grupo/disponibilidad-amigo/ [put]
+// @Router 						/grupo-amigos/{nombre-grupo}/disponibilidad-amigo/ [put]
 func cambiarDisponibilidadAmigo(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -184,7 +184,7 @@ func cambiarDisponibilidadAmigo(c *gin.Context) {
 // @Tags 						GrupoAmigos
 // @Param						nombre-grupo path string true "Obtener grupo de amigos"
 // @Success						200 {object} modelos.EquiposIgualados{}
-// @Router 						/grupo-amigos/:nombre-grupo/equipos-igualados/ [get]
+// @Router 						/grupo-amigos/{nombre-grupo}/equipos-igualados/ [get]
 func obtenerEquiposIgualados(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
@@ -216,7 +216,7 @@ func obtenerEquiposIgualados(c *gin.Context) {
 // @Param						nombre-grupo path string true "Obtener grupo de amigos"
 // @Param						Partido body modelos.Partido true "Equipos y Resultado de ambos equipos en el partido"
 // @Success						200 {object} modelos.RespuestaModificarAmigo
-// @Router 						/grupo-amigos/:nombre-grupo/niveles [put]
+// @Router 						/grupo-amigos/{nombre-grupo}/niveles [put]
 func modificarNivelesTrasPartido(c *gin.Context) {
 	nombreGrupo := c.Param("nombre-grupo")
 
