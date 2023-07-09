@@ -1,0 +1,253 @@
+definitions:
+  modelos.Amigo:
+    properties:
+      identificador:
+        type: string
+    type: object
+  modelos.AmigoAAniadir:
+    properties:
+      fechaNacimiento:
+        type: string
+      nick:
+        type: string
+    type: object
+  modelos.AmigoAModificar:
+    properties:
+      disponible:
+        type: boolean
+      identificador:
+        type: string
+    type: object
+  modelos.EquiposIgualados:
+    properties:
+      equipo1:
+        items:
+          type: string
+        type: array
+      equipo2:
+        items:
+          type: string
+        type: array
+    type: object
+  modelos.EstadoAmigo:
+    properties:
+      disponible:
+        type: boolean
+      nivel:
+        $ref: '#/definitions/modelos.Nivel'
+    type: object
+  modelos.GrupoAmigos:
+    properties:
+      listaAmigos:
+        items:
+          $ref: '#/definitions/modelos.Amigo'
+        type: array
+      nivelYDisponibilidadAmigos:
+        additionalProperties:
+          $ref: '#/definitions/modelos.EstadoAmigo'
+        type: object
+      nombreDelGrupo:
+        type: string
+    type: object
+  modelos.Nivel:
+    enum:
+    - 0
+    - 10
+    - 5
+    - 1
+    type: integer
+    x-enum-varnames:
+    - NivelMinimo
+    - NivelMaximo
+    - NivelPorOmision
+    - CantidadAumentarDisminuirNivel
+  modelos.NuevoGrupo:
+    properties:
+      listaAmigos:
+        items:
+          properties:
+            fechaNacimiento:
+              type: string
+            nick:
+              type: string
+          type: object
+        type: array
+      nombreDelGrupo:
+        type: string
+    type: object
+  modelos.Partido:
+    properties:
+      equipo1:
+        items:
+          type: string
+        type: array
+      equipo2:
+        items:
+          type: string
+        type: array
+      resultadoEquipo1:
+        type: integer
+      resultadoEquipo2:
+        type: integer
+    type: object
+  modelos.RespuestaModificarAmigo:
+    additionalProperties:
+      $ref: '#/definitions/modelos.EstadoAmigo'
+    type: object
+info:
+  contact: {}
+  description: Una API para gestionar partido igualados entre grupos de amigos
+  title: SportsBar API REST
+  version: "1.0"
+paths:
+  /grupo-amigos:
+    get:
+      description: Obtener todos los grupos de amigos que se han creado
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/modelos.GrupoAmigos'
+            type: object
+      summary: Obtener los grupos de amigos
+      tags:
+      - GrupoAmigos
+    put:
+      description: Crear un nuevo grupo de amigos
+      parameters:
+      - description: Nombre del grupo y lista de amigos
+        in: body
+        name: NuevoGrupo
+        required: true
+        schema:
+          $ref: '#/definitions/modelos.NuevoGrupo'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/modelos.GrupoAmigos'
+      summary: Crear grupo amigos
+      tags:
+      - GrupoAmigos
+  /grupo-amigos/{nombre-grupo}:
+    get:
+      description: Se obtiene el grupo de amigo con el nombre indicado
+      parameters:
+      - description: Obtener grupo de amigos
+        in: path
+        name: nombre-grupo
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/modelos.GrupoAmigos'
+      summary: Obtener el grupo de amigos con el nombre indicado
+      tags:
+      - GrupoAmigos
+  /grupo-amigos/{nombre-grupo}/amigo:
+    post:
+      description: Añadir un nuevo amigo al grupo
+      parameters:
+      - description: Obtener grupo de amigos
+        in: path
+        name: nombre-grupo
+        required: true
+        type: string
+      - description: Nick y fecha de nacimiento del amigo a añadir
+        in: body
+        name: AmigoAAñadir
+        required: true
+        schema:
+          $ref: '#/definitions/modelos.AmigoAAniadir'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/modelos.GrupoAmigos'
+      summary: Añadir amigo
+      tags:
+      - GrupoAmigos
+  /grupo-amigos/{nombre-grupo}/disponibilidad-amigo/:
+    post:
+      description: Cambiar la disponibilidad de un amigo del grupo
+      parameters:
+      - description: Obtener grupo de amigos
+        in: path
+        name: nombre-grupo
+        required: true
+        type: string
+      - description: Identificador y disponibilidad del amigo al que se le quiere
+          cambiar la disponibilidad
+        in: body
+        name: AmigoAModificar
+        required: true
+        schema:
+          $ref: '#/definitions/modelos.AmigoAModificar'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/modelos.RespuestaModificarAmigo'
+      summary: Cambiar disponibilidad amigo
+      tags:
+      - GrupoAmigos
+  /grupo-amigos/{nombre-grupo}/equipos-igualados/:
+    get:
+      description: Obtener equipos igualados en función de los jugadores disponibles
+        de ese equipo
+      parameters:
+      - description: Obtener grupo de amigos
+        in: path
+        name: nombre-grupo
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/modelos.EquiposIgualados'
+      summary: Obtener equipos igualados
+      tags:
+      - GrupoAmigos
+  /grupo-amigos/{nombre-grupo}/resultado-partido:
+    post:
+      description: Introducir el resultado del partido para que el sistema modifique
+        los niveles necesarios.
+      parameters:
+      - description: Obtener grupo de amigos
+        in: path
+        name: nombre-grupo
+        required: true
+        type: string
+      - description: Equipos y Resultado de ambos equipos en el partido
+        in: body
+        name: Partido
+        required: true
+        schema:
+          $ref: '#/definitions/modelos.Partido'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/modelos.RespuestaModificarAmigo'
+      summary: Introducir resultado del partido
+      tags:
+      - GrupoAmigos
+swagger: "2.0"

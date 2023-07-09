@@ -1,0 +1,381 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Una API para gestionar partido igualados entre grupos de amigos",
+        "title": "SportsBar API REST",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/grupo-amigos": {
+            "get": {
+                "description": "Obtener todos los grupos de amigos que se han creado",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GrupoAmigos"
+                ],
+                "summary": "Obtener los grupos de amigos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "$ref": "#/definitions/modelos.GrupoAmigos"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Crear un nuevo grupo de amigos",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GrupoAmigos"
+                ],
+                "summary": "Crear grupo amigos",
+                "parameters": [
+                    {
+                        "description": "Nombre del grupo y lista de amigos",
+                        "name": "NuevoGrupo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/modelos.NuevoGrupo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/modelos.GrupoAmigos"
+                        }
+                    }
+                }
+            }
+        },
+        "/grupo-amigos/{nombre-grupo}": {
+            "get": {
+                "description": "Se obtiene el grupo de amigo con el nombre indicado",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GrupoAmigos"
+                ],
+                "summary": "Obtener el grupo de amigos con el nombre indicado",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Obtener grupo de amigos",
+                        "name": "nombre-grupo",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/modelos.GrupoAmigos"
+                        }
+                    }
+                }
+            }
+        },
+        "/grupo-amigos/{nombre-grupo}/amigo": {
+            "post": {
+                "description": "Añadir un nuevo amigo al grupo",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GrupoAmigos"
+                ],
+                "summary": "Añadir amigo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Obtener grupo de amigos",
+                        "name": "nombre-grupo",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Nick y fecha de nacimiento del amigo a añadir",
+                        "name": "AmigoAAñadir",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/modelos.AmigoAAniadir"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/modelos.GrupoAmigos"
+                        }
+                    }
+                }
+            }
+        },
+        "/grupo-amigos/{nombre-grupo}/disponibilidad-amigo/": {
+            "post": {
+                "description": "Cambiar la disponibilidad de un amigo del grupo",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GrupoAmigos"
+                ],
+                "summary": "Cambiar disponibilidad amigo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Obtener grupo de amigos",
+                        "name": "nombre-grupo",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Identificador y disponibilidad del amigo al que se le quiere cambiar la disponibilidad",
+                        "name": "AmigoAModificar",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/modelos.AmigoAModificar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/modelos.RespuestaModificarAmigo"
+                        }
+                    }
+                }
+            }
+        },
+        "/grupo-amigos/{nombre-grupo}/equipos-igualados/": {
+            "get": {
+                "description": "Obtener equipos igualados en función de los jugadores disponibles de ese equipo",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GrupoAmigos"
+                ],
+                "summary": "Obtener equipos igualados",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Obtener grupo de amigos",
+                        "name": "nombre-grupo",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/modelos.EquiposIgualados"
+                        }
+                    }
+                }
+            }
+        },
+        "/grupo-amigos/{nombre-grupo}/resultado-partido": {
+            "post": {
+                "description": "Introducir el resultado del partido para que el sistema modifique los niveles necesarios.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GrupoAmigos"
+                ],
+                "summary": "Introducir resultado del partido",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Obtener grupo de amigos",
+                        "name": "nombre-grupo",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Equipos y Resultado de ambos equipos en el partido",
+                        "name": "Partido",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/modelos.Partido"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/modelos.RespuestaModificarAmigo"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "modelos.Amigo": {
+            "type": "object",
+            "properties": {
+                "identificador": {
+                    "type": "string"
+                }
+            }
+        },
+        "modelos.AmigoAAniadir": {
+            "type": "object",
+            "properties": {
+                "fechaNacimiento": {
+                    "type": "string"
+                },
+                "nick": {
+                    "type": "string"
+                }
+            }
+        },
+        "modelos.AmigoAModificar": {
+            "type": "object",
+            "properties": {
+                "disponible": {
+                    "type": "boolean"
+                },
+                "identificador": {
+                    "type": "string"
+                }
+            }
+        },
+        "modelos.EquiposIgualados": {
+            "type": "object",
+            "properties": {
+                "equipo1": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "equipo2": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "modelos.EstadoAmigo": {
+            "type": "object",
+            "properties": {
+                "disponible": {
+                    "type": "boolean"
+                },
+                "nivel": {
+                    "$ref": "#/definitions/modelos.Nivel"
+                }
+            }
+        },
+        "modelos.GrupoAmigos": {
+            "type": "object",
+            "properties": {
+                "listaAmigos": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/modelos.Amigo"
+                    }
+                },
+                "nivelYDisponibilidadAmigos": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/modelos.EstadoAmigo"
+                    }
+                },
+                "nombreDelGrupo": {
+                    "type": "string"
+                }
+            }
+        },
+        "modelos.Nivel": {
+            "type": "integer",
+            "enum": [
+                0,
+                10,
+                5,
+                1
+            ],
+            "x-enum-varnames": [
+                "NivelMinimo",
+                "NivelMaximo",
+                "NivelPorOmision",
+                "CantidadAumentarDisminuirNivel"
+            ]
+        },
+        "modelos.NuevoGrupo": {
+            "type": "object",
+            "properties": {
+                "listaAmigos": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "fechaNacimiento": {
+                                "type": "string"
+                            },
+                            "nick": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "nombreDelGrupo": {
+                    "type": "string"
+                }
+            }
+        },
+        "modelos.Partido": {
+            "type": "object",
+            "properties": {
+                "equipo1": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "equipo2": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "resultadoEquipo1": {
+                    "type": "integer"
+                },
+                "resultadoEquipo2": {
+                    "type": "integer"
+                }
+            }
+        },
+        "modelos.RespuestaModificarAmigo": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/modelos.EstadoAmigo"
+            }
+        }
+    }
+}

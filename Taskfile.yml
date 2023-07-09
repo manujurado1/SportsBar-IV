@@ -10,4 +10,3 @@ tasks:
     cmds:
       - echo "Lanzando tests..."
       - go test -v ./pkg/modelos
-      
