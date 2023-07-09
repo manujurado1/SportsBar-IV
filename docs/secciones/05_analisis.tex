@@ -1,33 +1,55 @@
-\chapter{Análisis del problema}
+\chapter{Análisis}
+
+\section{Análisis de costes}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{| l | c | p{6cm} |}
+        \hline
+        \textbf{Concepto} & \textbf{Coste} & \textbf{Comentarios}\\
+        \hline
+        MSI GE62 7RD & 210€ & Se ha aplicado una amortización del 15\% al año. Se ha usado durante un año y costó 1400€ \\
+        \hline
+        Software & 0€ & No se ha usado ningún recuro software de pago para la realización del proyecto\\
+        \hline
+        Despliegue & Desde 0€ & Se ha desplegado la API de manera gratuita, pero en función de las necesidades en un futuro, se podrían mejorar las características adquiriendo un programa de pago.\\
+        \hline
+    \end{tabular}
+    \caption{Análisis de costes}
+\end{table}
+
+\newpage
+
+\section{Análisis del problema}
  
 En esta sección se mostrará cómo se han abordado los distintos problemas que han ido surgiendo con el fin de conseguir solucionar los problemas que plantea resolver 
 el proyecto.
 
-\section{Identificación y estructura de datos de los objetos valor}
+\subsection{Identificación y estructura de datos de los objetos valor}
 
 El primer paso que se ha tenido que resolver es identificar los distintos objetos valor que conformarían nuestra aplicación. Esta identificación se logra analizando las diferentes historias de usuario.
-Para crear la estructura de datos, se ha seguido el diseño dirigido por dominio (DDD), técnica que se centra en el análisis y diseño del dominio del problema.
+Para crear la estructura de datos, se ha seguido el diseño dirigido por dominio (DDD) \cite{ddd}, técnica que se centra en el análisis y diseño del dominio del problema.
 
 Este proceso ha durado 3 semanas y se han identificado los siguientes objetos valor:
 
-\subsection{Nivel}
+\subsubsection{Nivel}
 
 El primer objeto valor que se identificó fue el nivel.
 Este tipo de dato ha quedado definido como un entero cuyo valor puede oscilar entre el 0 y el 10, siendo su valor por omisión el valor intermedio 5.
 Este tipo de dato nos permite asignar una puntuación al nivel de habilidad de cada amigo dentro de un grupo.
 
-\subsection{Amigo}
+\subsubsection{Amigo}
 
 El objeto valor amigo, cuya función es identificar a cada uno de los miembros de un grupo, ha sido definido como una estructura cuyo atributo es un identificador, generado según el \textit{nick}
  de esa persona en el grupo y su fecha de nacimiento. De esta forma se permite la posibilidad de tener en el mismo grupo de amigos 2 o más personas con el mismo nick, obteniendo identificadores distintos
  y de esta manera satisfacer \href{https://github.com/manujurado1/SportsBar-IV/issues/119}{la historia de usuario.}
 
 
-\subsection{Equipo}
+\subsubsection{Equipo}
 
 Por último, faltaba definir qué es un equipo. Este objeto valor es una estructura cuyo atributo es una lista formada por los identificadores de los amigos que forman ese equipo.
 
-\section{Identificación y estructura de datos de la entidad}
+\subsection{Identificación y estructura de datos de la entidad}
 Se ha identificado el tipo de dato "GrupoAmigos" como la entidad manejadora de la lógica de negocio.
 Este tipo de dato está formado por:
 
@@ -38,7 +60,7 @@ Este tipo de dato está formado por:
 \end{itemize}
 
 
-\section{Creación de equipos igualados}
+\subsection{Creación de equipos igualados}
 
 El primer problema que plantea resolver el proyecto es la creación de 2 equipos igualados en función del nivel de los jugadores disponibles.
 Para comprender los resultados de los análisis, se deben conocer los siguientes conceptos:
@@ -50,46 +72,54 @@ Para comprender los resultados de los análisis, se deben conocer los siguientes
      (En el caso de la prueba, al haber ampliado el rango x10, habría que considerar como igualados equipos cuya diferencia de nivel fuese 10 o menos).
 \end{itemize}
 
-\newpage
-
 El primer análisis efectuado pretende comprobar si el algoritmo establecido para la creación de equipos mejora la aleatoriedad.\\
 
 Se ha creado aleatoriamente una lista de 10 elementos comprendidos entre el 0 y el 100 que hace referencia al nivel de los 10 jugadores
 que se simulan en esta prueba y se han realizado 5 combinaciones aleatorias. La lista ha sido la siguiente:  73, 70, 42, 66, 28, 16, 29, 50, 10, 18.\\
 
-
-\begin{tabular}{| l | l | c |}
-    \hline
-    \textbf{Equipo1} & \textbf{Equipo2} & \textbf{Diferencia de nivel}\\
-    \hline
-    18, 29, 70, 73, 16 & 50, 10, 42, 66, 28 & 2\\
-    \hline
-    10, 50, 18, 16, 29 & 70, 66, 28, 73, 42 & 31\\
-    \hline
-    16, 73, 70, 28, 66 & 10, 42, 18, 50, 29 & 21\\
-    \hline
-    73, 29, 10, 16, 28 & 66, 18, 70, 50, 42 & 18\\
-    \hline
-    66, 18, 16, 70, 42 & 73, 29, 10, 50, 28 & 4\\
-    \hline
-\end{tabular}\\
+\begin{table}[h]
+    \centering
+    \begin{center}
+        \begin{tabular}{| l | l | c |}
+            \hline
+            \textbf{Equipo1} & \textbf{Equipo2} & \textbf{Diferencia de nivel}\\
+            \hline
+            18, 29, 70, 73, 16 & 50, 10, 42, 66, 28 & 2\\
+            \hline
+            10, 50, 18, 16, 29 & 70, 66, 28, 73, 42 & 31\\
+            \hline
+            16, 73, 70, 28, 66 & 10, 42, 18, 50, 29 & 21\\
+            \hline
+            73, 29, 10, 16, 28 & 66, 18, 70, 50, 42 & 18\\
+            \hline
+            66, 18, 16, 70, 42 & 73, 29, 10, 50, 28 & 4\\
+            \hline
+        \end{tabular}
+        \caption{Resultados creación equipos aleatoriamente}
+    \end{center}
+\end{table}
 
 
 Podemos ver que la aleatoriedad nos da un resultado de diferencia de nivel medio de 15,2.\\
 
 Sin embargo, si con estos mismos datos de entrada aplicamos el algoritmo diseñado para nuestro proyecto, obtenemos los siguientes resultados:\\
-
-\begin{tabular}{| l | l | c |}
-    \hline
-    \textbf{Equipo1} & \textbf{Equipo2} & \textbf{Diferencia de nivel}\\
-    \hline
-    73, 50, 42, 18, 16 & 70, 66, 29, 28, 10 & 1\\
-    \hline
-\end{tabular}\\
+\begin{table}[h]
+    \centering
+    \begin{center}
+        \begin{tabular}{| l | l | c |}
+            \hline
+            \textbf{Equipo1} & \textbf{Equipo2} & \textbf{Diferencia de nivel}\\
+            \hline
+            73, 50, 42, 18, 16 & 70, 66, 29, 28, 10 & 1\\
+            \hline
+        \end{tabular}
+        \caption{Resultados creación equipos aplicando el algoritmo}
+    \end{center}
+\end{table}
 
 Podemos observar que el algoritmo implementado supera con creces la aleatoriedad.
 
-\section{Gestion de niveles tras un partido}
+\subsection{Gestion de niveles tras un partido}
 
 Por último, este proyecto también plantea una gestión de niveles en función del resultado que, con el tiempo, produzca partidos más igualados. Esto debido a que cada jugador irá oscilando sobre su nivel real.
 Para resolver este problema, se ha seguido la siguiente lógica:
