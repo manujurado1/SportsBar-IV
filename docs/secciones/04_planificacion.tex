@@ -1,6 +1,6 @@
 \chapter{Metodología utilizada}
 
-Para este proyecto se ha usado metodologías ágiles basadas en SCRUM. No ha sido posible seguir SCRUM de una manera más precisa, ya que este proceso está enfocado a trabajar en
+Para este proyecto se ha usado metodologías ágiles basadas en SCRUM \cite{scrum}. No ha sido posible seguir SCRUM de una manera más precisa, ya que este proceso está enfocado a trabajar en
 equipo, en entornos complejos y orientado a la existencia de clientes. En este caso, al ser un único desarrollador y un entorno tan complejo, el proceso basado en SCRUM se ha
 focalizado más en buscar realizar entregas parciales y regulares hacia el producto final. Esto se ha llevado a cabo convirtiendo las historias de usuario en una serie de hitos
 que se deben ir alcanzando para tener la historia de usuario completa.\\
@@ -52,7 +52,13 @@ Con el fin de obtener una mayor trazabilidad de cómo se ha ido desarrollando el
 del proyecto, revertir cambios y progresar en el proyecto por distintas ramas, lo que aumenta el grado de adaptabilidad.\\
 
 Para alojar este proyecto se ha utilizado GitHub. Esta plataforma permite observar en todo momento cuál es el estado actual del proyecto y además ofrece herramientas para el control de calidad
-a través de las \textit{GitHub Actions}, de las que hablaremos a continuación.
+a través de las \textit{GitHub Actions} \cite{actions}, de las que hablaremos a continuación.
+
+\begin{figure}[H]
+	\centering	
+	\includegraphics[scale=0.5]{img/milestones.png}
+	\caption{Milestones creados en GitHub para realizar el proyecto}
+\end{figure}
 
 
 \section {Control de calidad}
@@ -63,6 +69,14 @@ Siguiendo esta práctica, se ha priorizado la creación de las pruebas, escribie
 De esta forma se crea una batería de pruebas, la cual empieza con una base de pruebas unitarias y acaba con pruebas de integración y \textit{End-to-end}.\\
 
 Estos controles de calidad han sido muy provechosos al fusionarlos con la integración continua, práctica de desarrollo software mediante la cuál se ejecutan pruebas automáticas sobre el código cuando este es modificado.
-La integración continua se ha conseguido usando \textit{GitHub Actions} y \textit{Checks API}, ambas herramientas provenientes de GitHub.
+La integración continua se ha conseguido usando \textit{GitHub Actions}\cite{actions} y \textit{Checks API}, ambas herramientas provenientes de GitHub.
 
-Además, se ha introducido otra \textit{GitHub Actions} que lanza un linter, en este caso \href{https://golangci-lint.run/}{golangci-lint} para asegurar un código fuente de calidad
+Además, se ha introducido otra \textit{GitHub Actions} que lanza un linter, en este caso golangci-lint \cite{golangci-lint} para asegurar un código fuente de calidad
+
+\begin{figure}[H]
+	\centering	
+	\includegraphics[scale=1]{img/actions.png}
+	\caption{Ejemplo real control de calidad}
+\end{figure}
+
+\newpage
