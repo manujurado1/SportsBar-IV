@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Sports Bar</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -20,7 +20,7 @@
 					<h3>Sports Bar</h3>
 					<h5>API para gestionar peñas de fútbol</h5>
 					<p>
-						<small>Manuel Jurado Trillo</small>
+						<small>TFG realizado por Manuel Jurado Trillo</small>
 					</p>
 				</section>
 				<section>
@@ -44,11 +44,12 @@
 					</section>
 				</section>
 				<section>
-					<h2>Mi propuesta</h3>
-					<ul>
+					<h2>Mi propuesta</h2>
+					<p>Creación de una API REST que cumpliera los siguiente objetivos</p>
+					<ol>
 						<li>Creación de equipos igualados en función del nivel</li>
 						<li>Gestión del nivel en función de los resultados</li>
-					</ul>
+					</ol>
 				</section>
 				<section>
 					<section>
@@ -85,49 +86,77 @@
 					</section>
 				</section>
 				<section>
-					<h2>Análisis del problema</h2>
-					<ul>
-						<li>Identificación y estructura de datos de los objetos valor</li>
-						<li>Identificación y estructura de datos de la entidad</li>
-						<li>Creación de algoritmo para creación de equipos igualados</li>
-						<li>Gestion de niveles post-partido</li>
-					</ul>
+					<section>
+						<h2>Análisis del problema</h2>
+					</section>
+					<section>
+						<h3>Identificación y estructura de datos de los objetos valor</h3>
+						<ul>
+							<li>Nivel</li>
+							<li>Amigo</li>
+							<li>Equipo</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Identificación y estructura de datos de la entidad</h3>
+						<ul>
+							<li>Grupo de amigos</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Creación de algoritmo para creación de equipos igualados</h3>
+						<ul>
+							<li>Ordenar la lista de jugadores disponible en nivel decreciente</li>
+							<li>Asignar el siguiente jugador de la lista al equipo con menos nivel acumulado</li>
+							<li>Algoritmo válido si mejora la aleatoriedad</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Gestion de niveles post-partido</h3>
+						<ul>
+							<li>Aumentan un nivel si ganan el partido</li>
+							<li>Pierden un nivel si pierden el partido</li>
+							<li>Siempre respetando el rango de valores del tipo de dato Nivel</li>
+						</ul>
+					</section>
+					
 				</section>
 				<section>
 					<section>
 						<h2>Implementacion</h2>
+						<p>Se han ido abordando los siguientes hitos, que conforman PMV</p>
 					</section>
 					<section>
 						<h3>Creación de la infraestructura del proyecto</h3>
 						<ul>
 							<li>Bot para comunicar cambios por Telegram</li>
-							<li>Lenguaje a usar: Go</li>
-							<li>Gestor de dependencias</li>
-							<li>Gestor de tareas</li>
+							<li>Lenguaje a usar -> Go</li>
+							<li>Gestor de dependencias -> Go Modules</li>
+							<li>Gestor de tareas -> Task</li>
 						</ul>
 					</section>
 					<section>
 						<h3>Diseño de estructuras de datos usando DDD e implementación de la lógica de negocio </h3>
 						<ul>
-							<li>Biblioteca aserciones</li>
-							<li>Test runner</li>
-							<li>Imagen base para contenedor de tests</li>
-							<li>Elección del sistema de CI</li>
-							<li>Versiones de Go a testear</li>
+							<li>Biblioteca aserciones -> Testify</li>
+							<li>Test runner -> Test runner propio de Go</li>
+							<li>Imagen base para contenedor de tests -> Golang:Alpine</li>
+							<li>Elección del sistema de CI -> GitHub Actions y CirrusCI</li>
+							<li>Versiones de Go a testear -> 2 últimas versiones y última version sin soporte</li>
 						</ul>
 					</section>
 					<section>
 						<h3>Creación API REST</h3>
 						<ul>
 							<li>Conveniencia de usar framework</li>
-							<li>Elección del framework</li>
+							<li>Elección del framework -> Gin</li>
 						</ul>
 					</section>
 					<section>
 						<h3>Despliegue de la API</h3>
 						<ul>
-							<li>Documentación API</li>
-							<li>Aplicacion para desplegar la API</li>
+							<li>Documentación API -> Swagger</li>
+							<li>Aplicacion para desplegar la API -> Render</li>
 						</ul>
 					</section>
 				</section>
