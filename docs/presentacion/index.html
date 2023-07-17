@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h3>Sports Bar</h3>
+					<h5>API para gestionar peñas de fútbol</h5>
+					<p>
+						<small>Manuel Jurado Trillo</small>
+					</p>
+				</section>
+				<section>
+					<h2>Problema encontrado</h2>
+					<ul>
+						<li>Pérdida de tiempo en creación de equipos</li>
+						<li>Partido igualado -> Más diversión</li>
+					</ul>
+				</section>
+				<section>
+					<section>
+						<h2>Estado del arte</h2>
+					</section>
+					<section>
+						<h3>Creación de equipos</h3>
+						<p>Aplicaciones que reparten jugadores en equipos pero de manera aleatoria</p>
+					</section>
+					<section>
+						<h3>Gestión de niveles por jugador</h3>
+						<p>Aplicaciones que asignan un nivel a un jugador en función de su rendimiento</p>
+					</section>
+				</section>
+				<section>
+					<h2>Mi propuesta</h3>
+					<ul>
+						<li>Creación de equipos igualados en función del nivel</li>
+						<li>Gestión del nivel en función de los resultados</li>
+					</ul>
+				</section>
+				<section>
+					<section>
+						<h2>Metodología</h2>
+						<ul>
+							<li class="fragment">SCRUM adaptado</li>
+							<ul class="fragment">
+								<li>Entregas parciales y regulares (PMV)</li>
+								<li>Convertir historias de usuario en una serie de hitos</li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h2>Planificación</h2>
+						<ul>
+							<li>Historias de usuario</li>
+
+						</ul>
+					</section>
+					<section>
+						<h2>Seguimiento del desarrollo</h2>
+						<ul>
+							<li>Control de versiones : Git</li>
+							<li>Alojado en GitHub</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Control de calidad</h2>
+						<ul>
+							<li>Test siguiendo TDD</li>
+							<li>Linter: Golangci-lint</li>
+							<li>GitHub Actions y Checks API</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h2>Análisis del problema</h2>
+					<ul>
+						<li>Identificación y estructura de datos de los objetos valor</li>
+						<li>Identificación y estructura de datos de la entidad</li>
+						<li>Creación de algoritmo para creación de equipos igualados</li>
+						<li>Gestion de niveles post-partido</li>
+					</ul>
+				</section>
+				<section>
+					<section>
+						<h2>Implementacion</h2>
+					</section>
+					<section>
+						<h3>Creación de la infraestructura del proyecto</h3>
+						<ul>
+							<li>Bot para comunicar cambios por Telegram</li>
+							<li>Lenguaje a usar: Go</li>
+							<li>Gestor de dependencias</li>
+							<li>Gestor de tareas</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Diseño de estructuras de datos usando DDD e implementación de la lógica de negocio </h3>
+						<ul>
+							<li>Biblioteca aserciones</li>
+							<li>Test runner</li>
+							<li>Imagen base para contenedor de tests</li>
+							<li>Elección del sistema de CI</li>
+							<li>Versiones de Go a testear</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Creación API REST</h3>
+						<ul>
+							<li>Conveniencia de usar framework</li>
+							<li>Elección del framework</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Despliegue de la API</h3>
+						<ul>
+							<li>Documentación API</li>
+							<li>Aplicacion para desplegar la API</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h2>Trabajos futuros</h2>
+					<p>Dos líneas de mejora</p>
+					<ul>
+						<li>Añadir persistencia a la API</li>
+						<li>Front-end que consuma la API</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Conclusiones</h2>
+					<ul>
+						<li>Importancia de crear una buena base</li>
+						<li>Ventajas del DDD</li>
+						<li>Flexibilidad de trabajar con metodología que apliquen desarrollo ágil</li>
+					</ul>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
