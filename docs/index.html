@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Sports Bar</title>
+
+		<link rel="stylesheet" href="dist-reveal/reset.css">
+		<link rel="stylesheet" href="dist-reveal/reveal.css">
+		<link rel="stylesheet" href="dist-reveal/theme/serif.css">
+		<link rel="stylesheet" href="css/custom.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<img src="./logos/ugr2.png"/>
+					<h3>Sports Bar</h3>
+					<h5>Backend para gestionar peñas de fútbol</h5>
+					<p>
+						<small>TFG realizado por Manuel Jurado Trillo</small>
+					</p>
+				</section>
+				<section>
+					<h2>Problema encontrado</h2>
+					<p>Buscar problemas que se me presentaran en el día a día.</p>
+					<div class="fragment">
+						<p>Cada vez que me reunía con amigos/compañeros de trabajo para jugar a fútbol pasaba lo siguiente:</p>
+						<ul>
+							<li>Pérdida de tiempo en creación de equipos</li>
+							<li>Partido igualado &#8594; Más diversión</li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<section>
+						<h2>Estado del arte</h2>
+						<ul>
+							<li>Creación de equipos igualados</li>
+							<li>Gestión de nivel por jugador en función de su rendimiento</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Creación de equipos</h3>
+						<p>Aplicaciones que reparten jugadores en equipos pero de manera aleatoria.</p>
+					</section>
+					<section>
+						<h3>Gestión de niveles por jugador</h3>
+						<p>Aplicaciones que asignan un nivel a un jugador en función de su rendimiento.</p>
+						<div style="display: flex; justify-content: space-around; align-items: center;">
+						  <img src="./img/iniesta.png" alt="Iniesta" style="max-width: 50%; max-height: 300px;">
+						  <img src="./img/dorsh.png" alt="Imagen 2" style="max-width: 50%; max-height: 300px;">
+						</div>
+					  </section>
+				</section>
+				<section>
+					<section>
+						<h2>Metodología</h2>
+						<ul>
+							<li class="fragment">Desarrollo ágil</li>
+							<ul class="fragment">
+								<li>Entregas parciales y regulares (PMV)</li>
+								<small>
+									<ul>
+										<li><i>"Nuestra mayor prioridad es satisfacer al cliente
+											mediante la entrega temprana y continua de software
+											con valor."</i></li>
+									</ul>
+								</small>
+								<li>Convertir historias de usuario en una serie de hitos</li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h2>Planificación</h2>
+						<p>Historias de usuario &#8594; Issues &#8594; Hitos (PMV cada vez más complejos)</p>
+						<p>Este proceso se ha llevado a cabo siguiendo el Diseño Dirigido por Dominio (DDD).</p>
+						<img src="./img/HU.JPG" alt="HU">
+					</section>
+					<section>
+						<h2>Seguimiento del desarrollo</h2>
+						<ul>
+							<li>Control de versiones : Git</li>
+							<li>Alojado en GitHub</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Control de calidad</h2>
+						<small><i>"La atención continua a la excelencia técnica y al
+							buen diseño mejora la Agilidad."</i></small>
+						<ul>
+							<li>Test siguiendo TDD</li>
+							<small>
+								<ul>
+									<li><i>"La simplicidad, o el arte de maximizar la cantidad de
+										trabajo no realizado, es esencial."</i></li>
+								</ul>
+							</small>
+							<li>Linter: Golangci-lint</li>
+							<li>GitHub Actions y Checks API</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h2>Mi propuesta</h2>
+					<p>Creación de una API REST que cumpliera los siguiente objetivos:</p>
+					<ol>
+						<li>Creación de equipos igualados en función del nivel</li>
+						<li>Gestión del nivel en función de los resultados</li>
+					</ol>
+				</section>
+				<section>
+					<section>
+						<h2>Implementacion</h2>
+						<p>Se han ido abordando los siguientes hitos, que conforman PMV.</p>
+					</section>
+					<section>
+						<h3>1. Creación de la infraestructura del proyecto</h3>
+						<ul>
+							<li>Bot para comunicar cambios por Telegram</li>
+							<li>Lenguaje a usar</li>
+							<li>Gestor de dependencias</li>
+							<li>Gestor de tareas</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Bot para comunicar cambios por Telegram</h3>
+						<p>Comunicación fluida entre alumno y tutor.</p>
+						<div class="fragment">
+							<p>Criterios:</p>
+							<ul>
+								<li>Gratuito</li>
+								<li>Posibilidad de notificar issues, pull requets y comentarios</li>
+								<li>Posibilidad de contestar directamente desde Telegram</li>
+							</ul>
+						</div>
+						<span class="fragment">GitHubBot</span>
+					</section>
+					<section>
+						<h3>Lenguaje a usar</h3>
+						<p>Oportunidad para conocer un nuevo lenguaje.</p>
+						<div class="fragment">
+							<p>Criterios:</p>
+							<ul>
+								<li>Lenguaje compilado y concurrente</li>
+								<li>Lenguaje fuertemente tipado</li>
+							</ul>
+						</div>
+						<span class="fragment">Go</span>
+
+					</section>
+					<section>
+						<h3>Gestor de dependencias</h3>
+						<p>Necesario para manejar todas las dependencias del proyecto.</p>
+						<div class="fragment">
+							<p>Criterios:</p>
+							<ul>
+								<li>Mejores prácticas del lenguaje</li>
+								<li>Freshness</li>
+							</ul>
+						</div>
+						<span class="fragment">Go Modules</span>
+
+					</section>
+					<section>
+						<h3>Gestor de tareas</h3>
+						<p>Automatizar tareas (Comprobar sintaxis, lanzar tests ...).</p>
+						<div class="fragment">
+							<p>Criterios:</p>
+							<ul>
+								<li>Facilidad para entender la sintaxis y poder crear y ampliar tareas</li>
+								<li>Freshness</li>
+							</ul>
+						</div>
+						<span class="fragment">Task</span>
+
+					</section>
+					<section>
+						<h3>2. Diseño de estructuras de datos usando DDD e implementación de la lógica de negocio </h3>
+						<p><strong>Identificación y estructura de datos de los objetos valor</strong></p>
+						<ul>
+							<li>Nivel</li>
+							<li>Amigo</li>
+							<li>Equipo</li>
+						</ul>
+						<p><strong>Identificación y estructura de datos de la entidad</strong></p>
+						<ul>
+							<li>Grupo de amigos</li>
+						</ul>
+					</section>
+					<section>
+						<p><strong>Creación de algoritmo para creación de equipos igualados</strong></p>
+						<ul>
+							<li>Ordenar la lista de jugadores disponible en nivel decreciente</li>
+							<li>Asignar el siguiente jugador de la lista al equipo con menos nivel acumulado</li>
+							<li>Algoritmo válido si mejora la aleatoriedad</li>
+						</ul>
+					</section>
+					<section>
+						<p><strong>Gestión de niveles post-partido</strong></p>
+						<ul>
+							<li>Aumentan un nivel si ganan el partido</li>
+							<li>Pierden un nivel si pierden el partido</li>
+							<li>Siempre respetando el rango de valores del tipo de dato Nivel</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Biblioteca aserciones</h3>
+						<p>Es necesario comprobar que las estructuras de datos y la lógica de negocio funciona correctamente.</p>
+						<div class="fragment">
+							<p>Criterios:</p>
+							<ul>
+								<li>Mejores prácticas para Go</li>
+								<li>Biblioteca que permita testear los errores</li>
+								<li>Freshness</li>
+							</ul>
+						</div>
+						<span class="fragment">Testify</span>
+					</section>
+					<section>
+						<h3>Test runner</h3>
+						<p>Dirigir la ejecución de los tests y obtener los resultados.</p>
+						<div class="fragment">
+							<p>Criterios:</p>
+							<ul>
+								<li>Mejores prácticas para Go</li>
+								<li>Facilidad para lanzar y gestionar los tests.</li>
+							</ul>
+						</div>
+						<span class="fragment">Test runner propio de Go</span>
+					</section>
+					<section>
+						<h3>Elección del sistema de CI</h3>
+						<p>Posibilidad de comprobar si el código es correcto al realizar cambios.</p>
+						<div class="fragment">
+							<p>Criterios:</p>
+							<ul>
+								<li>Sistema que tenga la posibilidad de usar GitHub Checks API</li>
+								<li>Gratuito para proyectos públicos.</li>
+								<li>Sistemas que permitan trabajar con Docker</li>
+							</ul>
+						</div>
+						<span class="fragment">GitHub Actions y CirrusCi</span>
+					</section>
+					<section>
+						<h3>Versiones de Go a testear</h3>
+						<p>Aplicación válida en las versiones con soporte.</p>
+						<div class="fragment">
+							<ul>
+								<li>1.20 &#8594; Última version, testeada mediante CirrusCi usando un contenedor para pruebas </li>
+								<li>1.19 &#8594; Versión que aún tiene soporte, testeada mediante GitHub Actions</li>
+								<li>1.18 &#8594; Última versión que ha dejado de tener soporte este mismo año, testeada mediante GitHub Actions</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h3>3. Creación API REST</h3>
+						<ul>
+							<li>Conveniencia de usar framework</li>
+							<li>Elección del framework &#8594; Gin</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Conveniencia de usar framework</h3>
+						<p>Go tiene su biblioteca estándar, por lo que es necesario saber si merece la pena añadir una capa más al proyecto usando algún framework.</p>
+						<div class="fragment">
+							<p>Se ha decidido utilizar un framework para la creación de la API debido a:</p>
+							<ul>
+								<li>Gracias a Go Modules no es un problema añadir dependencias al proyecto</li>
+								<li>Facilidades a la hora de crear la API y manejar las solicitudes y los errores</li>	
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h3>Elección del framework</h3>
+						<div class="fragment">
+							<p>Criterios:</p>
+							<ul>
+								<li>Framework que proporcione funciones para la validación de solicitudes y manejo de errores</li>
+								<li>Freshness</li>
+							</ul>
+						</div>
+						<span class="fragment">Gin</span>
+						
+					</section>
+					<section>
+						<h3>4. Despliegue de la API</h3>
+						<ul>
+							<li>Documentación API</li>
+							<li>Aplicación para desplegar la API</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Documentación API</h3>
+						<p>Es un backend que se puede usar desde diferentes front-end, por lo que la documentación es esencial.</p>
+						<div class="fragment">
+							<span>Especificación OpenAPI por medio de Swagger</span>
+							<img src="./img/doc-api.jpg" alt="Documentación API">
+						</div>
+					</section>
+					<section>
+						<h3>Aplicación para desplegar la API</h3>
+						<p>Accesibilidad a usar la API.</p>
+						<div class="fragment">
+							<p>Criterios:</p>
+							<ul>
+								<li>Gratuito</li>
+								<li>Sencillo de gestionar</li>
+								<li>Compatible con Go y Gin</li>
+							</ul>
+						</div>
+						<span class="fragment">Render &#8594; <a href="https://sports-bar.onrender.com/docs/index.html">SportsBar</a> </span>
+					</section>
+				</section>
+				<section>
+					<h2>Conclusiones</h2>
+					<ul>
+						<li>Importancia de crear una buena base</li>
+						<li>Ventajas del DDD</li>
+						<li>Flexibilidad de trabajar con metodologías que apliquen desarrollo ágil</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Trabajos futuros</h2>
+					<p>El proyecto se ha centrado en una lógica de negocio sólida y bien testeada, por lo que quedan aún issues sin resolver, agrupados en milestones.</p>
+					<p>Dos líneas de mejora: </p>
+					<ul>
+						<li>Añadir persistencia a la API</li>
+						<li>Front-end que consuma la API</li>
+					</ul>
+				</section>
+				<section>
+
+				</section>
+				<section>
+					<h2>Costes del proyecto</h2>
+					<small>
+						<table>
+							<thead>
+								<tr>
+									<th>Concepto</th>
+									<th>Coste</th>
+									<th>Comentarios</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>MSI GE62 7RD</td>
+									<td>210€</td>
+									<td>Se ha aplicado una amortización del 15% al año. Se ha usado durante un año y costó 1400€</td>
+								</tr>
+								<tr>
+									<td>Software</td>
+									<td>0€</td>
+									<td>No se ha usado ningún recurso software de pago para la realización del proyecto</td>
+								</tr>
+								<tr>
+									<td>Despliegue</td>
+									<td>Desde 0€</td>
+									<td>Se ha desplegado la API de manera gratuita, pero en función de las necesidades en un futuro, se podrían mejorar las características adquiriendo un programa de pago.</td>
+								</tr>
+							</tbody>
+						</table>
+					</small>
+				</section>
+				<section>
+					<h2>Modelo de negocio</h2>
+					<ul>
+						<li>Investigación de nivel deportivo a lo largo del tiempo (Aplicable a entrenadores profesionales, amateurs o profesores de deporte)</li>
+						<li>Pago por uso</li>
+						<ul>
+							<li>Tiempo de uso (Cuota mensual o anual)</li>
+							<li>Pago por grupo dado de alta</li>
+						</ul>
+					</ul>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist-reveal/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
